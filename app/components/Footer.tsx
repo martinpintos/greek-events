@@ -1,0 +1,149 @@
+import Link from "next/link";
+import { Icon } from "./Icon";
+import { ISLANDS } from "@/lib/islands";
+
+export function Footer() {
+  const year = new Date().getFullYear();
+
+  return (
+    <footer className="mt-16 md:mt-24 bg-ink text-paper relative">
+      <div className="absolute inset-x-0 top-0 h-1.5 ticket-stub" />
+
+      <div className="mx-auto max-w-5xl px-4 md:px-8 py-12 md:py-16">
+        <div className="grid md:grid-cols-[1.4fr_1fr_1fr] gap-10 md:gap-16">
+          <div>
+            <div className="eyebrow text-faint flex items-center gap-2 mb-3">
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-accent" />
+              Nightly.gr · est. 2026 · Athens
+            </div>
+            <p className="display-h text-2xl md:text-3xl leading-[1.1] mb-4">
+              A small editorial desk for the Greek islands.
+            </p>
+            <p className="text-sm leading-relaxed text-faint max-w-md">
+              We tell you what is on, the spots we would send our own friends
+              to, no algorithms.
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-2">
+              <a
+                href="https://instagram.com/nightly.gr"
+                target="_blank"
+                rel="noopener"
+                className="inline-flex items-center gap-2 px-3 py-2 border border-white/20 rounded-full text-xs font-mono tracking-wider hover:border-accent hover:text-accent transition-colors"
+              >
+                <Icon name="ig" size={14} /> Instagram
+              </a>
+              <a
+                href="mailto:nightlygreece@gmail.com"
+                className="inline-flex items-center gap-2 px-3 py-2 border border-white/20 rounded-full text-xs font-mono tracking-wider hover:border-accent hover:text-accent transition-colors"
+              >
+                nightlygreece@gmail.com
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <div className="eyebrow text-faint mb-4 pb-2 border-b border-white/10">
+              Islands
+            </div>
+            <ul className="space-y-2 text-sm">
+              {ISLANDS.map((i) => (
+                <li key={i.id}>
+                  {i.active ? (
+                    <Link
+                      href={`/${i.id}`}
+                      className="hover:text-accent transition-colors"
+                    >
+                      {i.name}
+                    </Link>
+                  ) : (
+                    <span className="text-faint">
+                      {i.name}{" "}
+                      <span className="font-mono text-[10px] tracking-wider">
+                        soon
+                      </span>
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <div className="eyebrow text-faint mb-4 pb-2 border-b border-white/10">
+              Get in
+            </div>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link
+                  href="/about"
+                  className="hover:text-accent transition-colors"
+                >
+                  About Nightly.gr
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="mailto:nightlygreece@gmail.com?subject=Submit%20an%20event"
+                  className="hover:text-accent transition-colors"
+                >
+                  Submit an event
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:nightlygreece@gmail.com?subject=Venue%20partner"
+                  className="hover:text-accent transition-colors"
+                >
+                  Venue partners
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:nightlygreece@gmail.com?subject=Tip"
+                  className="hover:text-accent transition-colors"
+                >
+                  Tip a story
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:nightlygreece@gmail.com?subject=Advertise"
+                  className="hover:text-accent transition-colors"
+                >
+                  Advertise
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="my-10 h-px dashed-rule" />
+
+        <div className="flex flex-wrap items-baseline justify-between gap-4">
+          <div className="display-h text-xl flex items-baseline gap-1.5">
+            Nightly.gr
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-accent" />
+          </div>
+          <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-faint">
+            <span>© {year} Nightly.gr</span>
+            <span className="opacity-50">·</span>
+            <Link
+              href="/about#privacy"
+              className="hover:text-accent transition-colors"
+            >
+              Privacy
+            </Link>
+            <span className="opacity-50">·</span>
+            <Link
+              href="/about#terms"
+              className="hover:text-accent transition-colors"
+            >
+              Terms
+            </Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}

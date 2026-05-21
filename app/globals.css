@@ -1,26 +1,181 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-paper: #f6f4ee;
+  --color-paper-2: #ecead8;
+  --color-paper-3: #ffffff;
+  --color-ink: #0c0c0c;
+  --color-ink-2: #2a2a2a;
+  --color-mute: #6b6b6b;
+  --color-faint: #b8b6b1;
+  --color-line: #0c0c0c;
+  --color-hairline: rgba(12, 12, 12, 0.12);
+  --color-accent: #ff4d2e;
+  --color-accent-soft: rgba(255, 77, 46, 0.08);
+  --color-queer: #d6235e;
+
+  --font-display: var(--font-instrument-serif), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  html {
+    background: var(--color-paper);
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+  input,
+  textarea,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-paper);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+  .eyebrow-accent {
+    color: var(--color-accent);
+  }
+  .rule-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .rule-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--color-hairline);
+  }
+  .scroll-x {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .scroll-x::-webkit-scrollbar {
+    display: none;
+  }
+  .display-h {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  .hero-noise::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.35 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    mix-blend-mode: overlay;
+    opacity: 0.8;
+    pointer-events: none;
+  }
+  .hero-stripes::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      180deg,
+      transparent 0,
+      transparent 38px,
+      rgba(255, 255, 255, 0.05) 38px,
+      rgba(255, 255, 255, 0.05) 39px
+    );
+    pointer-events: none;
+  }
+  .pulse-dot {
+    box-shadow: 0 0 0 0 var(--color-accent);
+    animation: pulse 1.6s infinite;
+  }
+  .ticket-stub {
+    background: repeating-linear-gradient(
+      90deg,
+      var(--color-accent) 0 18px,
+      transparent 18px 22px
+    );
+  }
+  .dashed-rule {
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.22) 0 6px,
+      transparent 6px 10px
+    );
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 77, 46, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(255, 77, 46, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 77, 46, 0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

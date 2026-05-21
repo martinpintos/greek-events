@@ -1,0 +1,83 @@
+import Link from "next/link";
+import type { DerivedEvent } from "@/lib/types";
+import { Tag } from "./Tag";
+
+export function EventCard({
+  ev,
+  compact = false,
+}: {
+  ev: DerivedEvent;
+  compact?: boolean;
+}) {
+  const href = `/mykonos/${ev.venue.slug}/${ev.slug}`;
+  return (
+    <Link
+      href={href}
+      className="group block border-t border-hairline first:border-t-0 hover:bg-paper-2/50 transition-colors"
+    >
+      <div className="grid grid-cols-[60px_1fr_auto] md:grid-cols-[80px_1fr_auto] gap-3 md:gap-6 px-4 md:px-6 py-4 md:py-5 items-start">
+        <div className="flex flex-col gap-0.5 pt-0.5">
+          <span className="display-h text-base md:text-lg leading-none">
+            {ev.startTime}
+          </span>
+          <span className="font-mono text-[10px] md:text-[11px] text-mute leading-none mt-1">
+            → {ev.endTime}
+          </span>
+        </div>
+
+        <div className="min-w-0">
+          <h3 className="display-h text-[17px] md:text-xl leading-[1.15] mb-1.5 group-hover:text-ink-2">
+            {ev.title}
+          </h3>
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[12px] md:text-[13px] text-mute">
+            <span className="font-medium text-ink">{ev.venue.name}</span>
+            <span className="opacity-40">·</span>
+            <span>{ev.venue.area ?? ev.venue.city}</span>
+          </div>
+
+          {!compact && (ev.tags.length > 0 || ev.lgbtq) && (
+            <div className="flex flex-wrap gap-1.5 mt-2.5">
+              {ev.lgbtq && <Tag kind="queer">Queer</Tag>}
+              {ev.tags.includes("after-hours") && (
+                <Tag kind="after-hours">After-hours</Tag>
+              )}
+              {ev.tags.includes("sunset") && <Tag kind="sunset">Sunset</Tag>}
+              {ev.tags.includes("day") && <Tag kind="day">Day</Tag>}
+              {ev.tags.includes("locals") && <Tag kind="locals">Locals</Tag>}
+              {ev.tags.includes("season-opener") && (
+                <Tag kind="season-opener">Season opener</Tag>
+              )}
+            </div>
+          )}
+
+          {!compact && ev.notes && (
+            <div className="mt-3 md:mt-4 pl-3 border-l-2 border-accent">
+              <span className="font-mono text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.16em] text-accent mr-2">
+                Off the record
+              </span>
+              <span className="font-display italic text-[14px] md:text-[15px] leading-[1.4] text-ink-2">
+                {ev.notes}
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div className="flex flex-col items-end gap-1 pt-1">
+          {ev.tiers.length === 0 ? (
+            <span className="font-mono text-[10px] uppercase tracking-wider text-mute whitespace-nowrap">
+              At the door
+            </span>
+          ) : ev.isFree ? (
+            <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-ink bg-paper-2 border border-line px-2 py-0.5">
+              Free
+            </span>
+          ) : (
+            <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-accent whitespace-nowrap">
+              From €{ev.priceFrom}
+            </span>
+          )}
+        </div>
+      </div>
+    </Link>
+  );
+}
