@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
+import { CookieBanner } from "./components/CookieBanner";
 
 const instrumentSerif = Instrument_Serif({
   variable: "--font-instrument-serif",
@@ -50,7 +51,10 @@ export default function RootLayout({
       lang="en"
       className={`${instrumentSerif.variable} ${geistSans.variable} ${geistMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <CookieBanner />
+      </body>
     </html>
   );
 }

@@ -44,8 +44,8 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-30 bg-paper border-b border-line transition-transform duration-300 ease-out will-change-transform ${
-        hidden ? "-translate-y-full" : "translate-y-0"
+      className={`sticky top-0 z-30 bg-paper border-b border-line transition-transform ease-out will-change-transform ${
+        hidden ? "-translate-y-full duration-300" : "translate-y-0 duration-500"
       }`}
     >
       <div className="mx-auto max-w-5xl px-4 md:px-8 h-14 md:h-16 flex items-center justify-between gap-4">
