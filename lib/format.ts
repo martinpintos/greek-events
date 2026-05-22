@@ -116,13 +116,13 @@ export function timeRange(start: string | null, end: string | null): string {
 
 // Lifted from the design's data.js, with daily editor notes keyed by weekday.
 const WEEKDAY_NOTES: Record<number, string> = {
-  0: "Sunday Service. Honey's Astra residency starts at 11, ends when she's ready. Tea dances on Rhodes if you're on that side.",
-  1: "Monday is for hangovers and ferries. One late bar on Paros, one on Ios. Otherwise: eat, swim, sleep.",
-  2: "Tuesday's the soft open of the week. Clubs warming up but the bar staff still remember your name. Astra and Scorpios over Cavo unless you're chasing the headliner.",
-  3: "Wednesday belongs to Cavo. Music On has been running every Wednesday since 2014 and hasn't missed yet. Sleep early if you're flying tomorrow.",
-  4: "Thursday tilts queer. Astra's drag night and Paragon's tea dance on Rhodes. Tale Of Us at Cavo if you want the big-room sweat.",
-  5: "Friday: everywhere's open, half of it's mediocre. Stick to Cavo, Pathos on Ios for the late shift, or Toy Room if hip-hop's the move.",
-  6: "Saturday is for beach clubs and pacing yourself. Don't blow it on a midday daybed bottle. You'll need the energy at 4am.",
+  0: "Sunday slows down. Long lunches that bleed into sundown, beach clubs easing the volume back, one last stretch before the week resets.",
+  1: "Monday is the reset. Ferries running, most rooms dark. Eat, swim, sleep, earn back the week.",
+  2: "Tuesday is the soft open. Smaller crowds, easier doors, bar staff still have time to talk.",
+  3: "Wednesday picks up. The week's residencies start hitting, but it's still lighter than the weekend.",
+  4: "Thursday is the warm-up. Pre-weekend energy starts showing, doors get busier, lineups get sharper.",
+  5: "Friday: everywhere's open, everywhere's busy. The obvious rooms fill first, so get there early or aim sideways.",
+  6: "Saturday is the long day. Beach club through dusk, dancing through dawn. Pace yourself or pay for it tomorrow.",
 };
 
 export function editorNoteForDate(iso: string): string {

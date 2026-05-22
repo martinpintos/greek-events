@@ -157,9 +157,6 @@ export function CalendarBody({
   };
 
   const heroEv = pickHero(todaysEvents);
-  const otherEvents = heroEv
-    ? todaysEvents.filter((e) => e.id !== heroEv.id)
-    : todaysEvents;
   const headline = dateHeadline(selectedISO, today);
   const isPastDay = selectedISO < today;
   const note = editorNoteForDate(selectedISO);
@@ -224,7 +221,7 @@ export function CalendarBody({
 
       {/* Feed */}
       <section className="mx-auto max-w-5xl">
-        <EventFeed events={otherEvents} />
+        <EventFeed events={todaysEvents} />
       </section>
 
       {/* Queer rail — full-bleed band, content constrained inside */}
