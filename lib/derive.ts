@@ -103,7 +103,7 @@ function tiersFor(row: EventRow, venue: Venue): Tier[] {
     });
   }
 
-  // Beach club + Cavo also get VIP if they have a VIP URL — or we mock one for Scorpios
+  // Beach club and Cavo also get VIP if they have a VIP URL, or we mock one for Scorpios.
   if (venue.slug === "cavo-paradiso" || venue.slug === "scorpios") {
     const vipUrl = row.vip_ticket_url ?? gaUrl;
     if (vipUrl) {

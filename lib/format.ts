@@ -104,19 +104,19 @@ export function formatTime(t: string | null): string {
 export function timeRange(start: string | null, end: string | null): string {
   const s = formatTime(start);
   const e = formatTime(end);
-  if (s && e) return `${s}–${e}`;
+  if (s && e) return `${s}-${e}`;
   return s || e || "";
 }
 
-// Lifted from the design's data.js — daily editor's note keyed by weekday.
+// Lifted from the design's data.js, with daily editor notes keyed by weekday.
 const WEEKDAY_NOTES: Record<number, string> = {
   0: "Sunday Service. Honey's Astra residency starts at 11, ends when she's ready. Tea dances on Rhodes if you're on that side.",
   1: "Monday is for hangovers and ferries. One late bar on Paros, one on Ios. Otherwise: eat, swim, sleep.",
-  2: "Tuesday's the soft open of the week — clubs warming up but the bar staff still remember your name. Astra and Scorpios over Cavo unless you're chasing the headliner.",
+  2: "Tuesday's the soft open of the week. Clubs warming up but the bar staff still remember your name. Astra and Scorpios over Cavo unless you're chasing the headliner.",
   3: "Wednesday belongs to Cavo. Music On has been running every Wednesday since 2014 and hasn't missed yet. Sleep early if you're flying tomorrow.",
-  4: "Thursday tilts queer — Astra's drag night and Paragon's tea dance on Rhodes. Tale Of Us at Cavo if you want the big-room sweat.",
+  4: "Thursday tilts queer. Astra's drag night and Paragon's tea dance on Rhodes. Tale Of Us at Cavo if you want the big-room sweat.",
   5: "Friday: everywhere's open, half of it's mediocre. Stick to Cavo, Pathos on Ios for the late shift, or Toy Room if hip-hop's the move.",
-  6: "Saturday is for beach clubs and pacing yourself. Don't blow it on a midday daybed bottle — you'll need the energy at 4am.",
+  6: "Saturday is for beach clubs and pacing yourself. Don't blow it on a midday daybed bottle. You'll need the energy at 4am.",
 };
 
 export function editorNoteForDate(iso: string): string {

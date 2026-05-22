@@ -9,7 +9,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "About",
   description:
-    "A small editorial desk for the Greek islands. We tell you what is on, the spots we would send our own friends to, no algorithms.",
+    "A small editorial desk for the Greek islands. Dates, rooms, lineups, and island intel before plans get made.",
   alternates: { canonical: "/about" },
 };
 
@@ -25,21 +25,19 @@ export default async function About() {
           About
         </div>
         <h1 className="display-h text-5xl md:text-7xl leading-[0.95] m-0 mb-8">
-          Greek islands, <em className="not-italic text-accent">after dark.</em>
+          Greek islands, <em className="not-italic text-accent">in the know.</em>
         </h1>
 
         <p className="display-h text-xl md:text-2xl leading-[1.32] m-0 mb-10">
-          Nightly.gr is a small editorial desk for the Greek islands. We tell
-          you what is on — the parties, the residencies, the off-the-record
-          nights — and where we&rsquo;d send our own friends. No algorithms, no
-          pay-for-placement, no fluff.
+          Nightly.gr is a small editorial desk for the Greek islands. We tell you which dates
+          matter, which rooms are worth the taxi, and where we&rsquo;d send our own friends.
         </p>
 
         <div className="eyebrow rule-label mb-3">Coverage</div>
         <p className="text-base leading-relaxed text-ink-2 m-0">
-          We start with Mykonos for the 2026 season. Santorini, Ios, Paros, and
-          Rhodes follow once we have the same editorial bench in each town. We
-          don&rsquo;t list something just to fill a date.
+          We start with Mykonos for the 2026 season. Santorini, Ios, Paros, and Rhodes follow once
+          we have the same editorial bench in each town. We don&rsquo;t list something just to fill
+          a date.
         </p>
 
         <div className="eyebrow rule-label mt-10 mb-3">Contact</div>
@@ -58,17 +56,16 @@ export default async function About() {
           Privacy
         </div>
         <p className="text-base leading-relaxed text-ink-2 m-0">
-          We don&rsquo;t track you. No accounts, no analytics cookies. Ticket
-          links go straight to the venue or promoter — they handle payment, not
-          us.
+          We don&rsquo;t track you. No accounts, no analytics cookies. Ticket links go straight to
+          the venue or promoter. They handle payment, not us.
         </p>
 
         <div id="terms" className="eyebrow rule-label mt-10 mb-3">
           Terms
         </div>
         <p className="text-base leading-relaxed text-ink-2 m-0">
-          We do our best to keep lineups and times accurate, but the night owns
-          the night. Always double-check with the venue before you go.
+          We do our best to keep lineups and times accurate, but the night owns the night. Always
+          double-check with the venue before you go.
         </p>
       </main>
       <Footer />

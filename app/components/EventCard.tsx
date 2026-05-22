@@ -13,11 +13,11 @@ export function EventCard({
   return (
     <Link
       href={href}
-      className="group block border-t border-hairline first:border-t-0 hover:bg-paper-2/50 transition-colors"
+      className="group block border-t border-hairline first:border-t-0 hover:bg-paper-2 focus-visible:bg-paper-2 transition-colors"
     >
       <div className="grid grid-cols-[60px_1fr_auto] md:grid-cols-[80px_1fr_auto] gap-3 md:gap-6 px-4 md:px-6 py-4 md:py-5 items-start">
         <div className="flex flex-col gap-0.5 pt-0.5">
-          <span className="display-h text-base md:text-lg leading-none">
+          <span className="display-h text-[17px] md:text-xl leading-none">
             {ev.startTime}
           </span>
           <span className="font-mono text-[10px] md:text-[11px] text-mute leading-none mt-1">
@@ -26,7 +26,12 @@ export function EventCard({
         </div>
 
         <div className="min-w-0">
-          <h3 className="display-h text-[17px] md:text-xl leading-[1.15] mb-1.5 group-hover:text-ink-2">
+          <h3
+            className={[
+              "display-h leading-[1.12] mb-1.5 group-hover:text-ink-2",
+              compact ? "text-[18px] md:text-[22px]" : "text-[19px] md:text-[23px]",
+            ].join(" ")}
+          >
             {ev.title}
           </h3>
           <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[12px] md:text-[13px] text-mute">
@@ -51,13 +56,13 @@ export function EventCard({
           )}
 
           {!compact && ev.notes && (
-            <div className="mt-3 md:mt-4 pl-3 border-l-2 border-accent">
-              <span className="font-mono text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.16em] text-accent mr-2">
+            <div className="mt-3 md:mt-4 pl-3 pr-3 py-2.5 border-l-2 border-accent bg-paper-3 max-w-md">
+              <div className="font-mono text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.16em] text-accent mb-1">
                 Off the record
-              </span>
-              <span className="font-display italic text-[14px] md:text-[15px] leading-[1.4] text-ink-2">
+              </div>
+              <div className="font-display italic text-[14px] md:text-[15px] leading-[1.4] text-ink-2">
                 {ev.notes}
-              </span>
+              </div>
             </div>
           )}
         </div>

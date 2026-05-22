@@ -9,9 +9,9 @@ import { CalendarBody } from "../components/CalendarBody";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Mykonos — clubs, beach clubs, late nights",
+  title: "Mykonos | Clubs, beach clubs, late nights",
   description:
-    "Every night on Mykonos. Cavo Paradiso, Scorpios, SantAnna, Alemagou — lineups, tickets, insider tips.",
+    "Every night on Mykonos. Cavo Paradiso, Scorpios, SantAnna, Alemagou, lineups, tickets, insider tips.",
   alternates: { canonical: "/mykonos" },
 };
 
@@ -21,7 +21,10 @@ export default async function MykonosHub() {
   const mykonosEvents = events.filter((e) => e.venue.island === "mykonos");
 
   return (
-    <ChromeOverlays events={mykonosEvents} venues={venues.filter((v) => v.island === "mykonos")}>
+    <ChromeOverlays
+      events={mykonosEvents}
+      venues={venues.filter((v) => v.island === "mykonos")}
+    >
       <Header />
       <main>
         <div className="mx-auto max-w-5xl px-4 md:px-8 pt-8 md:pt-14 pb-2">
@@ -40,7 +43,6 @@ export default async function MykonosHub() {
 
         <CalendarBody
           allEvents={mykonosEvents}
-          basePath="/mykonos"
           islandLock="mykonos"
           today={today}
         />

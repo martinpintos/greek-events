@@ -25,17 +25,17 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://nightly.gr"),
   title: {
-    default: "Nightly.gr — Greek islands, after dark.",
+    default: "Nightly.gr | Greek islands, in the know.",
     template: "%s · Nightly.gr",
   },
   description:
-    "An event calendar for the Greek islands — Mykonos, Santorini, Ios, Paros, Rhodes. The spots we'd send our own friends to, no algorithms.",
+    "An insider calendar for the Greek islands. Dates, rooms, lineups, and island intel before plans get made.",
   openGraph: {
     type: "website",
     siteName: "Nightly.gr",
-    title: "Nightly.gr — Greek islands, after dark.",
+    title: "Nightly.gr | Greek islands, in the know.",
     description:
-      "Tonight's parties across the Greek islands. Editorial, curated, no algorithms.",
+      "Dates, rooms, lineups, and island intel before plans get made.",
   },
   twitter: { card: "summary_large_image" },
 };

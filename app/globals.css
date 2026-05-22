@@ -105,7 +105,7 @@
   .display-h {
     font-family: var(--font-display);
     font-weight: 400;
-    letter-spacing: -0.015em;
+    letter-spacing: 0;
     text-wrap: balance;
   }
   .hero-noise::after {
@@ -129,6 +129,40 @@
       rgba(255, 255, 255, 0.05) 39px
     );
     pointer-events: none;
+  }
+  .detail-hero-scrim {
+    background:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.74) 0%, rgba(0, 0, 0, 0.46) 42%, rgba(0, 0, 0, 0.08) 100%),
+      linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.38) 100%);
+  }
+  .featured-card-scrim {
+    background:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.72) 100%),
+      linear-gradient(180deg, rgba(38, 12, 8, 0.22) 0%, rgba(0, 0, 0, 0.04) 38%, rgba(0, 0, 0, 0.88) 100%);
+  }
+  .text-shadow-soft {
+    text-shadow: 0 2px 22px rgba(0, 0, 0, 0.35);
+  }
+  .clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .clamp-4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .pulse-ring {
+    animation: pulse-ring 1.6s infinite;
+    transform-origin: center;
+  }
+  .pick-dot-pulse {
+    animation: pick-dot-pulse 1.6s infinite;
+    box-shadow: 0 0 0 0 rgba(255, 77, 46, 0.5);
+    transform-origin: center;
   }
   .pulse-dot {
     box-shadow: 0 0 0 0 var(--color-accent);
@@ -158,6 +192,36 @@
     box-shadow: 0 0 0 8px rgba(255, 77, 46, 0);
   }
   100% {
+    box-shadow: 0 0 0 0 rgba(255, 77, 46, 0);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    opacity: 0.75;
+    transform: scale(0.55);
+  }
+  70% {
+    opacity: 0;
+    transform: scale(2.35);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.35);
+  }
+}
+
+@keyframes pick-dot-pulse {
+  0% {
+    transform: scale(0.86);
+    box-shadow: 0 0 0 0 rgba(255, 77, 46, 0.45);
+  }
+  45% {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 5px rgba(255, 77, 46, 0.16);
+  }
+  100% {
+    transform: scale(0.86);
     box-shadow: 0 0 0 0 rgba(255, 77, 46, 0);
   }
 }

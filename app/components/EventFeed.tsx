@@ -39,7 +39,7 @@ export function EventFeed({ events }: { events: DerivedEvent[] }) {
     <div>
       {sundown.length > 0 && (
         <section>
-          <SectionHeader title="Sundown" meta="Day → dusk · 13:00–21:00" />
+          <SectionHeader title="Sundown" meta="Day → dusk · 13:00-21:00" />
           <div>
             {sundown.map((ev) => (
               <EventCard key={ev.id} ev={ev} />

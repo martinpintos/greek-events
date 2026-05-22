@@ -25,7 +25,7 @@ export async function generateMetadata({
   const v = await getVenueBySlug(venue);
   if (!v) return { title: "Venue not found" };
   return {
-    title: `${v.name} — ${v.city}`,
+    title: `${v.name} | ${v.city}`,
     description:
       v.description ??
       `Upcoming events at ${v.name}, ${v.city}. Lineups, tickets, insider tips.`,

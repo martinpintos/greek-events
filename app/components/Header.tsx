@@ -18,31 +18,12 @@ export function Header() {
         </Link>
 
         <nav className="flex items-center gap-1 md:gap-2">
-          <Link
-            href="/mykonos"
-            className="hidden md:inline-block px-3 py-1.5 text-[13px] font-mono uppercase tracking-[0.12em] text-mute hover:text-ink transition-colors"
-          >
-            Mykonos
-          </Link>
-          <Link
-            href="/about"
-            className="hidden md:inline-block px-3 py-1.5 text-[13px] font-mono uppercase tracking-[0.12em] text-mute hover:text-ink transition-colors"
-          >
-            About
-          </Link>
           <OverlayButton
             kind="search"
             className="w-9 h-9 md:w-10 md:h-10 grid place-items-center border border-line rounded-full hover:bg-ink hover:text-paper transition-colors"
             ariaLabel="Search"
           >
             <Icon name="search" size={15} />
-          </OverlayButton>
-          <OverlayButton
-            kind="filter"
-            className="w-9 h-9 md:w-10 md:h-10 grid place-items-center border border-line rounded-full hover:bg-ink hover:text-paper transition-colors"
-            ariaLabel="Filter"
-          >
-            <Icon name="menu" size={15} />
           </OverlayButton>
         </nav>
       </div>

@@ -18,6 +18,10 @@ import { Icon } from "@/app/components/Icon";
 
 export const revalidate = 3600;
 
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return <div className="eyebrow rule-label mb-3">{children}</div>;
+}
+
 export async function generateStaticParams() {
   const [events, venues] = await Promise.all([
     fetchAllEvents(),
@@ -38,7 +42,7 @@ export async function generateMetadata({
   const ev = await getEventBySlug(event);
   if (!ev) return { title: "Event not found" };
   return {
-    title: `${ev.title} — ${ev.venue.name}`,
+    title: `${ev.title} | ${ev.venue.name}`,
     description: ev.notes ?? `${ev.title}. Lineup, tickets, insider tips.`,
     alternates: { canonical: `/mykonos/${venue}/${event}` },
     openGraph: {
@@ -88,12 +92,12 @@ export default async function EventPage({
   const tips: string[] = [...ev.venue.insiderTips];
   if (ev.tags.includes("after-hours")) {
     tips.push(
-      "Door tightens after 1am — be in by 12:30 or expect a queue in the wind.",
+      "Door tightens after 1am. Be in by 12:30 or expect a queue in the wind.",
     );
   }
   if (ev.tags.includes("sunset")) {
     tips.push(
-      "Sunset hits around 19:42 this time of year — eat at the long table, dance once the sun drops.",
+      "Sunset hits around 19:42 this time of year. Eat at the long table, dance once the sun drops.",
     );
   }
   if (tips.length === 0) {
@@ -137,26 +141,26 @@ export default async function EventPage({
     <ChromeOverlays events={allEvents} venues={venues}>
       <Header />
       <main>
-        {/* Hero — full bleed, contained text */}
         <section
-          className="relative overflow-hidden text-paper hero-noise"
+          className="relative overflow-hidden text-paper hero-noise min-h-[244px] md:min-h-[360px] lg:min-h-[390px]"
           style={heroStyle}
         >
-          <div className="hero-stripes relative">
-            <div className="absolute inset-0 flex flex-col justify-end px-4 md:px-8 pt-16 pb-40 md:pb-48 gap-2 pointer-events-none">
-              <div className="display-h text-[80px] md:text-[180px] lg:text-[220px] leading-[0.82] uppercase tracking-[-0.03em] text-white/[0.08] truncate">
+          <div className="absolute inset-0 detail-hero-scrim" />
+          <div className="hero-stripes relative min-h-[244px] md:min-h-[360px] lg:min-h-[390px]">
+            <div className="absolute inset-0 flex flex-col justify-center px-4 md:px-8 py-6 gap-1 md:gap-2 pointer-events-none opacity-90">
+              <div className="display-h text-[76px] md:text-[170px] lg:text-[220px] leading-[0.82] uppercase text-white/[0.09] truncate">
                 {stripText}
               </div>
-              <div className="display-h text-[80px] md:text-[180px] lg:text-[220px] leading-[0.82] uppercase tracking-[-0.03em] text-white/[0.08] truncate text-right">
+              <div className="display-h text-[76px] md:text-[170px] lg:text-[220px] leading-[0.82] uppercase text-white/[0.08] truncate text-right">
                 MYK
               </div>
-              <div className="display-h text-[80px] md:text-[180px] lg:text-[220px] leading-[0.82] uppercase tracking-[-0.03em] text-white/[0.08] truncate">
+              <div className="display-h text-[76px] md:text-[170px] lg:text-[220px] leading-[0.82] uppercase text-white/[0.08] truncate">
                 {ev.startTime}
               </div>
             </div>
 
-            <div className="relative mx-auto max-w-5xl px-4 md:px-8 pt-24 md:pt-32 pb-10 md:pb-16">
-              <div className="inline-flex items-center gap-3 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md text-paper font-mono text-[10px] uppercase tracking-[0.14em] mb-4">
+            <div className="relative mx-auto max-w-5xl px-4 md:px-8 pt-20 md:pt-28 pb-10 md:pb-14">
+              <div className="inline-flex items-center gap-3 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md text-paper font-mono text-[10px] uppercase tracking-[0.14em] mb-4">
                 <span className="inline-flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent pulse-dot" />
                   {dateText}
@@ -168,13 +172,13 @@ export default async function EventPage({
                     : ev.venue.venue_type ?? "Venue"}
                 </span>
               </div>
-              <h1 className="display-h text-4xl md:text-6xl lg:text-7xl leading-[0.95] mb-4 md:mb-6 text-shadow-sm max-w-3xl">
+              <h1 className="display-h text-[44px] md:text-6xl lg:text-7xl leading-[0.92] mb-4 md:mb-6 text-shadow-soft max-w-3xl">
                 {ev.title}
               </h1>
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-1 font-mono text-[11px] md:text-[12px] uppercase tracking-[0.06em]">
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-1 font-mono text-[11px] md:text-[12px] uppercase tracking-[0.06em] text-paper/90">
                 <span>
                   <span className="font-semibold">{ev.startTime}</span>
-                  {ev.endTime ? `–${ev.endTime}` : ""}
+                  {ev.endTime ? `-${ev.endTime}` : ""}
                 </span>
                 <Link
                   href={`/mykonos/${ev.venue.slug}`}
@@ -187,13 +191,17 @@ export default async function EventPage({
           </div>
         </section>
 
-        {/* Body — 2-col on desktop: content + sticky ticket */}
+        {ev.tiers.length === 0 && (
+          <section className="mx-auto max-w-5xl px-4 md:px-8 pt-6 lg:hidden">
+            <TicketBar ev={ev} inline />
+          </section>
+        )}
+
         <div className="mx-auto max-w-5xl px-4 md:px-8 py-8 md:py-12">
           <div className="grid lg:grid-cols-[1fr_320px] gap-10 lg:gap-14 items-start">
-            {/* Content column */}
-            <div className="min-w-0">
+            <div className="min-w-0 space-y-10">
               {ev.notes && (
-                <p className="display-h text-xl md:text-2xl leading-[1.32] m-0 mb-10">
+                <p className="display-h text-xl md:text-2xl leading-[1.32] m-0">
                   <em className="not-italic text-accent font-mono text-[10px] uppercase tracking-[0.16em] mr-2 align-middle">
                     Off the record
                   </em>
@@ -202,26 +210,26 @@ export default async function EventPage({
               )}
 
               {ev.lineup.length > 0 && (
-                <>
-                  <div className="eyebrow rule-label mt-2 mb-3">Lineup</div>
-                  <div className="border-y border-hairline">
+                <section>
+                  <SectionLabel>Lineup</SectionLabel>
+                  <div className="divide-y divide-hairline">
                     {ev.lineup.map((name, i) => (
                       <div
                         key={`${name}-${i}`}
-                        className="py-3 md:py-4 border-t border-hairline first:border-t-0"
+                        className="py-3 md:py-4"
                       >
-                        <span className="display-h text-xl md:text-2xl leading-tight">
+                        <span className="display-h text-2xl md:text-3xl leading-tight">
                           {name}
                         </span>
                       </div>
                     ))}
                   </div>
-                </>
+                </section>
               )}
 
               {(ev.lgbtq || ev.tags.length > 0) && (
-                <>
-                  <div className="eyebrow rule-label mt-10 mb-3">Tags</div>
+                <section>
+                  <SectionLabel>Tags</SectionLabel>
                   <div className="flex flex-wrap gap-1.5">
                     {ev.lgbtq && <Tag kind="queer">Queer-friendly</Tag>}
                     {ev.tags.map((t) => (
@@ -237,61 +245,61 @@ export default async function EventPage({
                       </Tag>
                     ))}
                   </div>
-                </>
+                </section>
               )}
 
-              <div className="eyebrow rule-label mt-10 mb-3">The room</div>
-              <Link
-                href={`/mykonos/${ev.venue.slug}`}
-                className="block group border border-line bg-paper-3 p-4 hover:bg-paper-2 transition-colors"
-              >
-                <div className="grid grid-cols-[80px_1fr] md:grid-cols-[100px_1fr] gap-4">
-                  <div
-                    className="aspect-square border border-line bg-paper-2 grid place-items-center overflow-hidden font-mono text-[10px] uppercase tracking-widest text-mute"
-                    style={
-                      ev.venue.image_url
-                        ? {
-                            backgroundImage: `url(${ev.venue.image_url})`,
-                            backgroundSize: "cover",
-                            backgroundPosition: "center",
-                          }
-                        : undefined
-                    }
-                  >
-                    {!ev.venue.image_url &&
-                      ev.venue.name
-                        .split(" ")
-                        .map((w) => w[0])
-                        .join("")
-                        .slice(0, 3)}
-                  </div>
-                  <div className="min-w-0 flex flex-col gap-1.5">
-                    <span className="display-h text-xl md:text-2xl leading-none">
-                      {ev.venue.name}
-                    </span>
-                    <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-mute">
-                      {ev.venue.venue_type === "beach_club"
-                        ? "Beach"
-                        : ev.venue.venue_type ?? "Venue"}
-                      {ev.venue.capacity
-                        ? ` · Cap ${ev.venue.capacity.toLocaleString()}`
-                        : ""}{" "}
-                      · {ev.venue.area ?? ev.venue.city}
-                    </span>
-                    {ev.venue.description && (
-                      <span className="text-[13px] leading-relaxed text-ink-2 line-clamp-2 md:line-clamp-3">
-                        {ev.venue.description}
+              <section>
+                <SectionLabel>The venue</SectionLabel>
+                <Link
+                  href={`/mykonos/${ev.venue.slug}`}
+                  className="block group h-[150px] md:h-[158px] border border-line bg-paper-3 p-4 overflow-hidden hover:bg-paper-2 transition-colors"
+                >
+                  <div className="grid h-full grid-cols-[124px_1fr] md:grid-cols-[136px_1fr] gap-4 md:gap-5 items-center">
+                    <div
+                      className="w-full aspect-[4/3] border border-line bg-paper-2 grid place-items-center overflow-hidden font-mono text-[10px] uppercase tracking-widest text-mute"
+                      style={
+                        ev.venue.image_url
+                          ? {
+                              backgroundImage: `url(${ev.venue.image_url})`,
+                              backgroundSize: "cover",
+                              backgroundPosition: "center",
+                            }
+                          : undefined
+                      }
+                    >
+                      {!ev.venue.image_url &&
+                        ev.venue.name
+                          .split(" ")
+                          .map((w) => w[0])
+                          .join("")
+                          .slice(0, 3)}
+                    </div>
+                    <div className="min-w-0 flex flex-col gap-1.5">
+                      <span className="display-h text-xl md:text-2xl leading-none">
+                        {ev.venue.name}
                       </span>
-                    )}
+                      <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-mute">
+                        {ev.venue.venue_type === "beach_club"
+                          ? "Beach"
+                          : ev.venue.venue_type ?? "Venue"}
+                        {ev.venue.capacity
+                          ? ` · Cap ${ev.venue.capacity.toLocaleString()}`
+                          : ""}{" "}
+                        · {ev.venue.area ?? ev.venue.city}
+                      </span>
+                      {ev.venue.description && (
+                        <span className="text-[13px] leading-relaxed text-ink-2 clamp-4">
+                          {ev.venue.description}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </Link>
+                </Link>
+              </section>
 
               {tips.length > 0 && (
-                <>
-                  <div className="eyebrow rule-label mt-10 mb-2">
-                    Insider tips
-                  </div>
+                <section>
+                  <SectionLabel>Insider tips</SectionLabel>
                   <div className="divide-y divide-hairline">
                     {tips.map((tip, i) => (
                       <div
@@ -303,29 +311,35 @@ export default async function EventPage({
                       </div>
                     ))}
                   </div>
-                </>
+                </section>
               )}
 
-              <div className="eyebrow rule-label mt-10 mb-3">Getting there</div>
-              <div className="text-[14px] leading-[1.5] text-ink-2 space-y-3">
-                <p className="flex gap-2 items-start m-0">
-                  <Icon name="ferry" size={14} />
-                  <span>
-                    Ferries to {ev.venue.city} from Piraeus run morning, midday,
-                    evening. Last ferry off the island next morning ~07:30.
-                  </span>
-                </p>
-                <p className="flex gap-2 items-start m-0">
-                  <Icon name="pin" size={14} />
-                  <span>
-                    {ev.venue.name} — {ev.venue.area ?? ev.venue.city}. Road in
-                    jams up after 1am — leave early or grab a moto.
-                  </span>
-                </p>
-              </div>
+              <section>
+                <SectionLabel>Getting there</SectionLabel>
+                <div className="text-[14px] leading-[1.5] text-ink-2 space-y-3">
+                  <p className="grid grid-cols-[16px_1fr] gap-2 items-start m-0">
+                    <span className="w-4 h-4 mt-0.5 grid place-items-start">
+                      <Icon name="ferry" size={14} />
+                    </span>
+                    <span>
+                      Ferries to {ev.venue.city} from Piraeus run morning,
+                      midday, evening. Last ferry off the island next morning
+                      ~07:30.
+                    </span>
+                  </p>
+                  <p className="grid grid-cols-[16px_1fr] gap-2 items-start m-0">
+                    <span className="w-4 h-4 mt-0.5 grid place-items-start">
+                      <Icon name="pin" size={14} />
+                    </span>
+                    <span>
+                      {ev.venue.name}, {ev.venue.area ?? ev.venue.city}. Road in
+                      jams up after 1am. Leave early or grab a moto.
+                    </span>
+                  </p>
+                </div>
+              </section>
             </div>
 
-            {/* Sidebar ticket — inline on desktop */}
             <aside className="hidden lg:block sticky top-24">
               <TicketBar ev={ev} inline />
               {(ev.venue.website || ev.venue.instagram) && (
@@ -360,11 +374,10 @@ export default async function EventPage({
           </div>
         </div>
 
-        {/* Mobile sticky ticket */}
-        <TicketBar ev={ev} />
+        {ev.tiers.length > 0 && <TicketBar ev={ev} />}
 
         {related.length > 0 && (
-          <section className="mx-auto max-w-5xl px-4 md:px-8 mt-10 md:mt-16 pb-4">
+          <section className="mx-auto max-w-5xl px-4 md:px-8 mt-8 md:mt-10">
             <div className="eyebrow rule-label mb-3 opacity-75">
               If you like this
             </div>
