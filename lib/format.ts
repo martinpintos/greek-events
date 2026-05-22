@@ -66,6 +66,12 @@ export function shortDOW(iso: string): string {
     .toUpperCase();
 }
 
+export function shortMonth(iso: string): string {
+  return parseISO(iso)
+    .toLocaleDateString("en-GB", { month: "short" })
+    .toUpperCase();
+}
+
 export function dayOfMonth(iso: string): number {
   return parseISO(iso).getDate();
 }

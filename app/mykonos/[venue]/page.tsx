@@ -207,7 +207,7 @@ export default async function VenuePage({
                 </p>
               </div>
             ) : (
-              upcoming.map((e) => <EventCard key={e.id} ev={e} />)
+              upcoming.map((e) => <EventCard key={e.id} ev={e} showDate />)
             )}
           </div>
         </section>

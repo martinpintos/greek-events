@@ -1,13 +1,16 @@
 import Link from "next/link";
 import type { DerivedEvent } from "@/lib/types";
+import { dayOfMonth, shortMonth } from "@/lib/format";
 import { Tag } from "./Tag";
 
 export function EventCard({
   ev,
   compact = false,
+  showDate = false,
 }: {
   ev: DerivedEvent;
   compact?: boolean;
+  showDate?: boolean;
 }) {
   const href = `/mykonos/${ev.venue.slug}/${ev.slug}`;
   return (
@@ -15,7 +18,24 @@ export function EventCard({
       href={href}
       className="group block border-t border-hairline first:border-t-0 hover:bg-paper-2 focus-visible:bg-paper-2 transition-colors"
     >
-      <div className="grid grid-cols-[60px_1fr_auto] md:grid-cols-[80px_1fr_auto] gap-3 md:gap-6 px-4 md:px-6 py-4 md:py-5 items-start">
+      <div
+        className={[
+          "grid gap-3 md:gap-6 px-4 md:px-6 py-4 md:py-5 items-start",
+          showDate
+            ? "grid-cols-[44px_56px_1fr_auto] md:grid-cols-[56px_72px_1fr_auto]"
+            : "grid-cols-[60px_1fr_auto] md:grid-cols-[80px_1fr_auto]",
+        ].join(" ")}
+      >
+        {showDate && (
+          <div className="flex flex-col items-start pt-0.5 leading-none">
+            <span className="font-mono text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.12em] text-accent">
+              {shortMonth(ev.date)}
+            </span>
+            <span className="display-h text-[28px] md:text-[34px] leading-none mt-1 tabular-nums">
+              {dayOfMonth(ev.date)}
+            </span>
+          </div>
+        )}
         <div className="flex flex-col gap-0.5 pt-0.5">
           <span className="display-h text-[17px] md:text-xl leading-none">
             {ev.startTime}
