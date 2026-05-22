@@ -200,13 +200,36 @@ export default async function EventPage({
         <div className="mx-auto max-w-5xl px-4 md:px-8 py-8 md:py-12">
           <div className="grid lg:grid-cols-[1fr_320px] gap-10 lg:gap-14 items-start">
             <div className="min-w-0 space-y-10">
-              {ev.offTheRecord && (
-                <p className="display-h text-xl md:text-2xl leading-[1.32] m-0">
-                  <em className="not-italic text-accent font-mono text-[10px] uppercase tracking-[0.16em] mr-2 align-middle">
-                    Off the record
-                  </em>
-                  {ev.offTheRecord}
-                </p>
+              {(ev.offTheRecord || ev.lgbtq || ev.tags.length > 0) && (
+                <section>
+                  {ev.offTheRecord && (
+                    <>
+                      <SectionLabel>Off the record</SectionLabel>
+                      <p className="display-h text-xl md:text-2xl leading-[1.32] m-0">
+                        {ev.offTheRecord}
+                      </p>
+                    </>
+                  )}
+                  {(ev.lgbtq || ev.tags.length > 0) && (
+                    <div
+                      className={`flex flex-wrap gap-1.5 ${ev.offTheRecord ? "mt-4" : ""}`}
+                    >
+                      {ev.lgbtq && <Tag kind="queer">Queer-friendly</Tag>}
+                      {ev.tags.map((t) => (
+                        <Tag
+                          key={t}
+                          kind={
+                            t === "after-hours" || t === "sunset" || t === "season-opener"
+                              ? t
+                              : "default"
+                          }
+                        >
+                          {t.replace("-", " ")}
+                        </Tag>
+                      ))}
+                    </div>
+                  )}
+                </section>
               )}
 
               {ev.lineup.length > 0 && (
@@ -222,27 +245,6 @@ export default async function EventPage({
                           {name}
                         </span>
                       </div>
-                    ))}
-                  </div>
-                </section>
-              )}
-
-              {(ev.lgbtq || ev.tags.length > 0) && (
-                <section>
-                  <SectionLabel>Tags</SectionLabel>
-                  <div className="flex flex-wrap gap-1.5">
-                    {ev.lgbtq && <Tag kind="queer">Queer-friendly</Tag>}
-                    {ev.tags.map((t) => (
-                      <Tag
-                        key={t}
-                        kind={
-                          t === "after-hours" || t === "sunset" || t === "season-opener"
-                            ? t
-                            : "default"
-                        }
-                      >
-                        {t.replace("-", " ")}
-                      </Tag>
                     ))}
                   </div>
                 </section>
