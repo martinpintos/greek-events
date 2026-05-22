@@ -132,13 +132,23 @@
   }
   .detail-hero-scrim {
     background:
-      linear-gradient(90deg, rgba(0, 0, 0, 0.74) 0%, rgba(0, 0, 0, 0.46) 42%, rgba(0, 0, 0, 0.08) 100%),
+      linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.74) 0%,
+        rgba(0, 0, 0, 0.46) 42%,
+        rgba(0, 0, 0, 0.08) 100%
+      ),
       linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.38) 100%);
   }
   .featured-card-scrim {
     background:
       linear-gradient(90deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.72) 100%),
-      linear-gradient(180deg, rgba(38, 12, 8, 0.22) 0%, rgba(0, 0, 0, 0.04) 38%, rgba(0, 0, 0, 0.88) 100%);
+      linear-gradient(
+        180deg,
+        rgba(38, 12, 8, 0.22) 0%,
+        rgba(0, 0, 0, 0.04) 38%,
+        rgba(0, 0, 0, 0.88) 100%
+      );
   }
   .text-shadow-soft {
     text-shadow: 0 2px 22px rgba(0, 0, 0, 0.35);
@@ -169,11 +179,7 @@
     animation: pulse 1.6s infinite;
   }
   .ticket-stub {
-    background: repeating-linear-gradient(
-      90deg,
-      var(--color-accent) 0 18px,
-      transparent 18px 22px
-    );
+    background: repeating-linear-gradient(90deg, var(--color-accent) 0 17px, transparent 17px 22px);
   }
   .dashed-rule {
     background: repeating-linear-gradient(

@@ -24,6 +24,7 @@ No test runner is configured. There is no separate typecheck script — `next bu
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 - `NIGHTLY_SHOW_HOME_HERO` (optional, `"true"` toggles the editorial hero block on `/`)
+- `NEXT_PUBLIC_NIGHTLY_SHOW_ISLAND_CHIPS` (optional, `"true"` shows the island scroll selector under the date strip; hidden by default)
 
 Missing the two Supabase vars throws at import time from [lib/supabase.ts:7](lib/supabase.ts#L7).
 

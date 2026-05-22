@@ -19,23 +19,24 @@ export function QueerRail({ events }: { events: DerivedEvent[] }) {
   if (events.length === 0) return null;
   return (
     <section
-      className="mt-8 px-4 md:px-6 py-6 md:py-8 border-y border-line"
+      className="mt-8 border-y border-line"
       style={{
         background:
           "linear-gradient(135deg, rgba(214,35,94,0.06) 0%, rgba(255,77,46,0.05) 100%)",
       }}
       aria-label="Queer nights this week"
     >
-      <PrideBar />
-      <h3 className="display-h text-2xl md:text-3xl mt-3 mb-1">
-        Queer nights this week
-      </h3>
-      <div className="font-mono text-[10px] uppercase tracking-[0.12em] text-mute mb-4">
-        Vetted by us · across the islands
-      </div>
+      <div className="mx-auto max-w-5xl px-4 md:px-8 py-6 md:py-8">
+        <PrideBar />
+        <h3 className="display-h text-2xl md:text-3xl mt-3 mb-1">
+          Queer nights this week
+        </h3>
+        <div className="font-mono text-[10px] uppercase tracking-[0.12em] text-mute mb-4">
+          Vetted by us · across the islands
+        </div>
 
-      <div className="flex gap-3 scroll-x -mx-4 md:-mx-6 px-4 md:px-6">
-        {events.map((ev) => {
+        <div className="flex gap-3 scroll-x -mx-4 md:-mx-8 px-4 md:px-8">
+          {events.map((ev) => {
           const dow = parseISO(ev.date)
             .toLocaleDateString("en-GB", { weekday: "short" })
             .toUpperCase();
@@ -56,7 +57,8 @@ export function QueerRail({ events }: { events: DerivedEvent[] }) {
               </span>
             </Link>
           );
-        })}
+          })}
+        </div>
       </div>
     </section>
   );

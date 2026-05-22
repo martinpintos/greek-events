@@ -74,7 +74,7 @@ export function DateNavigator({
   return (
     <section className="border-b border-hairline bg-paper">
       <div className="mx-auto max-w-5xl px-4 md:px-8">
-        <div className="grid grid-cols-[2.5rem_minmax(0,1fr)_2.5rem_auto] md:grid-cols-[2.5rem_11rem_2.5rem_auto] items-center gap-2 py-3 md:w-fit md:gap-3 md:py-4">
+        <div className="grid grid-cols-[2.5rem_minmax(0,1fr)_2.5rem_auto] md:grid-cols-[2rem_8rem_2rem_auto] items-center gap-2 py-3 md:w-fit md:gap-2 md:py-3">
           <button
             type="button"
             onClick={() => {
@@ -82,7 +82,7 @@ export function DateNavigator({
               onJumpMonth(-1);
             }}
             disabled={!canPrev}
-            className="w-10 h-10 grid place-items-center border border-line disabled:opacity-25 disabled:cursor-not-allowed hover:bg-ink hover:text-paper transition-colors"
+            className="w-10 h-10 md:w-8 md:h-8 grid place-items-center border border-line disabled:opacity-25 disabled:cursor-not-allowed hover:bg-ink hover:text-paper transition-colors"
             aria-label="Previous month"
           >
             <Icon name="chevron_l" size={14} stroke={2} />
@@ -90,11 +90,11 @@ export function DateNavigator({
           <button
             type="button"
             onClick={() => setShowMonths((v) => !v)}
-            className="display-h h-10 min-h-10 box-border text-[22px] md:text-[25px] leading-none px-1 md:px-2 inline-flex items-center justify-center gap-2 border border-transparent hover:text-accent transition-colors"
+            className="display-h h-10 md:h-8 min-h-10 md:min-h-8 box-border text-[22px] md:text-[18px] leading-none px-1 md:px-2 inline-flex items-center justify-center gap-2 border border-transparent hover:text-accent transition-colors"
             aria-expanded={showMonths}
           >
             {monthLabel(selectedISO)}
-            <span className="font-mono text-[12px] text-mute">›</span>
+            <span className="font-mono text-[12px] md:text-[10px] text-mute">›</span>
           </button>
           <button
             type="button"
@@ -103,14 +103,14 @@ export function DateNavigator({
               onJumpMonth(1);
             }}
             disabled={!canNext}
-            className="w-10 h-10 grid place-items-center border border-line disabled:opacity-25 disabled:cursor-not-allowed hover:bg-ink hover:text-paper transition-colors"
+            className="w-10 h-10 md:w-8 md:h-8 grid place-items-center border border-line disabled:opacity-25 disabled:cursor-not-allowed hover:bg-ink hover:text-paper transition-colors"
             aria-label="Next month"
           >
             <Icon name="chevron_r" size={14} stroke={2} />
           </button>
           <OverlayButton
             kind="filter"
-            className="h-10 min-h-10 box-border px-3 md:px-4 inline-flex items-center gap-2 border border-line font-mono text-[10px] leading-none font-semibold uppercase tracking-[0.16em] hover:bg-ink hover:text-paper transition-colors"
+            className="h-10 md:h-8 min-h-10 md:min-h-8 box-border px-3 md:px-3 inline-flex items-center gap-2 border border-line font-mono text-[10px] md:text-[9px] leading-none font-semibold uppercase tracking-[0.16em] hover:bg-ink hover:text-paper transition-colors"
             ariaLabel="Filter"
           >
             <Icon name="filter" size={13} />
@@ -166,16 +166,16 @@ export function DateNavigator({
                   setShowMonths(false);
                   onToday();
                 }}
-                className="shrink-0 w-12 md:w-14 h-[64px] md:h-[70px] px-1 flex flex-col items-center justify-center gap-1 border border-line bg-paper text-ink hover:bg-ink hover:text-paper transition-colors"
+                className="shrink-0 w-12 md:w-10.5 h-16 md:h-14 px-1 flex flex-col items-center justify-center gap-1 border border-line bg-paper text-ink hover:bg-ink hover:text-paper transition-colors"
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-                <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.1em]">
+                <span className="font-mono text-[9px] md:text-[8px] font-semibold uppercase tracking-[0.1em]">
                   Today
                 </span>
               </button>
 
               <div ref={railRef} className="min-w-0 flex-1 scroll-x">
-                <div className="flex gap-1.5 md:gap-2 min-w-max">
+                <div className="flex gap-1.5 md:gap-1 min-w-max">
                   {days.map((iso) => {
                     const isSelected = iso === selectedISO;
                     const isToday = iso === today;
@@ -194,7 +194,7 @@ export function DateNavigator({
                         data-on={isSelected ? "1" : "0"}
                         data-today={isToday ? "1" : "0"}
                         className={[
-                          "relative shrink-0 w-[48px] md:w-[54px] h-[64px] md:h-[70px] px-1.5 flex flex-col items-center justify-center gap-1 border transition-colors",
+                          "relative shrink-0 w-[48px] md:w-10.5 h-16 md:h-14 px-1.5 flex flex-col items-center justify-center gap-1 border transition-colors",
                           isSelected
                             ? "bg-ink text-paper border-ink shadow-[inset_0_3px_0_var(--color-accent)]"
                             : isToday
@@ -207,7 +207,7 @@ export function DateNavigator({
                       >
                         <span
                           className={[
-                            "font-mono text-[9px] uppercase tracking-[0.1em]",
+                            "font-mono text-[9px] md:text-[8px] uppercase tracking-[0.1em]",
                             isToday && !isSelected
                               ? "text-accent font-semibold"
                               : "",
@@ -216,7 +216,7 @@ export function DateNavigator({
                         >
                           {shortDOW(iso)}
                         </span>
-                        <span className="display-h text-[22px] md:text-[24px] leading-none">
+                        <span className="display-h text-[22px] md:text-[18px] leading-none">
                           {dayOfMonth(iso)}
                         </span>
                         <EventDots count={count} active={isSelected} />

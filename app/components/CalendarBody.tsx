@@ -182,18 +182,20 @@ export function CalendarBody({
         onToday={() => setQuery({ date: today })}
       />
 
-      <IslandChips
-        islandLock={islandLock}
-        activeIslands={activeIslands}
-        totalCount={totalCount}
-        countsByIsland={countsByIsland}
-        onClear={() => setQuery({ islands: null })}
-        onToggle={(id) => {
-          if (islandLock) return;
-          if (activeIslands.includes(id)) setQuery({ islands: null });
-          else setQuery({ islands: id });
-        }}
-      />
+      {process.env.NEXT_PUBLIC_NIGHTLY_SHOW_ISLAND_CHIPS === "true" && (
+        <IslandChips
+          islandLock={islandLock}
+          activeIslands={activeIslands}
+          totalCount={totalCount}
+          countsByIsland={countsByIsland}
+          onClear={() => setQuery({ islands: null })}
+          onToggle={(id) => {
+            if (islandLock) return;
+            if (activeIslands.includes(id)) setQuery({ islands: null });
+            else setQuery({ islands: id });
+          }}
+        />
+      )}
 
       <DateHeading
         headline={headline}
@@ -225,10 +227,8 @@ export function CalendarBody({
         <EventFeed events={otherEvents} />
       </section>
 
-      {/* Queer rail */}
-      <div className="mx-auto max-w-5xl">
-        <QueerRail events={queerEvents} />
-      </div>
+      {/* Queer rail — full-bleed band, content constrained inside */}
+      <QueerRail events={queerEvents} />
     </div>
   );
 }
