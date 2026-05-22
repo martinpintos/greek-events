@@ -212,12 +212,17 @@ export default async function EventPage({
                   )}
                   {(ev.lgbtq || ev.tags.length > 0) && (
                     <div
-                      className={`flex flex-wrap gap-1.5 ${ev.offTheRecord ? "mt-4" : ""}`}
+                      className={`flex flex-wrap gap-2 ${ev.offTheRecord ? "mt-4" : ""}`}
                     >
-                      {ev.lgbtq && <Tag kind="queer">Queer-friendly</Tag>}
+                      {ev.lgbtq && (
+                        <Tag kind="queer" size="lg">
+                          Queer-friendly
+                        </Tag>
+                      )}
                       {ev.tags.map((t) => (
                         <Tag
                           key={t}
+                          size="lg"
                           kind={
                             t === "after-hours" || t === "sunset" || t === "season-opener"
                               ? t
