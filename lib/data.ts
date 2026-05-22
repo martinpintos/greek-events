@@ -40,7 +40,7 @@ export const getEventBySlug = cache(
     ]);
     if (!row) return null;
     const byId = new Map(venues.map((v) => [v.id, v]));
-    if (row.venue_id == null || !byId.has(row.venue_id)) return null;
+    if (!byId.has(row.venue_id)) return null;
     return deriveEvent(row, byId);
   },
 );

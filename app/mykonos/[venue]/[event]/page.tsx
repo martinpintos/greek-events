@@ -29,8 +29,8 @@ export async function generateStaticParams() {
   ]);
   const byId = new Map(venues.map((v) => [v.id, v]));
   return events
-    .filter((e) => e.venue_id != null && byId.has(e.venue_id))
-    .map((e) => ({ venue: byId.get(e.venue_id!)!.slug, event: e.slug }));
+    .filter((e) => byId.has(e.venue_id))
+    .map((e) => ({ venue: byId.get(e.venue_id)!.slug, event: e.slug }));
 }
 
 export async function generateMetadata({

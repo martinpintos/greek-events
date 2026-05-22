@@ -24,7 +24,7 @@ export type EventRow = {
   date: string;
   title: string;
   lineup: string | null;
-  venue_id: number | null;
+  venue_id: number;
   start_time: string | null;
   end_time: string | null;
   ticket_url: string | null;

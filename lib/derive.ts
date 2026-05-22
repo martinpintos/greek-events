@@ -158,9 +158,6 @@ export function deriveVenues(rows: VenueRow[]): Venue[] {
 }
 
 export function deriveEvent(row: EventRow, venuesById: Map<number, Venue>): DerivedEvent {
-  if (row.venue_id == null) {
-    throw new Error(`Event ${row.id} has no venue_id`);
-  }
   const venue = venuesById.get(row.venue_id);
   if (!venue) {
     throw new Error(`No venue for event ${row.id} (venue_id=${row.venue_id})`);
@@ -195,7 +192,7 @@ export function deriveEvents(
 ): DerivedEvent[] {
   const byId = new Map(venues.map((v) => [v.id, v]));
   return rows
-    .filter((r) => r.venue_id != null && byId.has(r.venue_id))
+    .filter((r) => byId.has(r.venue_id))
     .map((r) => deriveEvent(r, byId));
 }
 
