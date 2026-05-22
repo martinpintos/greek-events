@@ -23,8 +23,8 @@ const PALETTES: [string, string][] = [
 ];
 
 // Deterministic non-negative integer hash from a string (e.g. a uuid).
-// Used to seed mock data (palette, price variance, queer flag) so the same
-// row always derives the same values.
+// Used to seed mock data (palette, price variance) so the same row always
+// derives the same values.
 function hashStr(s: string): number {
   let h = 2166136261;
   for (let i = 0; i < s.length; i++) {
@@ -141,13 +141,6 @@ function roundFifty(n: number): number {
   return Math.max(50, Math.round(n / 50) * 50);
 }
 
-function lgbtqFor(row: EventRow): boolean {
-  if (/drag|tea dance|pride|queer|honey dijon/i.test(row.title)) return true;
-  if (/drag|tea dance|pride|queer|honey dijon/i.test(row.lineup ?? ""))
-    return true;
-  return seedFor(row) % 7 === 0;
-}
-
 function paletteFor(seed: number): [string, string] {
   return PALETTES[seed % PALETTES.length];
 }
@@ -165,6 +158,9 @@ export function deriveVenues(rows: VenueRow[]): Venue[] {
 }
 
 export function deriveEvent(row: EventRow, venuesById: Map<number, Venue>): DerivedEvent {
+  if (row.venue_id == null) {
+    throw new Error(`Event ${row.id} has no venue_id`);
+  }
   const venue = venuesById.get(row.venue_id);
   if (!venue) {
     throw new Error(`No venue for event ${row.id} (venue_id=${row.venue_id})`);
@@ -181,12 +177,12 @@ export function deriveEvent(row: EventRow, venuesById: Map<number, Venue>): Deri
     endTime: formatTime(row.end_time),
     title: row.title,
     lineup: parseLineup(row.lineup),
-    notes: row.notes,
+    offTheRecord: row.off_the_record,
     venue,
     tiers,
     priceFrom: lowest?.price ?? null,
     isFree: lowest?.price === 0,
-    lgbtq: lgbtqFor(row),
+    lgbtq: row.is_lgbtq ?? false,
     tags: tagsFor(row, venue),
     bucket: bucketFor(row.start_time),
     palette: paletteFor(seedFor(row)),
@@ -199,7 +195,7 @@ export function deriveEvents(
 ): DerivedEvent[] {
   const byId = new Map(venues.map((v) => [v.id, v]));
   return rows
-    .filter((r) => byId.has(r.venue_id))
+    .filter((r) => r.venue_id != null && byId.has(r.venue_id))
     .map((r) => deriveEvent(r, byId));
 }
 

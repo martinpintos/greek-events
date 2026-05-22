@@ -29,8 +29,8 @@ export async function generateStaticParams() {
   ]);
   const byId = new Map(venues.map((v) => [v.id, v]));
   return events
-    .filter((e) => byId.has(e.venue_id))
-    .map((e) => ({ venue: byId.get(e.venue_id)!.slug, event: e.slug }));
+    .filter((e) => e.venue_id != null && byId.has(e.venue_id))
+    .map((e) => ({ venue: byId.get(e.venue_id!)!.slug, event: e.slug }));
 }
 
 export async function generateMetadata({
@@ -43,11 +43,11 @@ export async function generateMetadata({
   if (!ev) return { title: "Event not found" };
   return {
     title: `${ev.title} | ${ev.venue.name}`,
-    description: ev.notes ?? `${ev.title}. Lineup, tickets, insider tips.`,
+    description: ev.offTheRecord ?? `${ev.title}. Lineup, tickets, insider tips.`,
     alternates: { canonical: `/mykonos/${venue}/${event}` },
     openGraph: {
       title: ev.title,
-      description: ev.notes ?? undefined,
+      description: ev.offTheRecord ?? undefined,
       type: "article",
     },
   };
@@ -134,7 +134,7 @@ export default async function EventPage({
       url: t.url,
       availability: "https://schema.org/InStock",
     })),
-    description: ev.notes ?? undefined,
+    description: ev.offTheRecord ?? undefined,
   };
 
   return (
@@ -200,12 +200,12 @@ export default async function EventPage({
         <div className="mx-auto max-w-5xl px-4 md:px-8 py-8 md:py-12">
           <div className="grid lg:grid-cols-[1fr_320px] gap-10 lg:gap-14 items-start">
             <div className="min-w-0 space-y-10">
-              {ev.notes && (
+              {ev.offTheRecord && (
                 <p className="display-h text-xl md:text-2xl leading-[1.32] m-0">
                   <em className="not-italic text-accent font-mono text-[10px] uppercase tracking-[0.16em] mr-2 align-middle">
                     Off the record
                   </em>
-                  {ev.notes}
+                  {ev.offTheRecord}
                 </p>
               )}
 

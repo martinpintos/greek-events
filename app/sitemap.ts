@@ -24,9 +24,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const eventPaths: MetadataRoute.Sitemap = events
-    .filter((e) => venueById.has(e.venue_id))
+    .filter((e) => e.venue_id != null && venueById.has(e.venue_id))
     .map((e) => ({
-      url: `${BASE}/mykonos/${venueById.get(e.venue_id)!.slug}/${e.slug}`,
+      url: `${BASE}/mykonos/${venueById.get(e.venue_id!)!.slug}/${e.slug}`,
       changeFrequency: "weekly",
       priority: 0.6,
       lastModified: e.date,

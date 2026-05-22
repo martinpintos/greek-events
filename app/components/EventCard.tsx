@@ -79,13 +79,13 @@ export function EventCard({
             </div>
           )}
 
-          {!compact && ev.notes && (
+          {!compact && ev.offTheRecord && (
             <div className="mt-3 md:mt-4 pl-3 pr-3 py-2.5 border-l-2 border-accent bg-paper-3 max-w-md">
               <div className="font-mono text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.16em] text-accent mb-1">
                 Off the record
               </div>
               <div className="font-display italic text-[14px] md:text-[15px] leading-[1.4] text-ink-2">
-                {ev.notes}
+                {ev.offTheRecord}
               </div>
             </div>
           )}

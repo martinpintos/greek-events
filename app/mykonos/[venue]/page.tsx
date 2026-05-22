@@ -27,17 +27,12 @@ export async function generateMetadata({
   return {
     title: `${v.name} | ${v.city}`,
     description:
-      v.description ??
-      `Upcoming events at ${v.name}, ${v.city}. Lineups, tickets, insider tips.`,
+      v.description ?? `Upcoming events at ${v.name}, ${v.city}. Lineups, tickets, insider tips.`,
     alternates: { canonical: `/mykonos/${v.slug}` },
   };
 }
 
-export default async function VenuePage({
-  params,
-}: {
-  params: Promise<{ venue: string }>;
-}) {
+export default async function VenuePage({ params }: { params: Promise<{ venue: string }> }) {
   const { venue: slug } = await params;
 
   const [venue, allEvents, venues] = await Promise.all([
@@ -48,9 +43,7 @@ export default async function VenuePage({
   if (!venue) notFound();
 
   const today = todayISO();
-  const upcoming = allEvents.filter(
-    (e) => e.venue.slug === slug && e.date >= today,
-  );
+  const upcoming = allEvents.filter((e) => e.venue.slug === slug && e.date >= today);
 
   return (
     <ChromeOverlays events={allEvents} venues={venues}>
@@ -60,9 +53,7 @@ export default async function VenuePage({
         <section
           className="relative overflow-hidden border-b border-line"
           style={{
-            backgroundImage: venue.image_url
-              ? `url(${venue.image_url})`
-              : undefined,
+            backgroundImage: venue.image_url ? `url(${venue.image_url})` : undefined,
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundColor: venue.image_url ? undefined : "var(--color-paper-2)",
@@ -74,25 +65,21 @@ export default async function VenuePage({
               className="absolute inset-0 pointer-events-none"
               style={{
                 background:
-                  "linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.55) 100%)",
+                  "linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.5) 100%)",
               }}
             />
           )}
           <div className="absolute left-0 right-0 bottom-0 p-4 md:p-8 text-paper">
             <div className="mx-auto max-w-5xl">
-              <div className="eyebrow text-white/85 mb-2">
+              <div className="eyebrow mb-2" style={{ color: "rgba(255,255,255,0.9)" }}>
                 {venue.area ? `${venue.area} · ` : ""}
                 {venue.city}
                 {venue.venue_type
                   ? ` · ${venue.venue_type === "beach_club" ? "Beach club" : venue.venue_type}`
                   : ""}
-                {venue.capacity
-                  ? ` · Cap ${venue.capacity.toLocaleString()}`
-                  : ""}
+                {venue.capacity ? ` · Cap ${venue.capacity.toLocaleString()}` : ""}
               </div>
-              <h1 className="display-h text-5xl md:text-7xl leading-[0.95] m-0">
-                {venue.name}
-              </h1>
+              <h1 className="display-h text-5xl md:text-7xl leading-[0.95] m-0">{venue.name}</h1>
             </div>
           </div>
         </section>
@@ -159,25 +146,21 @@ export default async function VenuePage({
                 <dl className="space-y-2 text-sm">
                   <div className="flex justify-between gap-2">
                     <dt className="text-mute">Type</dt>
-                    <dd className="font-medium">
+                    <dd className="font-medium capitalize">
                       {venue.venue_type === "beach_club"
                         ? "Beach club"
-                        : venue.venue_type ?? "Venue"}
+                        : (venue.venue_type ?? "Venue")}
                     </dd>
                   </div>
                   {venue.capacity && (
                     <div className="flex justify-between gap-2">
                       <dt className="text-mute">Capacity</dt>
-                      <dd className="font-medium">
-                        {venue.capacity.toLocaleString()}
-                      </dd>
+                      <dd className="font-medium">{venue.capacity.toLocaleString()}</dd>
                     </div>
                   )}
                   <div className="flex justify-between gap-2">
                     <dt className="text-mute">Area</dt>
-                    <dd className="font-medium">
-                      {venue.area ?? venue.city}
-                    </dd>
+                    <dd className="font-medium">{venue.area ?? venue.city}</dd>
                   </div>
                   <div className="flex justify-between gap-2">
                     <dt className="text-mute">Upcoming</dt>

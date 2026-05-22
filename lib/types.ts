@@ -24,7 +24,7 @@ export type EventRow = {
   date: string;
   title: string;
   lineup: string | null;
-  venue_id: number;
+  venue_id: number | null;
   start_time: string | null;
   end_time: string | null;
   ticket_url: string | null;
@@ -32,7 +32,8 @@ export type EventRow = {
   table_url: string | null;
   source_url?: string | null;
   is_verified: boolean;
-  notes: string | null;
+  is_lgbtq: boolean | null;
+  off_the_record: string | null;
   slug: string;
 };
 
@@ -65,7 +66,7 @@ export type DerivedEvent = {
   endTime: string;
   title: string;
   lineup: string[];
-  notes: string | null;
+  offTheRecord: string | null;
   venue: Venue;
   tiers: Tier[];
   priceFrom: number | null;
