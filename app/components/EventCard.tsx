@@ -7,10 +7,12 @@ export function EventCard({
   ev,
   compact = false,
   showDate = false,
+  hideVenue = false,
 }: {
   ev: DerivedEvent;
   compact?: boolean;
   showDate?: boolean;
+  hideVenue?: boolean;
 }) {
   const href = `/mykonos/${ev.venue.slug}/${ev.slug}`;
   return (
@@ -54,11 +56,13 @@ export function EventCard({
           >
             {ev.title}
           </h3>
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[12px] md:text-[13px] text-mute">
-            <span className="font-medium text-ink">{ev.venue.name}</span>
-            <span className="opacity-40">·</span>
-            <span>{ev.venue.area ?? ev.venue.city}</span>
-          </div>
+          {!hideVenue && (
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[12px] md:text-[13px] text-mute">
+              <span className="font-medium text-ink">{ev.venue.name}</span>
+              <span className="opacity-40">·</span>
+              <span>{ev.venue.area ?? ev.venue.city}</span>
+            </div>
+          )}
 
           {!compact && (ev.tags.length > 0 || ev.lgbtq) && (
             <div className="flex flex-wrap gap-1.5 mt-2.5">

@@ -7,7 +7,7 @@ import { fetchAllVenues } from "@/lib/supabase";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
 import { ChromeOverlays } from "@/app/components/ChromeOverlays";
-import { EventCard } from "@/app/components/EventCard";
+import { VenueUpcomingList } from "@/app/components/VenueUpcomingList";
 
 export const revalidate = 3600;
 
@@ -48,9 +48,9 @@ export default async function VenuePage({
   if (!venue) notFound();
 
   const today = todayISO();
-  const upcoming = allEvents
-    .filter((e) => e.venue.slug === slug && e.date >= today)
-    .slice(0, 50);
+  const upcoming = allEvents.filter(
+    (e) => e.venue.slug === slug && e.date >= today,
+  );
 
   return (
     <ChromeOverlays events={allEvents} venues={venues}>
@@ -207,7 +207,7 @@ export default async function VenuePage({
                 </p>
               </div>
             ) : (
-              upcoming.map((e) => <EventCard key={e.id} ev={e} showDate />)
+              <VenueUpcomingList events={upcoming} />
             )}
           </div>
         </section>

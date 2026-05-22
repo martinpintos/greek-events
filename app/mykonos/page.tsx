@@ -36,8 +36,9 @@ export default async function MykonosHub() {
             Mykonos.
           </h1>
           <p className="mt-3 md:mt-4 text-base md:text-lg text-ink-2 max-w-2xl leading-relaxed">
-            Four rooms, one peninsula. Cavo Paradiso for late, Scorpios at
-            sundown, SantAnna for day, Alemagou for the locals who never left.
+            One island, every tempo. Sunrise sets on the cliffs, long lunches
+            that slide into dusk, sand under bare feet, and rooms that don't
+            close until the ferry horn cuts through the morning.
           </p>
         </div>
 
