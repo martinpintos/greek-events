@@ -20,8 +20,8 @@ export function Footer() {
               Greek islands, in the know.
             </p>
             <p className="text-sm leading-relaxed text-faint max-w-sm">
-              Island calendars, room notes, and the useful little details we
-              would send before making plans.
+              Plan your week on the Greek islands. Venues, lineups, opening
+              hours, and the small things locals would tell you.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-2">
