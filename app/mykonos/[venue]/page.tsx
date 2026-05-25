@@ -84,7 +84,7 @@ export default async function VenuePage({ params }: { params: Promise<{ venue: s
           </div>
         </section>
 
-        <div className="mx-auto max-w-5xl px-4 md:px-8 py-8 md:py-12">
+        <div className="mx-auto max-w-5xl px-5 md:px-8 py-8 md:py-12">
           <div className="grid lg:grid-cols-[1.5fr_1fr] gap-10 lg:gap-14 items-start">
             <div>
               {venue.description && (
@@ -173,7 +173,7 @@ export default async function VenuePage({ params }: { params: Promise<{ venue: s
         </div>
 
         <section className="mx-auto max-w-5xl">
-          <div className="px-4 md:px-8 flex items-baseline justify-between gap-4 pt-2 pb-2">
+          <div className="px-5 md:px-8 flex items-baseline justify-between gap-4 pt-2 pb-2">
             <h2 className="display-h text-2xl md:text-3xl m-0">Upcoming</h2>
             <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-mute">
               {upcoming.length} {upcoming.length === 1 ? "event" : "events"}
@@ -195,7 +195,7 @@ export default async function VenuePage({ params }: { params: Promise<{ venue: s
           </div>
         </section>
 
-        <div className="mx-auto max-w-5xl px-4 md:px-8 py-8">
+        <div className="mx-auto max-w-5xl px-5 md:px-8 py-8">
           <Link
             href="/mykonos"
             className="inline-block px-4 py-2 border border-line rounded-full text-sm hover:bg-ink hover:text-paper transition-colors"

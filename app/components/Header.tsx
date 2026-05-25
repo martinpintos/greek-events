@@ -11,6 +11,30 @@ const DELTA = 6;
 export function Header() {
   const [hidden, setHidden] = useState(false);
   const lastY = useRef(0);
+  const headerRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const apply = () => {
+      const h = el.getBoundingClientRect().height;
+      document.documentElement.style.setProperty(
+        "--header-h",
+        `${Math.round(h)}px`,
+      );
+    };
+    apply();
+    const ro = new ResizeObserver(apply);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      "--chrome-hidden",
+      hidden ? "1" : "0",
+    );
+  }, [hidden]);
 
   useEffect(() => {
     lastY.current = window.scrollY;
@@ -44,17 +68,18 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-30 bg-paper border-b border-line transition-transform ease-out will-change-transform ${
-        hidden ? "-translate-y-full duration-300" : "translate-y-0 duration-500"
+      ref={headerRef}
+      className={`sticky top-0 z-30 bg-paper border-b border-line transition-transform duration-300 ease-out will-change-transform ${
+        hidden ? "-translate-y-full" : "translate-y-0"
       }`}
     >
-      <div className="mx-auto max-w-5xl px-4 md:px-8 h-14 md:h-16 flex items-center justify-between gap-4">
+      <div className="mx-auto max-w-5xl px-5 md:px-8 h-14 md:h-16 flex items-center justify-between gap-4">
         <Link
           href="/"
           className="display-h text-[26px] md:text-[30px] leading-none inline-flex items-baseline gap-1 hover:opacity-70 transition-opacity"
         >
           Nightly
-          <span className="italic text-mute text-[13px] tracking-normal">
+          <span className="italic text-mute text-[16px] md:text-[17px] tracking-normal">
             .gr
           </span>
           <span className="ml-1 inline-block w-1.5 h-1.5 rounded-full bg-accent" />
@@ -66,7 +91,7 @@ export function Header() {
             className="w-9 h-9 md:w-10 md:h-10 grid place-items-center border border-line rounded-full hover:bg-ink hover:text-paper transition-colors"
             ariaLabel="Search"
           >
-            <Icon name="search" size={15} />
+            <Icon name="search" size={18} stroke={1.8} />
           </OverlayButton>
         </nav>
       </div>

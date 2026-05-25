@@ -18,7 +18,7 @@ export function VenueUpcomingList({ events }: { events: DerivedEvent[] }) {
         <EventCard key={e.id} ev={e} showDate hideVenue />
       ))}
       {remaining > 0 && (
-        <div className="border-t border-hairline px-4 md:px-6 py-5 flex justify-center">
+        <div className="border-t border-hairline px-5 md:px-6 py-5 flex justify-center">
           <button
             type="button"
             onClick={() =>

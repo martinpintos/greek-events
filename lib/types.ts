@@ -70,7 +70,6 @@ export type DerivedEvent = {
   venue: Venue;
   tiers: Tier[];
   priceFrom: number | null;
-  isFree: boolean;
   lgbtq: boolean;
   tags: EventTag[];
   bucket: EventBucket;

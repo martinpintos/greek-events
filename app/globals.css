@@ -108,6 +108,12 @@
     letter-spacing: 0;
     text-wrap: balance;
   }
+  .display-h-strong {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0;
+    text-wrap: balance;
+  }
   .hero-noise::after {
     content: "";
     position: absolute;

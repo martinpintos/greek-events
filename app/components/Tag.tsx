@@ -1,11 +1,17 @@
-type TagKind = "default" | "queer" | "after-hours" | "sunset" | "free" | "day" | "locals" | "season-opener";
+type TagKind =
+  | "default"
+  | "queer"
+  | "after-hours"
+  | "sunset"
+  | "day"
+  | "locals"
+  | "season-opener";
 
 const STYLES: Record<TagKind, string> = {
   default: "border-hairline text-mute",
   queer: "border-queer text-queer",
   "after-hours": "border-ink text-ink",
   sunset: "border-hairline text-mute",
-  free: "border-ink text-ink font-semibold",
   day: "border-hairline text-mute",
   locals: "border-hairline text-mute",
   "season-opener": "border-accent text-accent",

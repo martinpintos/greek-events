@@ -25,7 +25,7 @@ export default async function Home() {
       <Header />
       <main>
         {showHomeHero && (
-          <div className="mx-auto max-w-5xl px-4 md:px-8 pt-8 md:pt-12 pb-5 md:pb-7">
+          <div className="mx-auto max-w-5xl px-5 md:px-8 pt-8 md:pt-12 pb-5 md:pb-7">
             <div className="eyebrow eyebrow-accent mb-3 inline-flex items-center gap-2">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-accent" />
               Across the Greek islands

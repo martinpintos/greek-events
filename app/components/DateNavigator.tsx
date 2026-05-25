@@ -73,8 +73,8 @@ export function DateNavigator({
 
   return (
     <section className="border-b border-hairline bg-paper">
-      <div className="mx-auto max-w-5xl px-4 md:px-8">
-        <div className="grid grid-cols-[2.5rem_minmax(0,1fr)_2.5rem_auto] md:grid-cols-[2rem_8rem_2rem_auto] items-center gap-2 py-3 md:w-fit md:gap-2 md:py-3">
+      <div className="mx-auto max-w-5xl px-5 md:px-8">
+        <div className="grid grid-cols-[2.5rem_minmax(0,1fr)_2.5rem_auto] md:grid-cols-[2.25rem_8rem_2.25rem_auto] items-stretch gap-2 py-3 md:w-fit md:gap-2 md:py-3">
           <button
             type="button"
             onClick={() => {
@@ -82,7 +82,7 @@ export function DateNavigator({
               onJumpMonth(-1);
             }}
             disabled={!canPrev}
-            className="w-10 h-10 md:w-8 md:h-8 grid place-items-center border border-line disabled:opacity-25 disabled:cursor-not-allowed hover:bg-ink hover:text-paper transition-colors"
+            className="w-10 h-10 md:w-9 md:h-9 grid place-items-center border border-line disabled:opacity-25 disabled:cursor-not-allowed hover:bg-ink hover:text-paper transition-colors"
             aria-label="Previous month"
           >
             <Icon name="chevron_l" size={14} stroke={2} />
@@ -90,7 +90,7 @@ export function DateNavigator({
           <button
             type="button"
             onClick={() => setShowMonths((v) => !v)}
-            className="display-h h-10 md:h-8 min-h-10 md:min-h-8 box-border text-[22px] md:text-[18px] leading-none px-1 md:px-2 inline-flex items-center justify-center gap-2 border border-transparent hover:text-accent transition-colors"
+            className="display-h h-10 md:h-9 box-border text-[22px] md:text-[18px] leading-none px-1 md:px-2 inline-flex items-center justify-center gap-2 border border-transparent hover:text-accent transition-colors"
             aria-expanded={showMonths}
           >
             {monthLabel(selectedISO)}
@@ -103,14 +103,14 @@ export function DateNavigator({
               onJumpMonth(1);
             }}
             disabled={!canNext}
-            className="w-10 h-10 md:w-8 md:h-8 grid place-items-center border border-line disabled:opacity-25 disabled:cursor-not-allowed hover:bg-ink hover:text-paper transition-colors"
+            className="w-10 h-10 md:w-9 md:h-9 grid place-items-center border border-line disabled:opacity-25 disabled:cursor-not-allowed hover:bg-ink hover:text-paper transition-colors"
             aria-label="Next month"
           >
             <Icon name="chevron_r" size={14} stroke={2} />
           </button>
           <OverlayButton
             kind="filter"
-            className="h-10 md:h-8 min-h-10 md:min-h-8 box-border px-3 md:px-3 inline-flex items-center gap-2 border border-line font-mono text-[10px] md:text-[9px] leading-none font-semibold uppercase tracking-[0.16em] hover:bg-ink hover:text-paper transition-colors"
+            className="h-10 md:h-9 box-border px-3 md:px-3 inline-flex items-center gap-2 border border-line font-mono text-[10px] md:text-[9px] leading-none font-semibold uppercase tracking-[0.16em] hover:bg-ink hover:text-paper transition-colors"
             ariaLabel="Filter"
           >
             <Icon name="filter" size={13} />
@@ -124,7 +124,7 @@ export function DateNavigator({
         </div>
 
         {showMonths ? (
-          <div className="-mx-4 md:mx-0 px-4 md:px-0 pb-5">
+          <div className="-mx-5 md:mx-0 px-5 md:px-0 pb-5">
             <div className="grid grid-cols-6 gap-1.5 md:flex md:w-fit md:gap-2">
               {seasonMonths.map((month) => {
                 const iso = `${selectedYear}-${String(month).padStart(2, "0")}-01`;
@@ -158,7 +158,7 @@ export function DateNavigator({
             </div>
           </div>
         ) : (
-          <div className="-mx-4 md:mx-0 px-4 md:px-0 pb-3 md:pb-5">
+          <div className="-mx-5 md:mx-0 px-5 md:px-0 pb-3 md:pb-5">
             <div className="flex gap-1.5 md:gap-2">
               <button
                 type="button"

@@ -9,7 +9,7 @@ export function Footer() {
     <footer className="mt-6 md:mt-8 bg-ink text-paper relative">
       <div className="absolute inset-x-0 top-0 h-1.5 ticket-stub" />
 
-      <div className="mx-auto max-w-5xl px-4 md:px-8 py-10 md:py-14">
+      <div className="mx-auto max-w-5xl px-5 md:px-8 py-10 md:py-14">
         <div className="grid grid-cols-1 md:grid-cols-[1.45fr_0.9fr_1fr] gap-y-9 md:gap-14">
           <div>
             <div className="eyebrow text-faint flex items-center gap-2 mb-3">

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="mx-auto max-w-2xl px-4 md:px-8 py-24 md:py-40 text-center">
+    <div className="mx-auto max-w-2xl px-5 md:px-8 py-24 md:py-40 text-center">
       <div className="eyebrow eyebrow-accent mb-4">
         404 · Lost in the queue
       </div>

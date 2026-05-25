@@ -178,7 +178,6 @@ export function deriveEvent(row: EventRow, venuesById: Map<number, Venue>): Deri
     venue,
     tiers,
     priceFrom: lowest?.price ?? null,
-    isFree: lowest?.price === 0,
     lgbtq: row.is_lgbtq ?? false,
     tags: tagsFor(row, venue),
     bucket: bucketFor(row.start_time),
@@ -196,9 +195,14 @@ export function deriveEvents(
     .map((r) => deriveEvent(r, byId));
 }
 
+const HERO_VENUE_PRIORITY = ["scorpios", "alemagou", "santanna"];
+
 export function pickHero(events: DerivedEvent[]): DerivedEvent | null {
   if (events.length === 0) return null;
-  // Prefer Cavo Paradiso (club) late-night, else any after-hours, else first.
+  for (const slug of HERO_VENUE_PRIORITY) {
+    const match = events.find((e) => e.venue.slug === slug);
+    if (match) return match;
+  }
   const cavo = events.find(
     (e) => e.venue.slug === "cavo-paradiso" && e.tags.includes("after-hours")
   );
@@ -206,6 +210,21 @@ export function pickHero(events: DerivedEvent[]): DerivedEvent | null {
   const ah = events.find((e) => e.tags.includes("after-hours"));
   if (ah) return ah;
   return events[0];
+}
+
+export type DayGroup = { date: string; events: DerivedEvent[] };
+
+export function groupByDate(events: DerivedEvent[]): DayGroup[] {
+  const groups: DayGroup[] = [];
+  let current: DayGroup | null = null;
+  for (const ev of events) {
+    if (!current || current.date !== ev.date) {
+      current = { date: ev.date, events: [] };
+      groups.push(current);
+    }
+    current.events.push(ev);
+  }
+  return groups;
 }
 
 export function partitionByBucket(events: DerivedEvent[]): {

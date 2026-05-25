@@ -34,7 +34,6 @@ export function FilterSheet({
       venueTypes: (sp.get("type")?.split(",").filter(Boolean) ?? []) as VenueType[],
       queer: sp.get("queer") === "1",
       afterHours: sp.get("after") === "1",
-      freeOnly: sp.get("free") === "1",
     }),
     [sp],
   );
@@ -81,7 +80,6 @@ export function FilterSheet({
       venueTypes: [],
       queer: false,
       afterHours: false,
-      freeOnly: false,
     });
 
   const apply = () => {
@@ -261,12 +259,6 @@ export function FilterSheet({
                 onClick={() => setDraft({ ...draft, afterHours: !draft.afterHours })}
               >
                 After-hours
-              </Toggle>
-              <Toggle
-                on={draft.freeOnly}
-                onClick={() => setDraft({ ...draft, freeOnly: !draft.freeOnly })}
-              >
-                Free entry
               </Toggle>
             </div>
           </Group>

@@ -147,19 +147,19 @@ export default async function EventPage({
         >
           <div className="absolute inset-0 detail-hero-scrim" />
           <div className="hero-stripes relative min-h-[244px] md:min-h-[360px] lg:min-h-[390px]">
-            <div className="absolute inset-0 flex flex-col justify-center px-4 md:px-8 py-6 gap-1 md:gap-2 pointer-events-none opacity-90">
-              <div className="display-h text-[76px] md:text-[170px] lg:text-[220px] leading-[0.82] uppercase text-white/[0.09] truncate">
+            <div className="absolute inset-0 flex flex-col justify-center px-5 md:px-8 py-8 md:py-10 gap-1.5 md:gap-2 pointer-events-none opacity-90 overflow-hidden">
+              <div className="display-h text-[64px] md:text-[clamp(72px,6vw,116px)] leading-[0.86] uppercase text-white/[0.09] whitespace-nowrap">
                 {stripText}
               </div>
-              <div className="display-h text-[76px] md:text-[170px] lg:text-[220px] leading-[0.82] uppercase text-white/[0.08] truncate text-right">
+              <div className="display-h text-[64px] md:text-[clamp(72px,6vw,116px)] leading-[0.86] uppercase text-white/[0.08] whitespace-nowrap text-right">
                 MYK
               </div>
-              <div className="display-h text-[76px] md:text-[170px] lg:text-[220px] leading-[0.82] uppercase text-white/[0.08] truncate">
+              <div className="display-h text-[64px] md:text-[clamp(72px,6vw,116px)] leading-[0.86] uppercase text-white/[0.08] whitespace-nowrap">
                 {ev.startTime}
               </div>
             </div>
 
-            <div className="relative mx-auto max-w-5xl px-4 md:px-8 pt-20 md:pt-28 pb-10 md:pb-14">
+            <div className="relative mx-auto max-w-5xl px-5 md:px-8 min-h-[244px] md:min-h-[360px] lg:min-h-[390px] pt-20 md:pt-28 pb-10 md:pb-14 flex flex-col items-start justify-end">
               <div className="inline-flex items-center gap-3 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md text-paper font-mono text-[10px] uppercase tracking-[0.14em] mb-4">
                 <span className="inline-flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent pulse-dot" />
@@ -192,28 +192,24 @@ export default async function EventPage({
         </section>
 
         {ev.tiers.length === 0 && (
-          <section className="mx-auto max-w-5xl px-4 md:px-8 pt-6 lg:hidden">
+          <section className="mx-auto max-w-5xl px-5 md:px-8 pt-6 lg:hidden">
             <TicketBar ev={ev} inline />
           </section>
         )}
 
-        <div className="mx-auto max-w-5xl px-4 md:px-8 py-8 md:py-12">
+        <div className="mx-auto max-w-5xl px-5 md:px-8 py-8 md:py-12">
           <div className="grid lg:grid-cols-[1fr_320px] gap-10 lg:gap-14 items-start">
             <div className="min-w-0 space-y-10">
               {(ev.offTheRecord || ev.lgbtq || ev.tags.length > 0) && (
-                <section>
+                <section className="space-y-7">
                   {ev.offTheRecord && (
-                    <>
-                      <SectionLabel>Off the record</SectionLabel>
-                      <p className="display-h text-xl md:text-2xl leading-[1.32] m-0">
-                        {ev.offTheRecord}
-                      </p>
-                    </>
+                    <p className="display-h text-xl md:text-2xl leading-[1.32] m-0">
+                      <span className="text-accent">Off the record &mdash; </span>
+                      {ev.offTheRecord}
+                    </p>
                   )}
                   {(ev.lgbtq || ev.tags.length > 0) && (
-                    <div
-                      className={`flex flex-wrap gap-2 ${ev.offTheRecord ? "mt-4" : ""}`}
-                    >
+                    <div className="flex flex-wrap gap-2">
                       {ev.lgbtq && (
                         <Tag kind="queer" size="lg">
                           Queer-friendly
@@ -259,11 +255,11 @@ export default async function EventPage({
                 <SectionLabel>The venue</SectionLabel>
                 <Link
                   href={`/mykonos/${ev.venue.slug}`}
-                  className="block group h-[150px] md:h-[158px] border border-line bg-paper-3 p-4 overflow-hidden hover:bg-paper-2 transition-colors"
+                  className="mt-4 block group border border-line bg-paper-3 p-4 md:p-5 hover:bg-paper-2 transition-colors"
                 >
-                  <div className="grid h-full grid-cols-[124px_1fr] md:grid-cols-[136px_1fr] gap-4 md:gap-5 items-center">
+                  <div className="grid grid-cols-[92px_1fr] sm:grid-cols-[108px_1fr] md:grid-cols-[124px_1fr] gap-4 md:gap-5 items-center">
                     <div
-                      className="w-full aspect-[4/3] border border-line bg-paper-2 grid place-items-center overflow-hidden font-mono text-[10px] uppercase tracking-widest text-mute"
+                      className="w-full aspect-[5/6] border border-line bg-paper-2 grid place-items-center overflow-hidden font-mono text-[10px] uppercase tracking-widest text-mute"
                       style={
                         ev.venue.image_url
                           ? {
@@ -281,8 +277,8 @@ export default async function EventPage({
                           .join("")
                           .slice(0, 3)}
                     </div>
-                    <div className="min-w-0 flex flex-col gap-1.5">
-                      <span className="display-h text-xl md:text-2xl leading-none">
+                    <div className="min-w-0 flex flex-col justify-center gap-2">
+                      <span className="display-h-strong text-[22px] md:text-[26px] leading-none">
                         {ev.venue.name}
                       </span>
                       <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-mute">
@@ -295,7 +291,7 @@ export default async function EventPage({
                         · {ev.venue.area ?? ev.venue.city}
                       </span>
                       {ev.venue.description && (
-                        <span className="text-[13px] leading-relaxed text-ink-2 clamp-4">
+                        <span className="text-[13px] leading-[1.35] text-ink-2 clamp-4">
                           {ev.venue.description}
                         </span>
                       )}
@@ -384,7 +380,7 @@ export default async function EventPage({
         {ev.tiers.length > 0 && <TicketBar ev={ev} />}
 
         {related.length > 0 && (
-          <section className="mx-auto max-w-5xl px-4 md:px-8 mt-8 md:mt-10">
+          <section className="mx-auto max-w-5xl px-5 md:px-8 mt-8 md:mt-10">
             <div className="eyebrow rule-label mb-3 opacity-75">
               If you like this
             </div>

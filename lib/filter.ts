@@ -6,7 +6,6 @@ export type FilterState = {
   venueTypes: VenueType[];
   queer: boolean;
   afterHours: boolean;
-  freeOnly: boolean;
 };
 
 export const EMPTY_FILTERS: FilterState = {
@@ -15,7 +14,6 @@ export const EMPTY_FILTERS: FilterState = {
   venueTypes: [],
   queer: false,
   afterHours: false,
-  freeOnly: false,
 };
 
 function splitList(raw: string | undefined): string[] {
@@ -40,7 +38,6 @@ export function filtersFromSearchParams(
     venueTypes: splitList(get("type")) as VenueType[],
     queer: get("queer") === "1",
     afterHours: get("after") === "1",
-    freeOnly: get("free") === "1",
   };
 }
 
@@ -51,7 +48,6 @@ export function filtersToQuery(f: FilterState): URLSearchParams {
   if (f.venueTypes.length) p.set("type", f.venueTypes.join(","));
   if (f.queer) p.set("queer", "1");
   if (f.afterHours) p.set("after", "1");
-  if (f.freeOnly) p.set("free", "1");
   return p;
 }
 
@@ -61,8 +57,7 @@ export function activeFilterCount(f: FilterState): number {
     f.venues.length +
     f.venueTypes.length +
     (f.queer ? 1 : 0) +
-    (f.afterHours ? 1 : 0) +
-    (f.freeOnly ? 1 : 0)
+    (f.afterHours ? 1 : 0)
   );
 }
 
@@ -80,7 +75,6 @@ export function applyFilters(
       return false;
     if (f.queer && !e.lgbtq) return false;
     if (f.afterHours && !e.tags.includes("after-hours")) return false;
-    if (f.freeOnly && !(e.isFree || e.tiers.length === 0)) return false;
     return true;
   });
 }

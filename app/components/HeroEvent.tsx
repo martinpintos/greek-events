@@ -4,9 +4,18 @@ import { islandById } from "@/lib/islands";
 import type { DerivedEvent } from "@/lib/types";
 import { Icon } from "./Icon";
 
+function backdropNames(ev: DerivedEvent): string[] {
+  const names = ev.lineup.filter(Boolean);
+  const source = names.length > 0 ? names : [ev.title];
+
+  if (source.length === 1) return [source[0], source[0], source[0]];
+  if (source.length === 2) return [source[0], source[1], source[0]];
+  return source.slice(0, 3);
+}
+
 export function HeroEvent({ ev }: { ev: DerivedEvent }) {
   const href = `/mykonos/${ev.venue.slug}/${ev.slug}`;
-  const lead = (ev.lineup[0] || ev.title).toUpperCase();
+  const backdrop = backdropNames(ev);
   const islandName = islandById(ev.venue.island).name.toUpperCase();
   const accent =
     ev.palette.find((color) => color !== "#0c0c0c" && color !== "#f6f4ee") ??
@@ -21,24 +30,23 @@ export function HeroEvent({ ev }: { ev: DerivedEvent }) {
   return (
     <Link
       href={href}
-      className="group block w-full max-w-[380px] md:max-w-[560px] border border-accent/70 bg-paper p-1.5 shadow-[0_18px_34px_rgba(255,77,46,0.16),0_18px_38px_rgba(12,12,12,0.16)] transition-shadow hover:shadow-[0_20px_38px_rgba(255,77,46,0.2),0_22px_42px_rgba(12,12,12,0.2)]"
+      className="group block w-full border border-accent/70 bg-paper p-1.5 shadow-[0_18px_34px_rgba(255,77,46,0.16),0_18px_38px_rgba(12,12,12,0.16)] transition-shadow hover:shadow-[0_20px_38px_rgba(255,77,46,0.2),0_22px_42px_rgba(12,12,12,0.2)]"
     >
       <div
-        className="hero-stripes hero-noise relative aspect-[4/5] md:aspect-[16/10] overflow-hidden bg-ink text-paper"
+        className="hero-stripes hero-noise relative aspect-[4/5] md:aspect-[16/9] overflow-hidden bg-ink text-paper"
         style={style}
       >
         <div className="absolute inset-0 featured-card-scrim z-[1]" />
         {/* Decorative repeating type backdrop */}
-        <div className="absolute inset-0 flex flex-col justify-center px-5 md:px-9 pt-12 pb-24 md:pb-28 gap-2 pointer-events-none">
-          <div className="display-h text-[68px] md:text-[116px] leading-[0.82] uppercase text-white/[0.14] truncate">
-            {lead}
-          </div>
-          <div className="display-h text-[68px] md:text-[116px] leading-[0.82] uppercase text-white/[0.12] truncate text-right">
-            {lead}
-          </div>
-          <div className="display-h text-[68px] md:text-[116px] leading-[0.82] uppercase text-white/[0.12] truncate">
-            {lead}
-          </div>
+        <div className="absolute left-0 right-0 top-[76px] bottom-[118px] md:top-[82px] md:bottom-[132px] flex flex-col items-center justify-center px-5 md:px-9 gap-1.5 md:gap-2 pointer-events-none overflow-hidden">
+          {backdrop.map((name, i) => (
+            <div
+              key={`${name}-${i}`}
+              className="display-h text-center text-[58px] md:text-[clamp(68px,5.7vw,88px)] leading-[0.86] uppercase text-white/[0.12] whitespace-nowrap"
+            >
+              {name.toUpperCase()}
+            </div>
+          ))}
         </div>
 
         {/* Eyebrow */}

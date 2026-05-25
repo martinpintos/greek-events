@@ -22,7 +22,7 @@ export function EventCard({
     >
       <div
         className={[
-          "grid gap-3 md:gap-6 px-4 md:px-6 py-4 md:py-5 items-start",
+          "grid gap-3 md:gap-6 px-5 md:px-6 py-4 md:py-5 items-start",
           showDate
             ? "grid-cols-[44px_56px_1fr_auto] md:grid-cols-[56px_72px_1fr_auto]"
             : "grid-cols-[60px_1fr_auto] md:grid-cols-[80px_1fr_auto]",
@@ -39,7 +39,7 @@ export function EventCard({
           </div>
         )}
         <div className="flex flex-col gap-0.5 pt-0.5">
-          <span className="display-h text-[17px] md:text-xl leading-none">
+          <span className="display-h-strong text-[17px] md:text-xl leading-none">
             {ev.startTime}
           </span>
           <span className="font-mono text-[10px] md:text-[11px] text-mute leading-none mt-1">
@@ -67,15 +67,11 @@ export function EventCard({
           {!compact && (ev.tags.length > 0 || ev.lgbtq) && (
             <div className="flex flex-wrap gap-1.5 mt-2.5">
               {ev.lgbtq && <Tag kind="queer">Queer</Tag>}
-              {ev.tags.includes("after-hours") && (
-                <Tag kind="after-hours">After-hours</Tag>
-              )}
+              {ev.tags.includes("after-hours") && <Tag kind="after-hours">After-hours</Tag>}
               {ev.tags.includes("sunset") && <Tag kind="sunset">Sunset</Tag>}
               {ev.tags.includes("day") && <Tag kind="day">Day</Tag>}
               {ev.tags.includes("locals") && <Tag kind="locals">Locals</Tag>}
-              {ev.tags.includes("season-opener") && (
-                <Tag kind="season-opener">Season opener</Tag>
-              )}
+              {ev.tags.includes("season-opener") && <Tag kind="season-opener">Season opener</Tag>}
             </div>
           )}
 
@@ -95,10 +91,6 @@ export function EventCard({
           {ev.tiers.length === 0 ? (
             <span className="font-mono text-[10px] uppercase tracking-wider text-mute whitespace-nowrap">
               At the door
-            </span>
-          ) : ev.isFree ? (
-            <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-ink bg-paper-2 border border-line px-2 py-0.5">
-              Free
             </span>
           ) : (
             <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-accent whitespace-nowrap">

@@ -19,7 +19,7 @@ export default async function About() {
   return (
     <ChromeOverlays events={events} venues={venues}>
       <Header />
-      <main className="mx-auto max-w-3xl px-4 md:px-8 py-10 md:py-16">
+      <main className="mx-auto max-w-3xl px-5 md:px-8 py-10 md:py-16">
         <div className="eyebrow eyebrow-accent mb-3 inline-flex items-center gap-2">
           <span className="inline-block w-1.5 h-1.5 rounded-full bg-accent" />
           About

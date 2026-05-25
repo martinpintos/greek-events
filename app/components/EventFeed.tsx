@@ -5,12 +5,19 @@ import { EventCard } from "./EventCard";
 function SectionHeader({
   title,
   meta,
+  first,
 }: {
   title: string;
   meta: string;
+  first: boolean;
 }) {
   return (
-    <div className="flex items-baseline justify-between gap-4 px-4 md:px-6 pt-8 pb-2">
+    <div
+      className={[
+        "flex items-baseline justify-between gap-4 px-5 md:px-6 pb-2",
+        first ? "pt-0" : "pt-5 md:pt-6",
+      ].join(" ")}
+    >
       <h3 className="display-h text-[22px] md:text-2xl m-0">{title}</h3>
       <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-mute">
         {meta}
@@ -35,38 +42,43 @@ export function EventFeed({ events }: { events: DerivedEvent[] }) {
     );
   }
 
+  const buckets = [
+    {
+      key: "sundown",
+      items: sundown,
+      title: "Sundown",
+      meta: "Day → dusk · 13:00-21:00",
+    },
+    {
+      key: "prime",
+      items: prime,
+      title: "Prime time",
+      meta: "21:00 onwards",
+    },
+    {
+      key: "late",
+      items: late,
+      title: "After-hours",
+      meta: "When it actually starts",
+    },
+  ].filter((b) => b.items.length > 0);
+
   return (
     <div>
-      {sundown.length > 0 && (
-        <section>
-          <SectionHeader title="Sundown" meta="Day → dusk · 13:00-21:00" />
+      {buckets.map((bucket, idx) => (
+        <section key={bucket.key}>
+          <SectionHeader
+            title={bucket.title}
+            meta={bucket.meta}
+            first={idx === 0}
+          />
           <div>
-            {sundown.map((ev) => (
+            {bucket.items.map((ev) => (
               <EventCard key={ev.id} ev={ev} />
             ))}
           </div>
         </section>
-      )}
-      {prime.length > 0 && (
-        <section>
-          <SectionHeader title="Prime time" meta="21:00 onwards" />
-          <div>
-            {prime.map((ev) => (
-              <EventCard key={ev.id} ev={ev} />
-            ))}
-          </div>
-        </section>
-      )}
-      {late.length > 0 && (
-        <section>
-          <SectionHeader title="After-hours" meta="When it actually starts" />
-          <div>
-            {late.map((ev) => (
-              <EventCard key={ev.id} ev={ev} />
-            ))}
-          </div>
-        </section>
-      )}
+      ))}
     </div>
   );
 }
