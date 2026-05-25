@@ -42,7 +42,7 @@ export function HeroEvent({ ev }: { ev: DerivedEvent }) {
           {backdrop.map((name, i) => (
             <div
               key={`${name}-${i}`}
-              className="display-h text-left text-[54px] md:text-[60px] lg:text-[72px] leading-[0.82] tracking-[-0.03em] uppercase text-white/[0.1] whitespace-nowrap"
+              className="display-h text-left text-[54px] md:text-[60px] lg:text-[72px] leading-[0.82] tracking-[-0.03em] uppercase text-white/[0.12] whitespace-nowrap"
             >
               {name.toUpperCase()}
             </div>
