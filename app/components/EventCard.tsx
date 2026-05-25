@@ -53,7 +53,7 @@ export function EventCard({
           {/* Title */}
           <h3
             className={[
-              "display-h leading-[1.12] mb-1.5 group-hover:text-ink-2",
+              "display-h leading-[1.12] mb-2 group-hover:text-ink-2",
               compact ? "text-[18px] md:text-[22px]" : "text-[19px] md:text-[23px]",
             ].join(" ")}
           >
@@ -70,7 +70,7 @@ export function EventCard({
           )}
 
           {!compact && (ev.tags.length > 0 || ev.lgbtq) && (
-            <div className="flex flex-wrap gap-1.5 mt-1.5">
+            <div className="flex flex-wrap gap-1.5 mt-2">
               {ev.lgbtq && <Tag kind="queer">Queer</Tag>}
               {ev.tags.includes("after-hours") && <Tag kind="after-hours">After-hours</Tag>}
               {ev.tags.includes("sunset") && <Tag kind="sunset">Sunset</Tag>}
