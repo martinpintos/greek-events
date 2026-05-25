@@ -48,9 +48,9 @@ function startHour(start: string | null): number {
 
 function bucketFor(start: string | null): EventBucket {
   const h = startHour(start);
-  if (h >= 12 && h < 21) return "sundown";
-  if (h >= 21 || h < 4) return "prime";
-  return "late";
+  if (h >= 5 && h < 12) return "late";
+  if (h >= 12 && h < 22) return "sundown";
+  return "prime";
 }
 
 function tagsFor(row: EventRow, venue: Venue): EventTag[] {

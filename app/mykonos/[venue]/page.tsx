@@ -50,24 +50,28 @@ export default async function VenuePage({ params }: { params: Promise<{ venue: s
       <Header />
       <main>
         {/* Hero image / banner */}
-        <section
-          className="relative overflow-hidden border-b border-line"
-          style={{
-            backgroundImage: venue.image_url ? `url(${venue.image_url})` : undefined,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundColor: venue.image_url ? undefined : "var(--color-paper-2)",
-          }}
-        >
+        <section className="relative overflow-hidden border-b border-line bg-paper-2">
           <div className="aspect-video md:aspect-21/9 max-h-120" />
           {venue.image_url && (
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.5) 100%)",
-              }}
-            />
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={venue.image_url}
+                alt=""
+                aria-hidden
+                fetchPriority="high"
+                loading="eager"
+                decoding="async"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background:
+                    "linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.5) 100%)",
+                }}
+              />
+            </>
           )}
           <div className="absolute left-0 right-0 bottom-0 p-4 md:p-8 text-paper">
             <div className="mx-auto max-w-5xl">

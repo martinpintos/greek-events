@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { getAllEvents, getVenues } from "@/lib/data";
 import { todayISO } from "@/lib/format";
 import { Header } from "../components/Header";
@@ -6,7 +7,7 @@ import { Footer } from "../components/Footer";
 import { ChromeOverlays } from "../components/ChromeOverlays";
 import { CalendarBody } from "../components/CalendarBody";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Mykonos | Clubs, beach clubs, late nights",
@@ -39,7 +40,9 @@ export default async function MykonosHub() {
           </p>
         </div>
 
-        <CalendarBody allEvents={mykonosEvents} islandLock="mykonos" today={today} />
+        <Suspense fallback={null}>
+          <CalendarBody allEvents={mykonosEvents} islandLock="mykonos" today={today} />
+        </Suspense>
       </main>
       <Footer />
     </ChromeOverlays>

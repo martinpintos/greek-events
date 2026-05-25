@@ -6,6 +6,7 @@ import type { DerivedEvent, IslandId, Venue, VenueType } from "@/lib/types";
 import { applyFilters, filtersToQuery, type FilterState } from "@/lib/filter";
 import { ISLANDS } from "@/lib/islands";
 import { Icon } from "./Icon";
+import { useFocusTrap } from "./useFocusTrap";
 
 const VENUE_TYPES: { id: VenueType; name: string }[] = [
   { id: "club", name: "Clubs" },
@@ -38,6 +39,7 @@ export function FilterSheet({
     [sp],
   );
   const [draft, setDraft] = useState<FilterState>(initial);
+  const dialogRef = useFocusTrap<HTMLDivElement>(true);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -98,12 +100,16 @@ export function FilterSheet({
       onClick={onClose}
     >
       <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="filter-sheet-title"
         onClick={(e) => e.stopPropagation()}
         className="w-full md:max-w-md bg-paper flex flex-col max-h-[92vh] md:max-h-[80vh] rounded-t-2xl md:rounded-2xl overflow-hidden"
         style={{ animation: "slide-up 260ms cubic-bezier(.2,.7,.2,1)" }}
       >
         <div className="flex items-center justify-between gap-3 px-5 pt-5 pb-2">
-          <h2 className="display-h text-3xl m-0">Filter</h2>
+          <h2 id="filter-sheet-title" className="display-h text-3xl m-0">Filter</h2>
           <button
             type="button"
             onClick={onClose}

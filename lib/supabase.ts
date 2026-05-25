@@ -1,12 +1,14 @@
+import "server-only";
+
 import { createClient } from "@supabase/supabase-js";
 import type { EventRow, VenueRow } from "./types";
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+const url = process.env.SUPABASE_URL;
+const key = process.env.SUPABASE_KEY;
 
 if (!url || !key) {
   throw new Error(
-    "Supabase env vars missing. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY in .env.local."
+    "Supabase env vars missing. Set SUPABASE_URL and SUPABASE_KEY in .env.local."
   );
 }
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { getAllEvents, getVenues } from "@/lib/data";
 import { todayISO } from "@/lib/format";
 import { Header } from "./components/Header";
@@ -6,7 +7,7 @@ import { Footer } from "./components/Footer";
 import { ChromeOverlays } from "./components/ChromeOverlays";
 import { CalendarBody } from "./components/CalendarBody";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Nightly.gr | Greek islands, in the know.",
@@ -41,7 +42,9 @@ export default async function Home() {
           </div>
         )}
 
-        <CalendarBody allEvents={events} today={today} />
+        <Suspense fallback={null}>
+          <CalendarBody allEvents={events} today={today} />
+        </Suspense>
       </main>
       <Footer />
     </ChromeOverlays>

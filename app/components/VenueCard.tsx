@@ -17,15 +17,20 @@ export function VenueCard({ venue }: { venue: Venue }) {
       className="block group border border-line bg-paper-3 hover:bg-paper-2 transition-colors"
     >
       <div className="grid grid-cols-[80px_1fr] gap-4 p-4">
-        <div
-          className="aspect-square border border-line bg-paper-2 grid place-items-center overflow-hidden font-mono text-[10px] uppercase tracking-widest text-mute"
-          style={
-            venue.image_url
-              ? { backgroundImage: `url(${venue.image_url})`, backgroundSize: "cover", backgroundPosition: "center" }
-              : undefined
-          }
-        >
-          {!venue.image_url && initials(venue.name)}
+        <div className="relative aspect-square border border-line bg-paper-2 grid place-items-center overflow-hidden font-mono text-[10px] uppercase tracking-widest text-mute">
+          {venue.image_url ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={venue.image_url}
+              alt=""
+              aria-hidden
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          ) : (
+            initials(venue.name)
+          )}
         </div>
         <div className="min-w-0 flex flex-col gap-1.5">
           <span className="display-h text-xl leading-none">{venue.name}</span>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getAllEvents, getEventBySlug, getVenues } from "@/lib/data";
-import { parseISO } from "@/lib/format";
+import { addDays, parseISO } from "@/lib/format";
 import { fetchAllEvents, fetchAllVenues } from "@/lib/supabase";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
@@ -90,12 +90,16 @@ export default async function EventPage({
     tips.push("Cash works at the bar; cards work at the door.");
   }
 
+  const start = ev.startTime || "23:00";
+  const endsNextDay = !!ev.endTime && ev.endTime < start;
+  const endDateOnly = endsNextDay ? addDays(ev.date, 1) : ev.date;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Event",
     name: ev.title,
-    startDate: `${ev.date}T${ev.startTime || "23:00"}:00+03:00`,
-    endDate: ev.endTime ? `${ev.date}T${ev.endTime}:00+03:00` : undefined,
+    startDate: `${ev.date}T${start}:00+03:00`,
+    endDate: ev.endTime ? `${endDateOnly}T${ev.endTime}:00+03:00` : undefined,
     eventStatus: "https://schema.org/EventScheduled",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     location: {
@@ -239,24 +243,24 @@ export default async function EventPage({
                   className="mt-4 block group border border-line bg-paper-3 p-4 md:p-5 hover:bg-paper-2 transition-colors"
                 >
                   <div className="grid grid-cols-[92px_1fr] sm:grid-cols-[108px_1fr] md:grid-cols-[124px_1fr] gap-4 md:gap-5 items-center">
-                    <div
-                      className="w-full aspect-[5/6] border border-line bg-paper-2 grid place-items-center overflow-hidden font-mono text-[10px] uppercase tracking-widest text-mute"
-                      style={
-                        ev.venue.image_url
-                          ? {
-                              backgroundImage: `url(${ev.venue.image_url})`,
-                              backgroundSize: "cover",
-                              backgroundPosition: "center",
-                            }
-                          : undefined
-                      }
-                    >
-                      {!ev.venue.image_url &&
+                    <div className="relative w-full aspect-[5/6] border border-line bg-paper-2 grid place-items-center overflow-hidden font-mono text-[10px] uppercase tracking-widest text-mute">
+                      {ev.venue.image_url ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={ev.venue.image_url}
+                          alt=""
+                          aria-hidden
+                          loading="lazy"
+                          decoding="async"
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                      ) : (
                         ev.venue.name
                           .split(" ")
                           .map((w) => w[0])
                           .join("")
-                          .slice(0, 3)}
+                          .slice(0, 3)
+                      )}
                     </div>
                     <div className="min-w-0 flex flex-col justify-center gap-2">
                       <span className="display-h-strong text-[22px] md:text-[26px] leading-none">

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { fetchAllEvents, fetchAllVenues } from "@/lib/supabase";
+import { todayISO } from "@/lib/format";
 
 const BASE = "https://nightly.gr";
 
@@ -10,6 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]);
 
   const venueById = new Map(venues.map((v) => [v.id, v]));
+  const today = todayISO();
 
   const staticPaths: MetadataRoute.Sitemap = [
     { url: `${BASE}/`, changeFrequency: "daily", priority: 1.0 },
@@ -24,7 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const eventPaths: MetadataRoute.Sitemap = events
-    .filter((e) => venueById.has(e.venue_id))
+    .filter((e) => e.date >= today && venueById.has(e.venue_id))
     .map((e) => ({
       url: `${BASE}/mykonos/${venueById.get(e.venue_id)!.slug}/${e.slug}`,
       changeFrequency: "weekly",

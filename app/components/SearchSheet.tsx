@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import type { DerivedEvent } from "@/lib/types";
 import { parseISO } from "@/lib/format";
 import { Icon } from "./Icon";
+import { useFocusTrap } from "./useFocusTrap";
 
 const MONTHS: Record<string, number> = {
   jan: 1,
@@ -107,6 +108,7 @@ export function SearchSheet({
   const router = useRouter();
   const [q, setQ] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useFocusTrap<HTMLDivElement>(true);
 
   useEffect(() => {
     const id = setTimeout(() => inputRef.current?.focus(), 30);
@@ -164,6 +166,10 @@ export function SearchSheet({
       onClick={onClose}
     >
       <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Search events"
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-none md:max-w-2xl h-[86vh] md:h-auto md:min-h-[360px] md:max-h-[70vh] bg-paper flex flex-col rounded-t-2xl md:rounded-2xl overflow-hidden"
         style={{ animation: "slide-up 260ms cubic-bezier(.2,.7,.2,1)" }}

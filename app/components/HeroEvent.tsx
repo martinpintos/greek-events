@@ -14,7 +14,7 @@ function backdropNames(ev: DerivedEvent): string[] {
 }
 
 export function HeroEvent({ ev }: { ev: DerivedEvent }) {
-  const href = `/mykonos/${ev.venue.slug}/${ev.slug}`;
+  const href = `/${ev.venue.island}/${ev.venue.slug}/${ev.slug}`;
   const backdrop = backdropNames(ev);
   const islandName = islandById(ev.venue.island).name.toUpperCase();
   const accent =
@@ -38,11 +38,11 @@ export function HeroEvent({ ev }: { ev: DerivedEvent }) {
       >
         <div className="absolute inset-0 featured-card-scrim z-[1]" />
         {/* Decorative repeating type backdrop */}
-        <div className="absolute left-0 right-0 top-[76px] bottom-[118px] md:top-[82px] md:bottom-[132px] flex flex-col items-center justify-center px-5 md:px-9 gap-1.5 md:gap-2 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 flex flex-col justify-end px-[14px] pb-[116px] md:px-[18px] md:pb-[60px] lg:pb-[86px] pointer-events-none overflow-hidden">
           {backdrop.map((name, i) => (
             <div
               key={`${name}-${i}`}
-              className="display-h text-center text-[58px] md:text-[clamp(68px,5.7vw,88px)] leading-[0.86] uppercase text-white/[0.12] whitespace-nowrap"
+              className="display-h text-left text-[54px] md:text-[60px] lg:text-[72px] leading-[0.82] tracking-[-0.03em] uppercase text-white/[0.1] whitespace-nowrap"
             >
               {name.toUpperCase()}
             </div>

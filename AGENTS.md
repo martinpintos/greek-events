@@ -21,11 +21,11 @@ No test runner is configured. There is no separate typecheck script — `next bu
 
 ## Required env vars (`.env.local`)
 
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+- `SUPABASE_URL`
+- `SUPABASE_KEY`
 - `NIGHTLY_SHOW_HOME_HERO` (optional, `"true"` toggles the editorial hero block on `/`)
 
-Missing the two Supabase vars throws at import time from [lib/supabase.ts:7](lib/supabase.ts#L7).
+Missing the two Supabase vars throws at import time from [lib/supabase.ts:7](lib/supabase.ts#L7). `lib/supabase.ts` imports `server-only`, so it can never be bundled into a client component — keep DB calls in server components.
 
 ## Data flow (read this before touching anything that loads events)
 
@@ -46,7 +46,7 @@ App Router. Next 16 — `params` is a `Promise`, always `await` it.
 - `/about`
 - `/sitemap.xml`, `/robots.txt` — Metadata Route handlers in [app/sitemap.ts](app/sitemap.ts) / [app/robots.ts](app/robots.ts)
 
-`/` and `/mykonos` use `export const dynamic = "force-dynamic"`. Detail pages are ISR.
+All routes are ISR — `/` and `/mykonos` revalidate every hour, detail pages every hour.
 
 ## Calendar state lives in the URL
 
@@ -61,6 +61,6 @@ All dates are string-based ISO `YYYY-MM-DD`. The date helpers in [lib/format.ts]
 - Path alias: `@/*` → repo root (see [tsconfig.json](tsconfig.json)). Imports use `@/lib/...`, `@/app/components/...`.
 - Slug format: `{first-artist-lowercased-hyphenated}-{YYYY-MM-DD}`. Slugs are stored in the DB and are unique; don't recompute them.
 - Hero selection: [`pickHero`](lib/derive.ts) prefers Cavo Paradiso after-hours, then any after-hours, then first.
-- Buckets: events are grouped sundown (12–21h) / prime (21–04h) / late by `start_time` in [`bucketFor`](lib/derive.ts).
+- Buckets: events are grouped late (05–12h) / sundown (12–22h) / prime (22–05h) by `start_time` in [`bucketFor`](lib/derive.ts).
 - Islands: only `mykonos` is `active: true` in [lib/islands.ts](lib/islands.ts); the others are placeholders for v2.
 - Tickets: never handle payments — all CTAs are external links that open in a new tab.
