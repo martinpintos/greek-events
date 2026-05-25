@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import {
-  getAllEvents,
-  getEventBySlug,
-  getVenues,
-} from "@/lib/data";
+import { getAllEvents, getEventBySlug, getVenues } from "@/lib/data";
 import { parseISO } from "@/lib/format";
 import { fetchAllEvents, fetchAllVenues } from "@/lib/supabase";
 import { Header } from "@/app/components/Header";
@@ -23,10 +19,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 export async function generateStaticParams() {
-  const [events, venues] = await Promise.all([
-    fetchAllEvents(),
-    fetchAllVenues(),
-  ]);
+  const [events, venues] = await Promise.all([fetchAllEvents(), fetchAllVenues()]);
   const byId = new Map(venues.map((v) => [v.id, v]));
   return events
     .filter((e) => byId.has(e.venue_id))
@@ -69,12 +62,7 @@ export default async function EventPage({
   if (!ev || ev.venue.slug !== venueSlug) notFound();
 
   const related = allEvents
-    .filter(
-      (e) =>
-        e.id !== ev.id &&
-        e.venue.slug === ev.venue.slug &&
-        e.date >= ev.date,
-    )
+    .filter((e) => e.id !== ev.id && e.venue.slug === ev.venue.slug && e.date >= ev.date)
     .slice(0, 3);
 
   const dateText = parseISO(ev.date).toLocaleDateString("en-GB", {
@@ -91,9 +79,7 @@ export default async function EventPage({
 
   const tips: string[] = [...ev.venue.insiderTips];
   if (ev.tags.includes("after-hours")) {
-    tips.push(
-      "Door tightens after 1am. Be in by 12:30 or expect a queue in the wind.",
-    );
+    tips.push("Door tightens after 1am. Be in by 12:30 or expect a queue in the wind.");
   }
   if (ev.tags.includes("sunset")) {
     tips.push(
@@ -169,7 +155,7 @@ export default async function EventPage({
                 <span>
                   {ev.venue.venue_type === "beach_club"
                     ? "Beach"
-                    : ev.venue.venue_type ?? "Venue"}
+                    : (ev.venue.venue_type ?? "Venue")}
                 </span>
               </div>
               <h1 className="display-h text-[44px] md:text-6xl lg:text-7xl leading-[0.92] mb-4 md:mb-6 text-shadow-soft max-w-3xl">
@@ -238,13 +224,8 @@ export default async function EventPage({
                   <SectionLabel>Lineup</SectionLabel>
                   <div className="divide-y divide-hairline">
                     {ev.lineup.map((name, i) => (
-                      <div
-                        key={`${name}-${i}`}
-                        className="py-3 md:py-4"
-                      >
-                        <span className="display-h text-2xl md:text-3xl leading-tight">
-                          {name}
-                        </span>
+                      <div key={`${name}-${i}`} className="py-3 md:py-4">
+                        <span className="display-h text-2xl md:text-3xl leading-tight">{name}</span>
                       </div>
                     ))}
                   </div>
@@ -284,11 +265,9 @@ export default async function EventPage({
                       <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-mute">
                         {ev.venue.venue_type === "beach_club"
                           ? "Beach"
-                          : ev.venue.venue_type ?? "Venue"}
-                        {ev.venue.capacity
-                          ? ` · Cap ${ev.venue.capacity.toLocaleString()}`
-                          : ""}{" "}
-                        · {ev.venue.area ?? ev.venue.city}
+                          : (ev.venue.venue_type ?? "Venue")}
+                        {ev.venue.capacity ? ` · Cap ${ev.venue.capacity.toLocaleString()}` : ""} ·{" "}
+                        {ev.venue.area ?? ev.venue.city}
                       </span>
                       {ev.venue.description && (
                         <span className="text-[13px] leading-[1.35] text-ink-2 clamp-4">
@@ -325,9 +304,8 @@ export default async function EventPage({
                       <Icon name="ferry" size={14} />
                     </span>
                     <span>
-                      Ferries to {ev.venue.city} from Piraeus run morning,
-                      midday, evening. Last ferry off the island next morning
-                      ~07:30.
+                      Ferries to {ev.venue.city} from Piraeus run morning, midday, evening. Last
+                      ferry off the island next morning ~07:30.
                     </span>
                   </p>
                   <p className="grid grid-cols-[16px_1fr] gap-2 items-start m-0">
@@ -335,8 +313,8 @@ export default async function EventPage({
                       <Icon name="pin" size={14} />
                     </span>
                     <span>
-                      {ev.venue.name}, {ev.venue.area ?? ev.venue.city}. Road in
-                      jams up after 1am. Leave early or grab a moto.
+                      {ev.venue.name}, {ev.venue.area ?? ev.venue.city}. Road in jams up after 1am.
+                      Leave early or grab a moto.
                     </span>
                   </p>
                 </div>
@@ -381,12 +359,10 @@ export default async function EventPage({
 
         {related.length > 0 && (
           <section className="mx-auto max-w-5xl px-5 md:px-8 mt-8 md:mt-10">
-            <div className="eyebrow rule-label mb-3 opacity-75">
-              If you like this
-            </div>
+            <div className="eyebrow rule-label mb-3 opacity-75">If you like this</div>
             <div className="-mx-4 md:-mx-6">
               {related.map((r) => (
-                <EventCard key={r.id} ev={r} compact />
+                <EventCard key={r.id} ev={r} compact showDate />
               ))}
             </div>
           </section>

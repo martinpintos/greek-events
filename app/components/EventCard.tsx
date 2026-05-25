@@ -14,7 +14,7 @@ export function EventCard({
   showDate?: boolean;
   hideVenue?: boolean;
 }) {
-  const href = `/mykonos/${ev.venue.slug}/${ev.slug}`;
+  const href = `/${ev.venue.island}/${ev.venue.slug}/${ev.slug}`;
   return (
     <Link
       href={href}
@@ -38,7 +38,8 @@ export function EventCard({
             </span>
           </div>
         )}
-        <div className="flex flex-col gap-0.5 pt-0.5">
+
+        <div className="flex flex-col pt-0.5">
           <span className="display-h-strong text-[17px] md:text-xl leading-none">
             {ev.startTime}
           </span>
@@ -47,7 +48,9 @@ export function EventCard({
           </span>
         </div>
 
+        {/* Title and venue*/}
         <div className="min-w-0">
+          {/* Title */}
           <h3
             className={[
               "display-h leading-[1.12] mb-1.5 group-hover:text-ink-2",
@@ -56,8 +59,10 @@ export function EventCard({
           >
             {ev.title}
           </h3>
+
+          {/* Venue and area */}
           {!hideVenue && (
-            <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[12px] md:text-[13px] text-mute">
+            <div className="flex flex-wrap items-center gap-x-1.5 text-xs md:text-[13px] text-mute">
               <span className="font-medium text-ink">{ev.venue.name}</span>
               <span className="opacity-40">·</span>
               <span>{ev.venue.area ?? ev.venue.city}</span>
@@ -65,12 +70,11 @@ export function EventCard({
           )}
 
           {!compact && (ev.tags.length > 0 || ev.lgbtq) && (
-            <div className="flex flex-wrap gap-1.5 mt-2.5">
+            <div className="flex flex-wrap gap-1.5 mt-1.5">
               {ev.lgbtq && <Tag kind="queer">Queer</Tag>}
               {ev.tags.includes("after-hours") && <Tag kind="after-hours">After-hours</Tag>}
               {ev.tags.includes("sunset") && <Tag kind="sunset">Sunset</Tag>}
               {ev.tags.includes("day") && <Tag kind="day">Day</Tag>}
-              {ev.tags.includes("locals") && <Tag kind="locals">Locals</Tag>}
               {ev.tags.includes("season-opener") && <Tag kind="season-opener">Season opener</Tag>}
             </div>
           )}
@@ -87,7 +91,8 @@ export function EventCard({
           )}
         </div>
 
-        <div className="flex flex-col items-end gap-1 pt-1">
+        {/* Price and ticket info */}
+        <div className="flex flex-col items-end">
           {ev.tiers.length === 0 ? (
             <span className="font-mono text-[10px] uppercase tracking-wider text-mute whitespace-nowrap">
               At the door
