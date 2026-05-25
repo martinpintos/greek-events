@@ -287,7 +287,7 @@ export function CalendarBody({
     <div>
       <div
         ref={chromeRef}
-        className="sticky z-20 bg-paper transition-transform duration-300 ease-out will-change-transform"
+        className="sticky z-20 bg-paper transition-transform duration-500 ease-out will-change-transform"
         style={{
           top: "var(--header-h, 56px)",
           transform: "translateY(calc(var(--chrome-hidden, 0) * -200%))",

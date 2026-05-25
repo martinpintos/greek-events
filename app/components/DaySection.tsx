@@ -80,7 +80,6 @@ export function DaySection({
   const day = dayOfMonth(date);
   const monthShort = shortMonth(date);
   const eventCount = events.length;
-  const mobileStickyStyle: CSSProperties = { top: STICKY_OFFSET };
   const desktopStickyStyle: CSSProperties = { top: DESKTOP_STICKY_OFFSET };
   const scrollAnchorStyle: CSSProperties = {
     scrollMarginTop: STICKY_OFFSET,
@@ -91,11 +90,10 @@ export function DaySection({
       style={scrollAnchorStyle}
       className="border-t border-hairline first:border-t-0 pb-10 md:pb-14"
     >
-      {/* Mobile sticky header — divider below; high z-index so it never hides behind hero badges */}
+      {/* Mobile date header stays in normal document flow. */}
       <header
-        className="md:hidden sticky z-30 border-b border-hairline"
+        className="md:hidden border-b border-hairline"
         style={{
-          ...mobileStickyStyle,
           backgroundColor: isToday ? TODAY_TINT : "var(--color-paper)",
         }}
       >
