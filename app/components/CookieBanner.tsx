@@ -4,6 +4,7 @@ import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 
 const STORAGE_KEY = "nightly:cookies-ack";
+const ACK_MAX_AGE_MS = 1000 * 60 * 60 * 24 * 183;
 
 function subscribe(cb: () => void) {
   window.addEventListener("storage", cb);
@@ -12,7 +13,21 @@ function subscribe(cb: () => void) {
 
 function getAcked() {
   try {
-    return localStorage.getItem(STORAGE_KEY) ? "1" : "0";
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (!stored) return "0";
+
+    const timestamp = Number(stored);
+    if (!Number.isFinite(timestamp)) {
+      localStorage.removeItem(STORAGE_KEY);
+      return "0";
+    }
+
+    if (Date.now() - timestamp > ACK_MAX_AGE_MS) {
+      localStorage.removeItem(STORAGE_KEY);
+      return "0";
+    }
+
+    return "1";
   } catch {
     return "1";
   }
@@ -30,7 +45,7 @@ export function CookieBanner() {
 
   function accept() {
     try {
-      localStorage.setItem(STORAGE_KEY, "1");
+      localStorage.setItem(STORAGE_KEY, String(Date.now()));
     } catch {}
     setDismissed(true);
   }
@@ -48,8 +63,8 @@ export function CookieBanner() {
           Cookies
         </div>
         <p className="text-sm leading-relaxed text-paper/90 m-0">
-          We use local storage to remember this notice. No analytics or ad cookies are set right
-          now. See our{" "}
+          We use local storage for six months to remember this notice. No analytics or ad cookies
+          are set right now. See our{" "}
           <Link
             href="/about#privacy"
             className="text-accent underline underline-offset-2"

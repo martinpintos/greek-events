@@ -252,6 +252,7 @@ export default async function EventPage({
                           aria-hidden
                           loading="lazy"
                           decoding="async"
+                          referrerPolicy="no-referrer"
                           className="absolute inset-0 w-full h-full object-cover"
                         />
                       ) : (
@@ -333,7 +334,7 @@ export default async function EventPage({
                     <a
                       href={ev.venue.website}
                       target="_blank"
-                      rel="noopener"
+                      rel="noopener noreferrer"
                       className="px-3 py-2 border border-line rounded-full text-xs font-mono uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors"
                     >
                       Website
@@ -347,7 +348,7 @@ export default async function EventPage({
                           : `https://instagram.com/${ev.venue.instagram.replace(/^@/, "")}`
                       }
                       target="_blank"
-                      rel="noopener"
+                      rel="noopener noreferrer"
                       className="px-3 py-2 border border-line rounded-full text-xs font-mono uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors"
                     >
                       Instagram

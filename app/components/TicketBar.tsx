@@ -61,7 +61,7 @@ export function TicketBar({
           <a
             href={tier.url}
             target="_blank"
-            rel="noopener nofollow"
+            rel="noopener noreferrer nofollow"
             className="inline-flex items-center gap-2 px-5 py-3 bg-accent text-ink font-mono text-[12px] font-bold uppercase tracking-[0.16em] hover:brightness-110 transition-all"
           >
             <Icon name="ticket" size={14} />
@@ -108,7 +108,7 @@ export function TicketBar({
       <a
         href={tier.url}
         target="_blank"
-        rel="noopener nofollow"
+        rel="noopener noreferrer nofollow"
         className="grid grid-cols-[auto_1fr_auto_auto] items-center gap-3 px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] bg-accent text-ink font-mono text-[12px] font-bold uppercase tracking-[0.16em] hover:brightness-110 transition-all"
       >
         <Icon name="ticket" size={14} />

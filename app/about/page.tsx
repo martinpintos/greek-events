@@ -69,6 +69,9 @@ export default async function About() {
         <div id="privacy" className="eyebrow rule-label mt-10 mb-3 scroll-mt-20 md:scroll-mt-24">
           Privacy
         </div>
+        <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-mute m-0 mb-4">
+          Last updated: 25 May 2026
+        </p>
         <p className="text-base leading-relaxed text-ink-2 m-0 mb-4">
           This notice explains what data Nightly.gr collects and how we use it. Nightly.gr is the
           data controller for information we collect directly through this site. For privacy
@@ -90,27 +93,32 @@ export default async function About() {
         </p>
         <p className="text-base leading-relaxed text-ink-2 m-0 mb-4">
           <strong>Cookies and local storage. </strong>Right now we do not set analytics or
-          advertising cookies. We use one local storage entry to remember that you&rsquo;ve dismissed
-          the cookie notice. If we add non-essential analytics, advertising, embeds, social widgets,
-          or measurement tools later, we will ask for consent first where the law requires it and
-          provide a way to change that choice.
+          advertising cookies. We use one local storage entry,{" "}
+          <code className="font-mono text-[0.9em]">nightly:cookies-ack</code>, for up to six
+          months to remember that you&rsquo;ve dismissed the cookie notice. If we add non-essential
+          analytics, advertising, embeds, social widgets, or measurement tools later, we will ask
+          for consent first where the law requires it and provide a way to change that choice.
         </p>
         <p className="text-base leading-relaxed text-ink-2 m-0 mb-4">
           <strong>Third parties. </strong>We use service providers for hosting, database, email, and
-          site operations. Some providers may process data outside Greece or the European Economic
-          Area under their own safeguards and contractual terms. Ticket links, venue links, maps,
-          embeds, and similar features may take you to external services with their own terms and
-          privacy policies. We don&rsquo;t control those services and aren&rsquo;t responsible for
-          how they handle your data.
+          site operations, including Supabase for the database and Google/Gmail for email. The
+          production host or CDN may process request logs to serve and secure the site. Some
+          providers may process data outside Greece or the European Economic Area under their own
+          safeguards and contractual terms. Venue images may be loaded from third-party hosts, and
+          ticket links, venue links, maps, embeds, and similar features may take you to external
+          services with their own terms and privacy policies. We don&rsquo;t control those services
+          and aren&rsquo;t responsible for how they handle your data.
         </p>
         <p className="text-base leading-relaxed text-ink-2 m-0 mb-4">
           <strong>Legal basis and retention. </strong>We rely on legitimate interests to run,
           secure, debug, and improve the site, and to respond when you contact us. We rely on
           consent where required, including for any future non-essential cookies or similar
           technologies. We keep request logs and operational data only as long as needed for those
-          purposes or as required by our service providers and applicable law. Emails and submissions
-          are kept while we handle them and for a reasonable archive period unless you ask us to
-          delete them sooner and we are allowed to do so.
+          purposes or as required by our service providers and applicable law, usually measured in
+          days or weeks for routine logs. Emails and submissions are kept while we handle them and
+          for a reasonable archive period, normally no longer than 24 months, unless we need them
+          longer for a legal, security, or dispute reason or you ask us to delete them sooner and we
+          are allowed to do so.
         </p>
         <p className="text-base leading-relaxed text-ink-2 m-0 mb-4">
           <strong>Your rights. </strong>Under GDPR you may have the right to access, correct,

@@ -62,6 +62,7 @@ export default async function VenuePage({ params }: { params: Promise<{ venue: s
                 fetchPriority="high"
                 loading="eager"
                 decoding="async"
+                referrerPolicy="no-referrer"
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <div
@@ -120,7 +121,7 @@ export default async function VenuePage({ params }: { params: Promise<{ venue: s
                     <a
                       href={venue.website}
                       target="_blank"
-                      rel="noopener"
+                      rel="noopener noreferrer"
                       className="px-4 py-2 border border-line rounded-full text-sm hover:bg-ink hover:text-paper transition-colors"
                     >
                       Website
@@ -134,7 +135,7 @@ export default async function VenuePage({ params }: { params: Promise<{ venue: s
                           : `https://instagram.com/${venue.instagram.replace(/^@/, "")}`
                       }
                       target="_blank"
-                      rel="noopener"
+                      rel="noopener noreferrer"
                       className="px-4 py-2 border border-line rounded-full text-sm hover:bg-ink hover:text-paper transition-colors"
                     >
                       Instagram

@@ -28,7 +28,7 @@ export function Footer() {
               <a
                 href="https://instagram.com/nightly.gr"
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-3 py-2 border border-white/20 rounded-full text-xs font-mono tracking-wider hover:border-accent hover:text-accent transition-colors"
               >
                 <Icon name="ig" size={14} /> Instagram
@@ -36,7 +36,7 @@ export function Footer() {
               <a
                 href="https://open.spotify.com/search/nightly.gr"
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-3 py-2 border border-white/20 rounded-full text-xs font-mono tracking-wider hover:border-accent hover:text-accent transition-colors"
               >
                 <Icon name="play" size={13} /> Spotify mixes

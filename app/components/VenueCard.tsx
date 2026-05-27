@@ -26,6 +26,7 @@ export function VenueCard({ venue }: { venue: Venue }) {
               aria-hidden
               loading="lazy"
               decoding="async"
+              referrerPolicy="no-referrer"
               className="absolute inset-0 w-full h-full object-cover"
             />
           ) : (
