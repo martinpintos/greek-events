@@ -103,7 +103,7 @@ export function FilterSheet({
         aria-modal="true"
         aria-labelledby="filter-sheet-title"
         onClick={(e) => e.stopPropagation()}
-        className="w-full md:max-w-md bg-paper flex flex-col max-h-[92vh] md:max-h-[80vh] rounded-t-2xl md:rounded-2xl overflow-hidden"
+        className="w-full md:max-w-md bg-paper flex flex-col max-h-[86vh] md:max-h-[80vh] rounded-t-2xl md:rounded-2xl overflow-hidden"
         style={{ animation: "slide-up 260ms cubic-bezier(.2,.7,.2,1)" }}
       >
         <div className="flex items-center justify-between gap-3 px-5 pt-5 pb-2">
