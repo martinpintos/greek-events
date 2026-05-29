@@ -23,8 +23,16 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
+// Resolve relative metadata URLs (og:image, canonical) against the real
+// deployment domain. On Vercel this is the production custom domain once set
+// (e.g. nightly.gr), or the *.vercel.app domain until then. Falls back to the
+// final domain for local builds.
+const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : "https://nightly.gr";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nightly.gr"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Nightly.gr | Greek islands, in the know.",
     template: "%s · Nightly.gr",
