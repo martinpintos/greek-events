@@ -23,8 +23,7 @@ const PALETTES: [string, string][] = [
 ];
 
 // Deterministic non-negative integer hash from a string (e.g. a uuid).
-// Used to seed mock data (palette, price variance) so the same row always
-// derives the same values.
+// Used to seed the visual palette so the same row always gets the same colors.
 function hashStr(s: string): number {
   let h = 2166136261;
   for (let i = 0; i < s.length; i++) {
@@ -68,77 +67,28 @@ function tagsFor(row: EventRow, venue: Venue): EventTag[] {
   return tags;
 }
 
-function priceVariance(seed: number): number {
-  // ±20% deterministic per seed
-  const r = ((seed * 9301 + 49297) % 233280) / 233280;
-  return 0.8 + r * 0.4;
+function num(v: unknown): number | null {
+  return typeof v === "number" ? v : null;
 }
 
-function tiersFor(row: EventRow, venue: Venue): Tier[] {
-  const seed = seedFor(row);
-  if (!row.ticket_url && !row.vip_ticket_url && !row.table_url) {
-    // No real ticket URL anywhere → "at the door". Always render this for
-    // events with no URLs (the mock prices are meaningless without a link).
-    return [];
-  }
-  const v = priceVariance(seed);
+// Build ticket tiers from the real ticket URLs/prices stored on the row. We
+// never invent values — no URL means the event is "at the door" (empty tiers),
+// and a missing price column just renders without a price.
+function tiersFor(row: EventRow): Tier[] {
   const tiers: Tier[] = [];
 
-  // Base GA price by venue
-  const gaBase =
-    venue.slug === "cavo-paradiso"
-      ? 75
-      : venue.slug === "scorpios"
-        ? 60
-        : venue.slug === "santanna"
-          ? 50
-          : 30;
-  const gaUrl = row.ticket_url ?? row.vip_ticket_url ?? row.source_url ?? "";
+  const gaUrl = row.ticket_url ?? row.source_url ?? null;
   if (gaUrl) {
-    tiers.push({
-      kind: "ga",
-      label: "General",
-      price: roundFiver(gaBase * v),
-      url: gaUrl,
-    });
+    tiers.push({ kind: "ga", label: "General", url: gaUrl, price: num(row.price_from) });
   }
-
-  // Beach club and Cavo also get VIP if they have a VIP URL, or we mock one for Scorpios.
-  if (venue.slug === "cavo-paradiso" || venue.slug === "scorpios") {
-    const vipUrl = row.vip_ticket_url ?? gaUrl;
-    if (vipUrl) {
-      const vipBase = venue.slug === "cavo-paradiso" ? 190 : 150;
-      tiers.push({
-        kind: "vip",
-        label: "VIP entry",
-        price: roundFiver(vipBase * v),
-        url: vipUrl,
-      });
-    }
+  if (row.vip_ticket_url) {
+    tiers.push({ kind: "vip", label: "VIP entry", url: row.vip_ticket_url, price: num(row.vip_price) });
   }
-
-  // Cavo also gets Tables
-  if (venue.slug === "cavo-paradiso") {
-    const tableUrl = row.table_url ?? row.vip_ticket_url ?? gaUrl;
-    if (tableUrl) {
-      tiers.push({
-        kind: "table",
-        label: "Table",
-        price: roundFifty(1050 * v),
-        url: tableUrl,
-      });
-    }
+  if (row.table_url) {
+    tiers.push({ kind: "table", label: "Table", url: row.table_url, price: num(row.table_price) });
   }
 
   return tiers;
-}
-
-function roundFiver(n: number): number {
-  return Math.max(5, Math.round(n / 5) * 5);
-}
-
-function roundFifty(n: number): number {
-  return Math.max(50, Math.round(n / 50) * 50);
 }
 
 function paletteFor(seed: number): [string, string] {
@@ -162,10 +112,13 @@ export function deriveEvent(row: EventRow, venuesById: Map<number, Venue>): Deri
   if (!venue) {
     throw new Error(`No venue for event ${row.id} (venue_id=${row.venue_id})`);
   }
-  const tiers = tiersFor(row, venue);
-  const lowest = tiers.length
-    ? tiers.reduce((a, b) => (a.price < b.price ? a : b))
-    : null;
+  const tiers = tiersFor(row);
+  const tierPrices = tiers
+    .map((t) => t.price)
+    .filter((p): p is number => p != null);
+  const priceFrom = tierPrices.length
+    ? Math.min(...tierPrices)
+    : num(row.price_from);
   return {
     id: row.id,
     slug: row.slug,
@@ -177,7 +130,7 @@ export function deriveEvent(row: EventRow, venuesById: Map<number, Venue>): Deri
     offTheRecord: row.off_the_record,
     venue,
     tiers,
-    priceFrom: lowest?.price ?? null,
+    priceFrom,
     lgbtq: row.is_lgbtq ?? false,
     tags: tagsFor(row, venue),
     bucket: bucketFor(row.start_time),

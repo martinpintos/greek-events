@@ -10,7 +10,6 @@ import { ChromeOverlays } from "@/app/components/ChromeOverlays";
 import { EventCard } from "@/app/components/EventCard";
 import { Tag } from "@/app/components/Tag";
 import { TicketBar } from "@/app/components/TicketBar";
-import { Icon } from "@/app/components/Icon";
 
 export const revalidate = 3600;
 
@@ -77,22 +76,31 @@ export default async function EventPage({
 
   const stripText = (ev.lineup[0] || ev.title).toUpperCase();
 
-  const tips: string[] = [...ev.venue.insiderTips];
-  if (ev.tags.includes("after-hours")) {
-    tips.push("Door tightens after 1am. Be in by 12:30 or expect a queue in the wind.");
-  }
-  if (ev.tags.includes("sunset")) {
-    tips.push(
-      "Sunset hits around 19:42 this time of year. Eat at the long table, dance once the sun drops.",
-    );
-  }
-  if (tips.length === 0) {
-    tips.push("Cash works at the bar; cards work at the door.");
-  }
+  const tips: string[] = ev.venue.insiderTips;
 
   const start = ev.startTime || "23:00";
   const endsNextDay = !!ev.endTime && ev.endTime < start;
   const endDateOnly = endsNextDay ? addDays(ev.date, 1) : ev.date;
+
+  const tierOffers = ev.tiers.map((t) => ({
+    "@type": "Offer",
+    name: t.label,
+    url: t.url,
+    availability: "https://schema.org/InStock",
+    ...(t.price != null ? { price: t.price, priceCurrency: "EUR" } : {}),
+  }));
+  const offers =
+    ev.priceFrom != null
+      ? {
+          "@type": "AggregateOffer",
+          priceCurrency: "EUR",
+          lowPrice: ev.priceFrom,
+          offerCount: ev.tiers.length || 1,
+          ...(tierOffers.length ? { offers: tierOffers } : {}),
+        }
+      : tierOffers.length
+        ? tierOffers
+        : undefined;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -116,14 +124,7 @@ export default async function EventPage({
       "@type": "PerformingGroup",
       name,
     })),
-    offers: ev.tiers.map((t) => ({
-      "@type": "Offer",
-      name: t.label,
-      price: t.price,
-      priceCurrency: "EUR",
-      url: t.url,
-      availability: "https://schema.org/InStock",
-    })),
+    offers: offers,
     description: ev.offTheRecord ?? undefined,
   };
 
@@ -301,29 +302,6 @@ export default async function EventPage({
                 </section>
               )}
 
-              <section>
-                <SectionLabel>Getting there</SectionLabel>
-                <div className="text-[14px] leading-[1.5] text-ink-2 space-y-3">
-                  <p className="grid grid-cols-[16px_1fr] gap-2 items-start m-0">
-                    <span className="w-4 h-4 mt-0.5 grid place-items-start">
-                      <Icon name="ferry" size={14} />
-                    </span>
-                    <span>
-                      Ferries to {ev.venue.city} from Piraeus run morning, midday, evening. Last
-                      ferry off the island next morning ~07:30.
-                    </span>
-                  </p>
-                  <p className="grid grid-cols-[16px_1fr] gap-2 items-start m-0">
-                    <span className="w-4 h-4 mt-0.5 grid place-items-start">
-                      <Icon name="pin" size={14} />
-                    </span>
-                    <span>
-                      {ev.venue.name}, {ev.venue.area ?? ev.venue.city}. Road in jams up after 1am.
-                      Leave early or grab a moto.
-                    </span>
-                  </p>
-                </div>
-              </section>
             </div>
 
             <aside className="hidden lg:block sticky top-24">

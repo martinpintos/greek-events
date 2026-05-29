@@ -25,7 +25,7 @@ export default async function Home() {
     <ChromeOverlays events={events} venues={venues}>
       <Header />
       <main>
-        {showHomeHero && (
+        {showHomeHero ? (
           <div className="mx-auto max-w-5xl px-5 md:px-8 pt-8 md:pt-12 pb-5 md:pb-7">
             <div className="eyebrow eyebrow-accent mb-3 inline-flex items-center gap-2">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-accent" />
@@ -40,6 +40,10 @@ export default async function Home() {
               the group chat decides.
             </p>
           </div>
+        ) : (
+          <h1 className="sr-only">
+            Nightly.gr, the nightlife event calendar for the Greek islands
+          </h1>
         )}
 
         <Suspense fallback={null}>

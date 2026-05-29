@@ -31,6 +31,9 @@ export type EventRow = {
   vip_ticket_url: string | null;
   table_url: string | null;
   source_url?: string | null;
+  price_from: number | null;
+  vip_price: number | null;
+  table_price: number | null;
   is_verified: boolean;
   is_lgbtq: boolean | null;
   off_the_record: string | null;
@@ -45,8 +48,8 @@ export type Venue = VenueRow & {
 export type Tier = {
   kind: "ga" | "vip" | "table";
   label: string;
-  price: number;
   url: string;
+  price: number | null;
 };
 
 export type EventBucket = "sundown" | "prime" | "late";

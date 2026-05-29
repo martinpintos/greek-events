@@ -93,13 +93,17 @@ export function EventCard({
 
         {/* Price and ticket info */}
         <div className="flex flex-col items-end">
-          {ev.tiers.length === 0 ? (
+          {ev.priceFrom != null ? (
+            <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-accent whitespace-nowrap">
+              From €{ev.priceFrom}
+            </span>
+          ) : ev.tiers.length === 0 ? (
             <span className="font-mono text-[10px] uppercase tracking-wider text-mute whitespace-nowrap">
               At the door
             </span>
           ) : (
             <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-accent whitespace-nowrap">
-              From €{ev.priceFrom}
+              Tickets
             </span>
           )}
         </div>

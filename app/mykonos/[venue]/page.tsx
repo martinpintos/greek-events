@@ -45,6 +45,35 @@ export default async function VenuePage({ params }: { params: Promise<{ venue: s
   const today = todayISO();
   const upcoming = allEvents.filter((e) => e.venue.slug === slug && e.date >= today);
 
+  const instagramUrl = venue.instagram
+    ? venue.instagram.startsWith("http")
+      ? venue.instagram
+      : `https://instagram.com/${venue.instagram.replace(/^@/, "")}`
+    : null;
+
+  const venueType =
+    venue.venue_type === "club" || venue.venue_type === "beach_club"
+      ? "NightClub"
+      : venue.venue_type === "bar"
+        ? "BarOrPub"
+        : "Place";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": venueType,
+    name: venue.name,
+    url: `https://nightly.gr/mykonos/${venue.slug}`,
+    description: venue.description ?? undefined,
+    image: venue.image_url ?? undefined,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: venue.city,
+      addressRegion: venue.area ?? undefined,
+      addressCountry: venue.country,
+    },
+    sameAs: [venue.website, instagramUrl].filter(Boolean),
+  };
+
   return (
     <ChromeOverlays events={allEvents} venues={venues}>
       <Header />
@@ -210,6 +239,10 @@ export default async function VenuePage({ params }: { params: Promise<{ venue: s
         </div>
       </main>
       <Footer />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
     </ChromeOverlays>
   );
 }

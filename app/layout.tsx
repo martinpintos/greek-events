@@ -41,6 +41,28 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
+const siteJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://nightly.gr/#org",
+      name: "Nightly.gr",
+      url: "https://nightly.gr",
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://nightly.gr/#site",
+      name: "Nightly.gr",
+      url: "https://nightly.gr",
+      description:
+        "An insider calendar for nightlife across the Greek islands.",
+      publisher: { "@id": "https://nightly.gr/#org" },
+      inLanguage: "en",
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -54,6 +76,10 @@ export default function RootLayout({
       <body>
         {children}
         <CookieBanner />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
+        />
       </body>
     </html>
   );

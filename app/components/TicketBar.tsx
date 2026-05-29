@@ -54,9 +54,11 @@ export function TicketBar({
         <div className="flex items-center justify-between gap-4 px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
           <div className="flex flex-col gap-0.5">
             <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-white/60">
-              From
+              {tier.price != null ? tier.label : "Tickets"}
             </span>
-            <span className="display-h text-2xl leading-none">€{tier.price}</span>
+            <span className="display-h text-2xl leading-none">
+              {tier.price != null ? `€${tier.price}` : tier.label}
+            </span>
           </div>
           <a
             href={tier.url}
@@ -97,7 +99,9 @@ export function TicketBar({
               <span className="font-mono text-[10px] uppercase tracking-[0.18em]">
                 {t.label}
               </span>
-              <span className="display-h text-lg leading-none">€{t.price}</span>
+              {t.price != null && (
+                <span className="display-h text-lg leading-none">€{t.price}</span>
+              )}
               {on && (
                 <span className="absolute left-[18%] right-[18%] bottom-0 h-0.5 bg-accent" />
               )}
@@ -109,13 +113,15 @@ export function TicketBar({
         href={tier.url}
         target="_blank"
         rel="noopener noreferrer nofollow"
-        className="grid grid-cols-[auto_1fr_auto_auto] items-center gap-3 px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] bg-accent text-ink font-mono text-[12px] font-bold uppercase tracking-[0.16em] hover:brightness-110 transition-all"
+        className="flex items-center gap-3 px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] bg-accent text-ink font-mono text-[12px] font-bold uppercase tracking-[0.16em] hover:brightness-110 transition-all"
       >
         <Icon name="ticket" size={14} />
-        <span>Buy tickets</span>
-        <span className="display-h text-xl normal-case tracking-tight">
-          €{tier.price}
-        </span>
+        <span className="flex-1">Buy {tier.label} tickets</span>
+        {tier.price != null && (
+          <span className="display-h text-lg normal-case tracking-tight">
+            €{tier.price}
+          </span>
+        )}
         <Icon name="arrow_r" size={14} stroke={2} />
       </a>
     </div>
