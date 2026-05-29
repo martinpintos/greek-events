@@ -33,6 +33,13 @@ export async function generateMetadata({
   const { venue, event } = await params;
   const ev = await getEventBySlug(event);
   if (!ev) return { title: "Event not found" };
+  const formattedDate = parseISO(ev.date).toLocaleDateString("en-GB", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  });
+  const ogVenue = `${ev.venue.name} · ${ev.venue.area ?? ev.venue.city}`;
+  const ogImage = `/api/og?title=${encodeURIComponent(ev.title)}&venue=${encodeURIComponent(ogVenue)}&date=${encodeURIComponent(formattedDate)}&time=${encodeURIComponent(ev.startTime)}`;
   return {
     title: `${ev.title} | ${ev.venue.name}`,
     description: ev.offTheRecord ?? `${ev.title}. Lineup, tickets, insider tips.`,
@@ -41,6 +48,7 @@ export async function generateMetadata({
       title: ev.title,
       description: ev.offTheRecord ?? undefined,
       type: "article",
+      images: [ogImage],
     },
   };
 }
