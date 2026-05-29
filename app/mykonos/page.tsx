@@ -10,11 +10,23 @@ import { CalendarStatic } from "../components/CalendarStatic";
 
 export const revalidate = 3600;
 
+const description =
+  "Every night on Mykonos. Cavo Paradiso, Scorpios, SantAnna, Alemagou, lineups, tickets, insider tips.";
+
+const ogImage = `/api/og?title=${encodeURIComponent("Mykonos")}&venue=${encodeURIComponent(
+  "The island · Cyclades",
+)}&date=${encodeURIComponent("Summer 2026")}&time=`;
+
 export const metadata: Metadata = {
   title: "Mykonos | Clubs, beach clubs, late nights",
-  description:
-    "Every night on Mykonos. Cavo Paradiso, Scorpios, SantAnna, Alemagou, lineups, tickets, insider tips.",
+  description,
   alternates: { canonical: "/mykonos" },
+  openGraph: {
+    title: "Mykonos",
+    description,
+    type: "website",
+    images: [ogImage],
+  },
 };
 
 export default async function MykonosHub() {

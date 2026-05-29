@@ -3,7 +3,10 @@ import { ImageResponse } from "next/og";
 // GET /api/og?title=&venue=&date=&time=
 // Dynamic 1200x630 OpenGraph card. Reference design is 600x315, all sizes x2.
 
-export const revalidate = 3600;
+// Reads query params (request.url), so it's inherently dynamic. Declaring this
+// skips Next's build-time static probe (and its noisy DYNAMIC_SERVER_USAGE log).
+// CDN caching is handled via the Cache-Control header on the response below.
+export const dynamic = "force-dynamic";
 
 // Characters we need glyphs for. Google Fonts subsets to `text`, and
 // textTransform: uppercase is applied after subsetting, so the uppercase
@@ -93,8 +96,8 @@ export async function GET(request: Request) {
               <span
                 style={{
                   fontFamily: monoFamily,
-                  fontSize: 26,
-                  letterSpacing: 2.6,
+                  fontSize: 36,
+                  letterSpacing: 3.6,
                   textTransform: "uppercase",
                   color: "#c8c2b8",
                 }}
@@ -140,8 +143,8 @@ export async function GET(request: Request) {
                 <div
                   style={{
                     fontFamily: monoFamily,
-                    fontSize: 28,
-                    letterSpacing: 2.24,
+                    fontSize: 40,
+                    letterSpacing: 3.2,
                     textTransform: "uppercase",
                     color: "#c8c2b8",
                   }}
@@ -151,8 +154,8 @@ export async function GET(request: Request) {
                 <div
                   style={{
                     fontFamily: monoFamily,
-                    fontSize: 26,
-                    letterSpacing: 2.08,
+                    fontSize: 36,
+                    letterSpacing: 2.88,
                     textTransform: "uppercase",
                     color: "#7a7470",
                   }}
@@ -164,7 +167,7 @@ export async function GET(request: Request) {
                 style={{
                   fontFamily: serifFamily,
                   fontStyle: "italic",
-                  fontSize: 52,
+                  fontSize: 62,
                   lineHeight: 1,
                   display: "flex",
                   alignItems: "baseline",
@@ -193,6 +196,10 @@ export async function GET(request: Request) {
       {
         width: 1200,
         height: 630,
+        headers: {
+          "Cache-Control":
+            "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400",
+        },
         fonts: [
           { name: "Instrument Serif", data: serif, style: "italic", weight: 400 },
           { name: "JetBrains Mono", data: mono, style: "normal", weight: 400 },

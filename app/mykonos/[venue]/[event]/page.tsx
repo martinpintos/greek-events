@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getAllEvents, getEventBySlug, getVenues } from "@/lib/data";
 import { addDays, parseISO } from "@/lib/format";
+import { islandById } from "@/lib/islands";
 import { fetchAllEvents, fetchAllVenues } from "@/lib/supabase";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
@@ -38,15 +39,25 @@ export async function generateMetadata({
     day: "numeric",
     month: "long",
   });
-  const ogVenue = `${ev.venue.name} · ${ev.venue.area ?? ev.venue.city}`;
+  const where = ev.venue.area ?? ev.venue.city;
+  const islandName = islandById(ev.venue.island).name;
+  // Day and month for the metadata title, e.g. "5 July" (no weekday, no year, no start time).
+  const titleDate = parseISO(ev.date).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+  });
+  const ogVenue = `${ev.venue.name} · ${where}`;
   const ogImage = `/api/og?title=${encodeURIComponent(ev.title)}&venue=${encodeURIComponent(ogVenue)}&date=${encodeURIComponent(formattedDate)}&time=${encodeURIComponent(ev.startTime)}`;
+  const whenText = ev.startTime ? `${formattedDate} from ${ev.startTime}` : formattedDate;
+  const description = `${ev.venue.name}, ${where}, ${islandName}. ${whenText}. Who's playing, ticket tiers, table bookings, and insider tips.`;
+  const pageTitle = `${ev.title} | ${ev.venue.name}, ${titleDate}`;
   return {
-    title: `${ev.title} | ${ev.venue.name}`,
-    description: ev.offTheRecord ?? `${ev.title}. Lineup, tickets, insider tips.`,
+    title: pageTitle,
+    description,
     alternates: { canonical: `/mykonos/${venue}/${event}` },
     openGraph: {
-      title: ev.title,
-      description: ev.offTheRecord ?? undefined,
+      title: pageTitle,
+      description,
       type: "article",
       images: [ogImage],
     },
