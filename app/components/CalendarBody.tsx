@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import type { DerivedEvent, IslandId } from "@/lib/types";
+import type { DerivedEvent, IslandId, VenueType } from "@/lib/types";
 import {
   addDays,
   editorNoteForDate,
@@ -10,6 +10,7 @@ import {
   parseISO,
   startOfMonth,
 } from "@/lib/format";
+import { applyFilters } from "@/lib/filter";
 import { groupByDate, pickHero } from "@/lib/derive";
 import { DateNavigator } from "./DateNavigator";
 import { DaySection } from "./DaySection";
@@ -61,14 +62,26 @@ export function CalendarBody({
       : [];
   }, [islandLock, islandsParam]);
 
-  const eventsAfterIsland = useMemo(() => {
-    if (activeIslands.length === 0) return allEvents;
-    return allEvents.filter((e) => activeIslands.includes(e.venue.island));
-  }, [allEvents, activeIslands]);
+  const venuesParam = sp.get("venues");
+  const typeParam = sp.get("type");
+  const queerParam = sp.get("queer");
+  const afterParam = sp.get("after");
+
+  const filteredEvents = useMemo(() => {
+    return applyFilters(allEvents, {
+      islands: activeIslands,
+      venues: venuesParam ? venuesParam.split(",").filter(Boolean) : [],
+      venueTypes: typeParam
+        ? (typeParam.split(",").filter(Boolean) as VenueType[])
+        : [],
+      queer: queerParam === "1",
+      afterHours: afterParam === "1",
+    });
+  }, [allEvents, activeIslands, venuesParam, typeParam, queerParam, afterParam]);
 
   const upcomingEvents = useMemo(
-    () => eventsAfterIsland.filter((e) => e.date >= today),
-    [eventsAfterIsland, today],
+    () => filteredEvents.filter((e) => e.date >= today),
+    [filteredEvents, today],
   );
 
   const dayGroups = useMemo(() => groupByDate(upcomingEvents), [upcomingEvents]);
@@ -216,13 +229,23 @@ export function CalendarBody({
 
   const scrollToDate = useCallback(
     (iso: string) => {
-      const idx = dayGroups.findIndex((g) => g.date === iso);
-      if (idx >= 0 && idx >= visibleCount) {
+      if (dayGroups.length === 0) return;
+      // Snap to the first day with events on or after the requested date — the
+      // 1st of a month (and empty days) usually have no section of their own.
+      let idx = dayGroups.findIndex((g) => g.date >= iso);
+      if (idx < 0) idx = dayGroups.length - 1;
+      const targetDate = dayGroups[idx].date;
+      if (idx >= visibleCount) {
         setVisibleCount(idx + 1);
       }
-      setQuery({ date: iso });
+      // Update immediately so the month label / strip reflect the jump even
+      // before the scroll-spy catches up.
+      setActiveDate(targetDate);
+      setQuery({ date: targetDate });
       requestAnimationFrame(() => {
-        const el = document.querySelector<HTMLElement>(`[data-date="${iso}"]`);
+        const el = document.querySelector<HTMLElement>(
+          `[data-date="${targetDate}"]`,
+        );
         if (!el) return;
         const y =
           el.getBoundingClientRect().top + window.scrollY - measureChrome();

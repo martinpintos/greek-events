@@ -71,6 +71,34 @@ export function DateNavigator({
     });
   }, [selectedISO, showMonths]);
 
+  // The day rail scrolls horizontally but the scrollbar is hidden. On desktop
+  // (mouse, no touch) there's otherwise no way to reach later days, so we show
+  // arrow buttons; these track whether there's anything to scroll to.
+  const [edges, setEdges] = useState({ left: false, right: false });
+
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail || showMonths) return;
+    const update = () => {
+      const max = rail.scrollWidth - rail.clientWidth;
+      setEdges({ left: rail.scrollLeft > 1, right: rail.scrollLeft < max - 1 });
+    };
+    update();
+    rail.addEventListener("scroll", update, { passive: true });
+    const ro = new ResizeObserver(update);
+    ro.observe(rail);
+    return () => {
+      rail.removeEventListener("scroll", update);
+      ro.disconnect();
+    };
+  }, [showMonths, days]);
+
+  const scrollRail = (dir: -1 | 1) => {
+    const rail = railRef.current;
+    if (!rail) return;
+    rail.scrollBy({ left: dir * rail.clientWidth * 0.75, behavior: "smooth" });
+  };
+
   return (
     <section className="border-b border-hairline bg-paper">
       <div className="mx-auto max-w-5xl px-5 md:px-8">
@@ -174,6 +202,16 @@ export function DateNavigator({
                 </span>
               </button>
 
+              <button
+                type="button"
+                onClick={() => scrollRail(-1)}
+                disabled={!edges.left}
+                aria-label="Scroll to earlier days"
+                className="hidden md:grid place-items-center w-9 h-14 self-center border border-line disabled:opacity-25 disabled:cursor-not-allowed hover:bg-ink hover:text-paper transition-colors"
+              >
+                <Icon name="chevron_l" size={14} stroke={2} />
+              </button>
+
               <div ref={railRef} className="min-w-0 flex-1 scroll-x">
                 <div className="flex gap-1.5 md:gap-1 min-w-max">
                   {days.map((iso) => {
@@ -228,6 +266,16 @@ export function DateNavigator({
                   })}
                 </div>
               </div>
+
+              <button
+                type="button"
+                onClick={() => scrollRail(1)}
+                disabled={!edges.right}
+                aria-label="Scroll to later days"
+                className="hidden md:grid place-items-center w-9 h-14 self-center border border-line disabled:opacity-25 disabled:cursor-not-allowed hover:bg-ink hover:text-paper transition-colors"
+              >
+                <Icon name="chevron_r" size={14} stroke={2} />
+              </button>
             </div>
           </div>
         )}

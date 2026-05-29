@@ -11,8 +11,6 @@ import { useFocusTrap } from "./useFocusTrap";
 const VENUE_TYPES: { id: VenueType; name: string }[] = [
   { id: "club", name: "Clubs" },
   { id: "beach_club", name: "Beach clubs" },
-  { id: "bar", name: "Bars" },
-  { id: "boat", name: "Boats" },
 ];
 
 export function FilterSheet({
@@ -259,12 +257,6 @@ export function FilterSheet({
                 kind="queer"
               >
                 Queer-friendly only
-              </Toggle>
-              <Toggle
-                on={draft.afterHours}
-                onClick={() => setDraft({ ...draft, afterHours: !draft.afterHours })}
-              >
-                After-hours
               </Toggle>
             </div>
           </Group>

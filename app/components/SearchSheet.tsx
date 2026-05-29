@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Fuse, { type IFuseOptions } from "fuse.js";
 import type { DerivedEvent } from "@/lib/types";
 import { parseISO } from "@/lib/format";
 import { Icon } from "./Icon";
@@ -66,37 +67,44 @@ function parseSearch(value: string): {
   return { terms, day, month };
 }
 
-function eventHaystack(ev: DerivedEvent): string {
-  return normalize(
-    [
-      ev.title,
-      ev.venue.name,
-      ev.venue.area,
-      ev.venue.city,
-      ev.venue.slug,
-      ev.lineup.join(" "),
-      ev.tags.join(" "),
-      ev.lgbtq ? "queer lgbtq" : "",
-    ]
-      .filter(Boolean)
-      .join(" "),
-  );
+type SearchRecord = {
+  ev: DerivedEvent;
+  title: string;
+  venue: string;
+  lineup: string;
+  place: string;
+  tags: string;
+};
+
+function toRecord(ev: DerivedEvent): SearchRecord {
+  return {
+    ev,
+    title: normalize(ev.title),
+    venue: normalize(`${ev.venue.name} ${ev.venue.slug}`),
+    lineup: normalize(ev.lineup.join(" ")),
+    place: normalize(`${ev.venue.area ?? ""} ${ev.venue.city}`),
+    tags: normalize(
+      `${ev.tags.join(" ")} ${ev.lgbtq ? "queer lgbtq" : ""}`,
+    ),
+  };
 }
 
-function scoreEvent(ev: DerivedEvent, terms: string[]): number {
-  const title = normalize(ev.title);
-  const venue = normalize(`${ev.venue.name} ${ev.venue.slug}`);
-  const lineup = normalize(ev.lineup.join(" "));
-  const place = normalize(`${ev.venue.area ?? ""} ${ev.venue.city}`);
-
-  return terms.reduce((score, term) => {
-    if (venue.includes(term)) return score + 8;
-    if (lineup.includes(term)) return score + 6;
-    if (title.includes(term)) return score + 5;
-    if (place.includes(term)) return score + 3;
-    return score + 1;
-  }, 0);
-}
+// Weighted so a venue hit ranks above a lineup hit above a title hit, mirroring
+// the old manual scoring. threshold 0.38 + ignoreLocation give typo tolerance
+// without drifting into noise on a small dataset.
+const FUSE_OPTIONS: IFuseOptions<SearchRecord> = {
+  includeScore: true,
+  ignoreLocation: true,
+  threshold: 0.38,
+  minMatchCharLength: 2,
+  keys: [
+    { name: "venue", weight: 0.32 },
+    { name: "lineup", weight: 0.26 },
+    { name: "title", weight: 0.22 },
+    { name: "place", weight: 0.12 },
+    { name: "tags", weight: 0.08 },
+  ],
+};
 
 export function SearchSheet({
   events,
@@ -123,41 +131,50 @@ export function SearchSheet({
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
 
+  const records = useMemo(() => events.map(toRecord), [events]);
+  const fuse = useMemo(() => new Fuse(records, FUSE_OPTIONS), [records]);
+
   const results = useMemo(() => {
     const needle = q.trim();
     if (!needle) return [];
     const parsed = parseSearch(needle);
     const hasStructuredDate = parsed.day !== null || parsed.month !== null;
 
-    return events
-      .filter((ev) => {
-        if (parsed.day !== null && Number(ev.date.slice(8, 10)) !== parsed.day) {
-          return false;
-        }
-        if (
-          parsed.month !== null &&
-          Number(ev.date.slice(5, 7)) !== parsed.month
-        ) {
-          return false;
-        }
+    const matchesDate = (ev: DerivedEvent) => {
+      if (parsed.day !== null && Number(ev.date.slice(8, 10)) !== parsed.day) {
+        return false;
+      }
+      if (
+        parsed.month !== null &&
+        Number(ev.date.slice(5, 7)) !== parsed.month
+      ) {
+        return false;
+      }
+      return true;
+    };
 
-        if (parsed.terms.length === 0) return hasStructuredDate;
+    // Pure date query ("30 aug"): chronological list, no text scoring.
+    if (parsed.terms.length === 0) {
+      if (!hasStructuredDate) return [];
+      return records
+        .filter((r) => matchesDate(r.ev))
+        .map((r) => r.ev)
+        .sort(
+          (a, b) =>
+            a.date.localeCompare(b.date) ||
+            a.startTime.localeCompare(b.startTime) ||
+            a.title.localeCompare(b.title),
+        )
+        .slice(0, 40);
+    }
 
-        const haystack = eventHaystack(ev);
-        return parsed.terms.every((term) => haystack.includes(term));
-      })
-      .sort((a, b) => {
-        const scoreDelta =
-          scoreEvent(b, parsed.terms) - scoreEvent(a, parsed.terms);
-        if (scoreDelta !== 0) return scoreDelta;
-        return (
-          a.date.localeCompare(b.date) ||
-          a.startTime.localeCompare(b.startTime) ||
-          a.title.localeCompare(b.title)
-        );
-      })
+    // Fuzzy text query, optionally narrowed by a structured date.
+    return fuse
+      .search(parsed.terms.join(" "))
+      .filter((m) => matchesDate(m.item.ev))
+      .map((m) => m.item.ev)
       .slice(0, 40);
-  }, [events, q]);
+  }, [records, fuse, q]);
 
   return (
     <div

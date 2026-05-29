@@ -6,6 +6,7 @@ import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { ChromeOverlays } from "./components/ChromeOverlays";
 import { CalendarBody } from "./components/CalendarBody";
+import { CalendarStatic } from "./components/CalendarStatic";
 
 export const revalidate = 3600;
 
@@ -46,7 +47,7 @@ export default async function Home() {
           </h1>
         )}
 
-        <Suspense fallback={null}>
+        <Suspense fallback={<CalendarStatic allEvents={events} today={today} />}>
           <CalendarBody allEvents={events} today={today} />
         </Suspense>
       </main>
