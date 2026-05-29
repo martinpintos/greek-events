@@ -14,14 +14,14 @@ export function Footer() {
           <div>
             <div className="eyebrow text-faint flex items-center gap-2 mb-3">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-accent" />
-              Nightly.gr · est. 2026 · Athens
+              nightly.gr · est. 2026 · Athens
             </div>
             <p className="display-h text-2xl md:text-[34px] leading-[1.05] mb-4 max-w-sm">
               Greek islands, in the know.
             </p>
             <p className="text-sm leading-relaxed text-faint max-w-sm">
-              Plan your week on the Greek islands. Venues, lineups, opening
-              hours, and the small things locals would tell you.
+              Plan your week on the Greek islands. Venues, lineups, opening hours, and the small
+              things locals would tell you.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-2">
@@ -46,25 +46,17 @@ export function Footer() {
 
           <div className="grid grid-cols-[max-content_max-content] justify-start gap-x-10 sm:gap-x-14 md:contents">
             <div>
-              <div className="eyebrow text-faint mb-4 pb-2 border-b border-white/10">
-                Islands
-              </div>
+              <div className="eyebrow text-faint mb-4 pb-2 border-b border-white/10">Islands</div>
               <ul className="space-y-2 text-sm">
                 {ISLANDS.map((i) => (
                   <li key={i.id}>
                     {i.active ? (
-                      <Link
-                        href={`/${i.id}`}
-                        className="hover:text-accent transition-colors"
-                      >
+                      <Link href={`/${i.id}`} className="hover:text-accent transition-colors">
                         {i.name}
                       </Link>
                     ) : (
                       <span className="text-faint">
-                        {i.name}{" "}
-                        <span className="font-mono text-[10px] tracking-wider">
-                          soon
-                        </span>
+                        {i.name} <span className="font-mono text-[10px] tracking-wider">soon</span>
                       </span>
                     )}
                   </li>
@@ -73,16 +65,11 @@ export function Footer() {
             </div>
 
             <div>
-              <div className="eyebrow text-faint mb-4 pb-2 border-b border-white/10">
-                Contact
-              </div>
+              <div className="eyebrow text-faint mb-4 pb-2 border-b border-white/10">Contact</div>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <Link
-                    href="/about"
-                    className="hover:text-accent transition-colors"
-                  >
-                    About Nightly.gr
+                  <Link href="/about" className="hover:text-accent transition-colors">
+                    About nightly.gr
                   </Link>
                 </li>
                 <li>
@@ -117,24 +104,17 @@ export function Footer() {
         <div className="my-9 md:my-10 h-px dashed-rule" />
 
         <div className="flex flex-col md:flex-row md:flex-wrap md:items-baseline md:justify-between gap-2 md:gap-4">
-          <div className="display-h text-xl flex items-baseline gap-1.5">
-            Nightly.gr
-            <span className="inline-block w-1.5 h-1.5 rounded-full bg-accent" />
+          <div className="display-h italic text-xl flex items-baseline">
+            nightly<span className="text-accent">.gr</span>
           </div>
           <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-faint">
-            <span>© {year} Nightly.gr</span>
+            <span>© {year} nightly.gr</span>
             <span className="opacity-50">·</span>
-            <Link
-              href="/about#privacy"
-              className="hover:text-accent transition-colors"
-            >
+            <Link href="/about#privacy" className="hover:text-accent transition-colors">
               Privacy
             </Link>
             <span className="opacity-50">·</span>
-            <Link
-              href="/about#terms"
-              className="hover:text-accent transition-colors"
-            >
+            <Link href="/about#terms" className="hover:text-accent transition-colors">
               Terms
             </Link>
           </div>

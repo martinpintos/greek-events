@@ -11,7 +11,7 @@ import { CalendarStatic } from "./components/CalendarStatic";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Nightly.gr | Greek islands, in the know.",
+  title: "nightly.gr | Greek islands, in the know.",
   description:
     "An insider calendar for the Greek islands. Dates, rooms, lineups, and island intel before plans get made.",
   alternates: { canonical: "/" },
@@ -33,17 +33,16 @@ export default async function Home() {
               Across the Greek islands
             </div>
             <h1 className="display-h text-4xl md:text-6xl lg:text-7xl leading-[0.95] m-0 max-w-4xl">
-              Greek islands,{" "}
-              <em className="not-italic text-accent">in the know.</em>
+              Greek islands, <em className="not-italic text-accent">in the know.</em>
             </h1>
             <p className="mt-3 md:mt-4 text-sm md:text-base text-mute max-w-xl leading-relaxed">
-              Dates, rooms, lineups, and the island intel worth knowing before
-              the group chat decides.
+              Dates, rooms, lineups, and the island intel worth knowing before the group chat
+              decides.
             </p>
           </div>
         ) : (
           <h1 className="sr-only">
-            Nightly.gr, the nightlife event calendar for the Greek islands
+            nightly.gr, the nightlife event calendar for the Greek islands
           </h1>
         )}
 

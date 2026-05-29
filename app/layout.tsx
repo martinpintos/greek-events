@@ -34,17 +34,16 @@ const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Nightly.gr | Greek islands, in the know.",
-    template: "%s · Nightly.gr",
+    default: "nightly.gr | Greek islands, in the know.",
+    template: "%s · nightly.gr",
   },
   description:
     "An insider calendar for the Greek islands. Dates, rooms, lineups, and island intel before plans get made.",
   openGraph: {
     type: "website",
-    siteName: "Nightly.gr",
-    title: "Nightly.gr | Greek islands, in the know.",
-    description:
-      "Dates, rooms, lineups, and island intel before plans get made.",
+    siteName: "nightly.gr",
+    title: "nightly.gr | Greek islands, in the know.",
+    description: "Dates, rooms, lineups, and island intel before plans get made.",
   },
   twitter: { card: "summary_large_image" },
 };
@@ -55,27 +54,22 @@ const siteJsonLd = {
     {
       "@type": "Organization",
       "@id": "https://nightly.gr/#org",
-      name: "Nightly.gr",
+      name: "nightly.gr",
       url: "https://nightly.gr",
     },
     {
       "@type": "WebSite",
       "@id": "https://nightly.gr/#site",
-      name: "Nightly.gr",
+      name: "nightly.gr",
       url: "https://nightly.gr",
-      description:
-        "An insider calendar for nightlife across the Greek islands.",
+      description: "An insider calendar for nightlife across the Greek islands.",
       publisher: { "@id": "https://nightly.gr/#org" },
       inLanguage: "en",
     },
   ],
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"

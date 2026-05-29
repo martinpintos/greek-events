@@ -29,7 +29,7 @@ export default async function About() {
         </h1>
 
         <p className="display-h text-xl md:text-2xl leading-[1.32] m-0 mb-6">
-          Nightly.gr is an editorial desk for the Greek islands. We tell you which dates matter,
+          nightly.gr is an editorial desk for the Greek islands. We tell you which dates matter,
           which rooms are worth the taxi, and where we&rsquo;d send our own friends.
         </p>
 
@@ -73,7 +73,7 @@ export default async function About() {
           Last updated: 25 May 2026
         </p>
         <p className="text-base leading-relaxed text-ink-2 m-0 mb-4">
-          This notice explains what data Nightly.gr collects and how we use it. Nightly.gr is the
+          This notice explains what data nightly.gr collects and how we use it. nightly.gr is the
           data controller for information we collect directly through this site. For privacy
           questions, rights requests, or corrections, contact{" "}
           <a
@@ -85,17 +85,17 @@ export default async function About() {
           .
         </p>
         <p className="text-base leading-relaxed text-ink-2 m-0 mb-4">
-          <strong>What we collect. </strong>Browsing Nightly.gr does not require an account. We may
+          <strong>What we collect. </strong>Browsing nightly.gr does not require an account. We may
           process technical data your browser sends automatically, such as IP address, device and
           browser type, referring page, and request logs. We may also process basic usage data from
-          those logs, such as requested pages and error diagnostics, plus anything you choose to send
-          us by email.
+          those logs, such as requested pages and error diagnostics, plus anything you choose to
+          send us by email.
         </p>
         <p className="text-base leading-relaxed text-ink-2 m-0 mb-4">
           <strong>Cookies and local storage. </strong>Right now we do not set analytics or
           advertising cookies. We use one local storage entry,{" "}
-          <code className="font-mono text-[0.9em]">nightly:cookies-ack</code>, for up to six
-          months to remember that you&rsquo;ve dismissed the cookie notice. If we add non-essential
+          <code className="font-mono text-[0.9em]">nightly:cookies-ack</code>, for up to six months
+          to remember that you&rsquo;ve dismissed the cookie notice. If we add non-essential
           analytics, advertising, embeds, social widgets, or measurement tools later, we will ask
           for consent first where the law requires it and provide a way to change that choice.
         </p>
@@ -143,7 +143,7 @@ export default async function About() {
           Terms
         </div>
         <p className="text-base leading-relaxed text-ink-2 m-0 mb-4">
-          By using Nightly.gr you agree to these terms. If you don&rsquo;t, please don&rsquo;t use
+          By using nightly.gr you agree to these terms. If you don&rsquo;t, please don&rsquo;t use
           the site.
         </p>
         <p className="text-base leading-relaxed text-ink-2 m-0 mb-4">
@@ -154,7 +154,7 @@ export default async function About() {
           you travel, buy a ticket, or rely on anything you read here.
         </p>
         <p className="text-base leading-relaxed text-ink-2 m-0 mb-4">
-          <strong>Tickets and third-party services.</strong> Nightly.gr does not sell tickets,
+          <strong>Tickets and third-party services.</strong> nightly.gr does not sell tickets,
           process payments, or operate any of the venues or events listed. Ticket links, embeds, and
           other outbound links take you to independent third parties with their own terms, pricing,
           refund policies, and conduct on site. Any transaction or interaction you have with them is
@@ -168,7 +168,7 @@ export default async function About() {
         </p>
         <p className="text-base leading-relaxed text-ink-2 m-0 mb-4">
           <strong>Intellectual property.</strong> The site, its design, text, and other original
-          content are owned by Nightly.gr or its licensors. You may view and share links to public
+          content are owned by nightly.gr or its licensors. You may view and share links to public
           pages for personal, non-commercial use. Any other use &mdash; including scraping,
           republishing, or building derivative products &mdash; requires written permission.
           Trademarks, artist names, and venue names belong to their respective owners and are used
@@ -176,13 +176,13 @@ export default async function About() {
         </p>
         <p className="text-base leading-relaxed text-ink-2 m-0 mb-4">
           <strong>Submissions.</strong> If you send us tips, corrections, or other material, you
-          confirm you have the right to share it and grant Nightly.gr a non-exclusive, royalty-free,
+          confirm you have the right to share it and grant nightly.gr a non-exclusive, royalty-free,
           worldwide licence to use, edit, and publish it in connection with the site.
         </p>
         <p className="text-base leading-relaxed text-ink-2 m-0 mb-4">
           <strong>Disclaimer and liability.</strong> The site is provided &ldquo;as is&rdquo; and
           &ldquo;as available&rdquo; without warranties of any kind, whether express or implied. To
-          the fullest extent permitted by law, Nightly.gr and its operators are not liable for any
+          the fullest extent permitted by law, nightly.gr and its operators are not liable for any
           direct, indirect, incidental, consequential, or special damages arising from your use of
           the site, your reliance on its content, or your interaction with any venue, event,
           promoter, or other third party referenced on it. Nothing in these terms limits any rights
