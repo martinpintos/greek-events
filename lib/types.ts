@@ -53,7 +53,7 @@ export type Tier = {
 export type EventBucket = "sundown" | "prime" | "late";
 
 export type EventTag =
-  | "after-hours"
+  | "night"
   | "sunset"
   | "day"
   | "season-opener"

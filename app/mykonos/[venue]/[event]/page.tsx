@@ -264,7 +264,7 @@ export default async function EventPage({
                           key={t}
                           size="lg"
                           kind={
-                            t === "after-hours" || t === "sunset" || t === "season-opener"
+                            t === "night" || t === "sunset" || t === "season-opener"
                               ? t
                               : "default"
                           }

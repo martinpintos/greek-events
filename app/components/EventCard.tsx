@@ -72,9 +72,9 @@ export function EventCard({
           {!compact && (ev.tags.length > 0 || ev.lgbtq) && (
             <div className="flex flex-wrap gap-1.5 mt-2">
               {ev.lgbtq && <Tag kind="queer">Queer</Tag>}
-              {ev.tags.includes("after-hours") && <Tag kind="after-hours">After-hours</Tag>}
-              {ev.tags.includes("sunset") && <Tag kind="sunset">Sunset</Tag>}
               {ev.tags.includes("day") && <Tag kind="day">Day</Tag>}
+              {ev.tags.includes("sunset") && <Tag kind="sunset">Sunset</Tag>}
+              {ev.tags.includes("night") && <Tag kind="night">Night</Tag>}
               {ev.tags.includes("season-opener") && <Tag kind="season-opener">Season opener</Tag>}
             </div>
           )}

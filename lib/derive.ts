@@ -49,7 +49,7 @@ function bucketFor(start: string | null): EventBucket {
 function tagsFor(row: EventRow, venue: Venue): EventTag[] {
   const tags: EventTag[] = [];
   const h = startHour(row.start_time);
-  if (h >= 23 || h < 4) tags.push("after-hours");
+  if (h >= 23 || h < 4) tags.push("night");
   if (venue.venue_type === "beach_club" && h >= 18 && h < 21)
     tags.push("sunset");
   if (venue.venue_type === "beach_club" && h < 18) tags.push("day");
@@ -151,10 +151,10 @@ export function pickHero(events: DerivedEvent[]): DerivedEvent | null {
     if (match) return match;
   }
   const cavo = events.find(
-    (e) => e.venue.slug === "cavo-paradiso" && e.tags.includes("after-hours")
+    (e) => e.venue.slug === "cavo-paradiso" && e.tags.includes("night")
   );
   if (cavo) return cavo;
-  const ah = events.find((e) => e.tags.includes("after-hours"));
+  const ah = events.find((e) => e.tags.includes("night"));
   if (ah) return ah;
   return events[0];
 }

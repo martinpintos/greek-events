@@ -1,7 +1,7 @@
 type TagKind =
   | "default"
   | "queer"
-  | "after-hours"
+  | "night"
   | "sunset"
   | "day"
   | "locals"
@@ -10,9 +10,9 @@ type TagKind =
 const STYLES: Record<TagKind, string> = {
   default: "border-hairline text-mute",
   queer: "border-queer text-queer",
-  "after-hours": "border-ink text-ink",
-  sunset: "border-hairline text-mute",
   day: "border-hairline text-mute",
+  sunset: "border-hairline text-mute",
+  night: "border-hairline text-mute",
   locals: "border-hairline text-mute",
   "season-opener": "border-accent text-accent",
 };
@@ -44,7 +44,9 @@ export function Tag({
           }}
         />
       )}
+      {kind === "day" && <span aria-hidden>○</span>}
       {kind === "sunset" && <span aria-hidden>◐</span>}
+      {kind === "night" && <span aria-hidden>●</span>}
       {children}
     </span>
   );

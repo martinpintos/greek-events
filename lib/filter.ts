@@ -31,7 +31,7 @@ export function applyFilters(
     )
       return false;
     if (f.queer && !e.lgbtq) return false;
-    if (f.afterHours && !e.tags.includes("after-hours")) return false;
+    if (f.afterHours && !e.tags.includes("night")) return false;
     return true;
   });
 }

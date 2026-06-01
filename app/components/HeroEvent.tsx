@@ -33,7 +33,7 @@ export function HeroEvent({ ev }: { ev: DerivedEvent }) {
       className="group block w-full border border-accent/70 bg-paper p-1.5 shadow-[0_18px_34px_rgba(255,77,46,0.16),0_18px_38px_rgba(12,12,12,0.16)] transition-shadow hover:shadow-[0_20px_38px_rgba(255,77,46,0.2),0_22px_42px_rgba(12,12,12,0.2)]"
     >
       <div
-        className="hero-stripes hero-noise relative aspect-[4/5] md:aspect-[16/9] overflow-hidden bg-ink text-paper"
+        className="hero-stripes hero-noise relative aspect-[4/5] sm:aspect-[16/9] overflow-hidden bg-ink text-paper"
         style={style}
       >
         <div className="absolute inset-0 featured-card-scrim z-[1]" />
@@ -42,7 +42,7 @@ export function HeroEvent({ ev }: { ev: DerivedEvent }) {
           {backdrop.map((name, i) => (
             <div
               key={`${name}-${i}`}
-              className="display-h text-left text-[54px] md:text-[60px] lg:text-[72px] leading-[0.82] tracking-[-0.03em] uppercase text-white/[0.12] whitespace-nowrap"
+              className="display-h text-left text-[54px] md:text-[60px] lg:text-[72px] leading-[0.82] tracking-[-0.03em] uppercase text-white/[0.20] whitespace-nowrap"
             >
               {name.toUpperCase()}
             </div>
