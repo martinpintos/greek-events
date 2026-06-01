@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { getAllEvents, getEventBySlug, getVenues } from "@/lib/data";
 import { addDays, parseISO } from "@/lib/format";
 import { islandById } from "@/lib/islands";
@@ -298,15 +299,13 @@ export default async function EventPage({
                   <div className="grid grid-cols-[92px_1fr] sm:grid-cols-[108px_1fr] md:grid-cols-[124px_1fr] gap-4 md:gap-5 items-center">
                     <div className="relative w-full aspect-[5/6] border border-line bg-paper-2 grid place-items-center overflow-hidden font-mono text-[10px] uppercase tracking-widest text-mute">
                       {ev.venue.image_url ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
+                        <Image
                           src={ev.venue.image_url}
                           alt=""
                           aria-hidden
-                          loading="lazy"
-                          decoding="async"
-                          referrerPolicy="no-referrer"
-                          className="absolute inset-0 w-full h-full object-cover"
+                          fill
+                          sizes="124px"
+                          className="object-cover"
                         />
                       ) : (
                         ev.venue.name

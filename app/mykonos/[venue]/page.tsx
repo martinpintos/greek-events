@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { getAllEvents, getVenueBySlug, getVenues } from "@/lib/data";
 import { todayISO } from "@/lib/format";
 import { fetchAllVenues } from "@/lib/supabase";
@@ -99,16 +100,14 @@ export default async function VenuePage({ params }: { params: Promise<{ venue: s
           <div className="aspect-video md:aspect-21/9 max-h-120" />
           {venue.image_url && (
             <>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={venue.image_url}
                 alt=""
                 aria-hidden
-                fetchPriority="high"
-                loading="eager"
-                decoding="async"
-                referrerPolicy="no-referrer"
-                className="absolute inset-0 w-full h-full object-cover"
+                fill
+                preload
+                sizes="100vw"
+                className="object-cover"
               />
               <div
                 className="absolute inset-0 pointer-events-none"

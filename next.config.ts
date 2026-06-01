@@ -38,6 +38,20 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Venue photos live on arbitrary third-party hosts (each venue's own site/CDN).
+  // Routing them through next/image lets Vercel resize them to the rendered size,
+  // serve AVIF/WebP, and CDN-cache the result instead of shipping multi-MB
+  // full-res originals. Each venue host must be allow-listed here; add a new
+  // entry whenever a venue with a new image host is onboarded.
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "www.cavoparadiso.gr" },
+      { protocol: "https", hostname: "supportmykonos.com" },
+      { protocol: "https", hostname: "scorpios.com" },
+      { protocol: "https", hostname: "images.squarespace-cdn.com" },
+      { protocol: "https", hostname: "ik.imagekit.io" },
+    ],
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
