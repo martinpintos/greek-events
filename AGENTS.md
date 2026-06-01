@@ -6,7 +6,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ## Project: nightly.gr
 
-Nightlife event calendar for the Greek islands. MVP is Mykonos-only (4 venues, ~331 events). Stack: [Next.js](next.config.ts) 16 App Router + React 19 + Tailwind v4 + Supabase (Postgres). Domain: nightly.gr. Full product spec is in [PRD.md](PRD.md).
+Nightlife event calendar for the Greek islands. MVP is Mykonos-only (6 venues, ~341 events). Stack: [Next.js](next.config.ts) 16 App Router + React 19 + Tailwind v4 + Supabase (Postgres). Domain: nightly.gr. Full product spec is in [PRD.md](PRD.md).
 
 ## Commands
 
@@ -32,7 +32,7 @@ Missing the two Supabase vars throws at import time from [lib/supabase.ts:7](lib
 Three layers, do not skip:
 
 1. **[lib/supabase.ts](lib/supabase.ts)** — raw row fetchers returning `EventRow` / `VenueRow`. Don't call from pages.
-2. **[lib/derive.ts](lib/derive.ts)** — enriches rows into `DerivedEvent` / `Venue`. **Important:** `palette`, `tiers`, `priceFrom`, `lgbtq` are *deterministically mocked from a seed* (`row.idx` or hash of `row.id`) — they're not in the DB. Same row → same values. If you treat them as DB truth, you will be wrong.
+2. **[lib/derive.ts](lib/derive.ts)** — enriches rows into `DerivedEvent` / `Venue`. `tiers`, `priceFrom`, and `lgbtq` come from real DB columns (`ticket_url`/`vip_ticket_url`/`table_url`, `price_from`/`vip_price`/`table_price`, `is_lgbtq`); `tags` and `bucket` are derived from `start_time`/`date`/`venue_type`. **Only `palette` is decorative**: it's seeded deterministically from a hash of `row.id`, so the same row always gets the same colors. Don't treat `palette` as DB truth (there is no `idx` or `source_url` column).
 3. **[lib/data.ts](lib/data.ts)** — public entry points (`getAllEvents`, `getVenues`, `getVenueBySlug`, `getEventBySlug`). Wrapped in React `cache()` for per-request dedup. **Pages must import from here, not from `lib/supabase` directly** — the only exceptions are [sitemap.ts](app/sitemap.ts) and `generateStaticParams` calls that need the raw rows.
 
 ## Routes
@@ -60,7 +60,7 @@ All dates are string-based ISO `YYYY-MM-DD`. The date helpers in [lib/format.ts]
 
 - Path alias: `@/*` → repo root (see [tsconfig.json](tsconfig.json)). Imports use `@/lib/...`, `@/app/components/...`.
 - Slug format: `{first-artist-lowercased-hyphenated}-{YYYY-MM-DD}`. Slugs are stored in the DB and are unique; don't recompute them.
-- Hero selection: [`pickHero`](lib/derive.ts) prefers Cavo Paradiso after-hours, then any after-hours, then first.
+- Hero selection: [`pickHero`](lib/derive.ts) prefers the first event at Scorpios, Alemagou, or SantAnna (in that priority order), then Cavo Paradiso after-hours, then any after-hours, then the first event.
 - Buckets: events are grouped late (05–12h) / sundown (12–22h) / prime (22–05h) by `start_time` in [`bucketFor`](lib/derive.ts).
 - Islands: only `mykonos` is `active: true` in [lib/islands.ts](lib/islands.ts); the others are placeholders for v2.
 - Tickets: never handle payments — all CTAs are external links that open in a new tab.

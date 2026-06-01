@@ -1,7 +1,8 @@
 export function todayISO(): string {
-  const d = new Date();
-  d.setHours(12, 0, 0, 0);
-  return isoDate(d);
+  // "Today" in Greece (Europe/Athens), independent of the server's timezone.
+  // en-CA formats as YYYY-MM-DD; the timeZone option keeps us on the correct
+  // calendar day even when the server runs in UTC (e.g. Vercel).
+  return new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Athens" });
 }
 
 export function isoDate(d: Date): string {
@@ -37,26 +38,6 @@ export function monthLabel(iso: string): string {
     month: "long",
     year: "numeric",
   });
-}
-
-export function dateHeadline(iso: string, today: string): string {
-  if (iso === today) return "Today";
-  if (iso === addDays(today, 1)) return "Tomorrow";
-  return parseISO(iso).toLocaleDateString("en-GB", {
-    weekday: "long",
-    day: "numeric",
-    month: "short",
-  });
-}
-
-export function fullDateLine(iso: string): string {
-  return parseISO(iso)
-    .toLocaleDateString("en-GB", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-    })
-    .toUpperCase();
 }
 
 export function shortDOW(iso: string): string {
@@ -107,13 +88,6 @@ export function formatTime(t: string | null): string {
   return t.slice(0, 5);
 }
 
-export function timeRange(start: string | null, end: string | null): string {
-  const s = formatTime(start);
-  const e = formatTime(end);
-  if (s && e) return `${s}-${e}`;
-  return s || e || "";
-}
-
 // Lifted from the design's data.js, with daily editor notes keyed by weekday.
 const WEEKDAY_NOTES: Record<number, string> = {
   0: "Sunday slows down. Long lunches that bleed into sundown, beach clubs easing the volume back, one last stretch before the week resets.",
@@ -127,8 +101,4 @@ const WEEKDAY_NOTES: Record<number, string> = {
 
 export function editorNoteForDate(iso: string): string {
   return WEEKDAY_NOTES[parseISO(iso).getDay()] ?? WEEKDAY_NOTES[2];
-}
-
-export function pluralize(n: number, singular: string, plural: string): string {
-  return n === 1 ? singular : plural;
 }

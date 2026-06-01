@@ -5,6 +5,7 @@ import { getAllEvents, getEventBySlug, getVenues } from "@/lib/data";
 import { addDays, parseISO } from "@/lib/format";
 import { islandById } from "@/lib/islands";
 import { fetchAllEvents, fetchAllVenues } from "@/lib/supabase";
+import { jsonLdScript } from "@/lib/seo";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
 import { ChromeOverlays } from "@/app/components/ChromeOverlays";
@@ -89,6 +90,14 @@ export default async function EventPage({
     month: "long",
   });
 
+  const where = ev.venue.area ?? ev.venue.city;
+  // Real venue photo is the best rich-result image; fall back to the dynamic OG card.
+  const eventImage =
+    ev.venue.image_url ??
+    `https://nightly.gr/api/og?title=${encodeURIComponent(ev.title)}&venue=${encodeURIComponent(
+      `${ev.venue.name} · ${where}`,
+    )}&date=${encodeURIComponent(dateText)}&time=${encodeURIComponent(ev.startTime)}`;
+
   const heroStyle: React.CSSProperties = {
     background: `linear-gradient(135deg, ${ev.palette[0]} 0%, ${ev.palette[1]} 70%)`,
   };
@@ -125,6 +134,7 @@ export default async function EventPage({
     "@context": "https://schema.org",
     "@type": "Event",
     name: ev.title,
+    image: [eventImage],
     startDate: `${ev.date}T${start}:00+03:00`,
     endDate: ev.endTime ? `${endDateOnly}T${ev.endTime}:00+03:00` : undefined,
     eventStatus: "https://schema.org/EventScheduled",
@@ -145,6 +155,27 @@ export default async function EventPage({
     })),
     offers: offers,
     description: ev.offTheRecord ?? undefined,
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "nightly.gr", item: "https://nightly.gr" },
+      { "@type": "ListItem", position: 2, name: "Mykonos", item: "https://nightly.gr/mykonos" },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: ev.venue.name,
+        item: `https://nightly.gr/mykonos/${ev.venue.slug}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 4,
+        name: ev.title,
+        item: `https://nightly.gr/mykonos/${ev.venue.slug}/${ev.slug}`,
+      },
+    ],
   };
 
   return (
@@ -211,7 +242,7 @@ export default async function EventPage({
           <div className="grid lg:grid-cols-[1fr_320px] gap-10 lg:gap-14 items-start">
             <div className="min-w-0 space-y-10">
               {(ev.offTheRecord || ev.lgbtq || ev.tags.length > 0) && (
-                <section className="space-y-7">
+                <section>
                   {ev.offTheRecord && (
                     <p className="display-h text-xl md:text-2xl leading-[1.32] m-0">
                       <span className="text-accent">Off the record &mdash; </span>
@@ -219,7 +250,9 @@ export default async function EventPage({
                     </p>
                   )}
                   {(ev.lgbtq || ev.tags.length > 0) && (
-                    <div className="flex flex-wrap gap-2">
+                    <div
+                      className={`flex flex-wrap gap-2 ${ev.offTheRecord ? "mt-8 md:mt-10" : ""}`}
+                    >
                       {ev.lgbtq && (
                         <Tag kind="queer" size="lg">
                           Queer-friendly
@@ -374,7 +407,11 @@ export default async function EventPage({
 
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbLd) }}
       />
     </ChromeOverlays>
   );

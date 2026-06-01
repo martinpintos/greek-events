@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getAllEvents, getVenueBySlug, getVenues } from "@/lib/data";
 import { todayISO } from "@/lib/format";
 import { fetchAllVenues } from "@/lib/supabase";
+import { jsonLdScript } from "@/lib/seo";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
 import { ChromeOverlays } from "@/app/components/ChromeOverlays";
@@ -72,6 +73,21 @@ export default async function VenuePage({ params }: { params: Promise<{ venue: s
       addressCountry: venue.country,
     },
     sameAs: [venue.website, instagramUrl].filter(Boolean),
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "nightly.gr", item: "https://nightly.gr" },
+      { "@type": "ListItem", position: 2, name: "Mykonos", item: "https://nightly.gr/mykonos" },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: venue.name,
+        item: `https://nightly.gr/mykonos/${venue.slug}`,
+      },
+    ],
   };
 
   return (
@@ -241,7 +257,11 @@ export default async function VenuePage({ params }: { params: Promise<{ venue: s
       <Footer />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbLd) }}
       />
     </ChromeOverlays>
   );

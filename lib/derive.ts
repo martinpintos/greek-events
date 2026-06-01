@@ -33,12 +33,6 @@ function hashStr(s: string): number {
   return h >>> 0;
 }
 
-function seedFor(row: EventRow): number {
-  // Prefer the numeric idx column if present; fall back to hashing the uuid id.
-  if (typeof row.idx === "number") return row.idx;
-  return hashStr(row.id);
-}
-
 function startHour(start: string | null): number {
   if (!start) return 22;
   const [h, m] = start.split(":").map(Number);
@@ -77,7 +71,7 @@ function num(v: unknown): number | null {
 function tiersFor(row: EventRow): Tier[] {
   const tiers: Tier[] = [];
 
-  const gaUrl = row.ticket_url ?? row.source_url ?? null;
+  const gaUrl = row.ticket_url ?? null;
   if (gaUrl) {
     tiers.push({ kind: "ga", label: "General", url: gaUrl, price: num(row.price_from) });
   }
@@ -134,7 +128,7 @@ export function deriveEvent(row: EventRow, venuesById: Map<number, Venue>): Deri
     lgbtq: row.is_lgbtq ?? false,
     tags: tagsFor(row, venue),
     bucket: bucketFor(row.start_time),
-    palette: paletteFor(seedFor(row)),
+    palette: paletteFor(hashStr(row.id)),
   };
 }
 

@@ -1,7 +1,7 @@
 # nightly.gr — Product Requirements Document
 
 **Version:** 0.4 (MVP)
-**Status:** Database complete, design complete, ready to build
+**Status:** Database complete, design complete, MVP built
 **Tagline:** Greek islands, after dark.
 **Domain:** nightly.gr (registered)
 
@@ -33,7 +33,7 @@ No authoritative nightlife calendar exists for the Greek islands. Travelers plan
 
 ### In scope
 
-- Public event calendar for Mykonos (4 venues: Scorpios, Cavo Paradiso, SantAnna, Alemagou)
+- Public event calendar for Mykonos (6 venues: Scorpios, Cavo Paradiso, SantAnna, Alemagou, XLSIOR Festival, Void)
 - Date navigation (scrollable day strip, month picker)
 - Venue filter
 - Hero event on calendar home
@@ -68,7 +68,7 @@ No authoritative nightlife calendar exists for the Greek islands. Travelers plan
 
 - **Name:** greek-events
 - **Region:** eu-central-1 (Frankfurt)
-- **Data:** 331 events, 4 venues — all imported
+- **Data:** 341 events, 6 venues — all imported
 
 ### venues table
 
@@ -96,6 +96,10 @@ No authoritative nightlife calendar exists for the Greek islands. Travelers plan
 | 2 | Scorpios | scorpios | Paraga Beach | beach_club | 1000 |
 | 3 | SantAnna | santanna | Paraga Beach | beach_club | null |
 | 4 | Cavo Paradiso | cavo-paradiso | Paradise Beach | club | 3000 |
+| 5 | XLSIOR Festival | xlsior-festival | — | festival | null |
+| 6 | Void | void | — | club | null |
+
+> `venue_type` now includes `festival` (XLSIOR). The TS `VenueType` union in [lib/types.ts](lib/types.ts) must stay in sync with the values actually present in this column.
 
 ### events table
 
@@ -108,14 +112,20 @@ No authoritative nightlife calendar exists for the Greek islands. Travelers plan
 | venue_id       | int8        | NOT NULL, FK → venues.id |                               |
 | start_time     | time        | nullable                 | 17:00 beach clubs, 23:00 Cavo |
 | end_time       | time        | nullable                 | 00:00 beach clubs, 06:00 Cavo |
-| ticket_url     | text        | nullable                 |                               |
+| ticket_url     | text        | nullable                 | General-admission link        |
 | vip_ticket_url | text        | nullable                 | Cavo Paradiso has this        |
-| table_url      | text        | nullable                 | Cavo Paradiso has this        |
-| source_url     | text        | nullable                 |                               |
+| table_url      | text        | nullable                 | Table reservation link        |
+| price_from     | numeric     | nullable                 | GA price (€)                  |
+| vip_price      | numeric     | nullable                 | VIP price (€)                 |
+| table_price    | numeric     | nullable                 | Table price (€)               |
+| is_lgbtq       | boolean     | nullable                 | Queer-friendly flag           |
 | is_verified    | boolean     | default false            |                               |
-| notes          | text        | nullable                 | e.g. "Full Moon Party"        |
+| off_the_record | text        | nullable                 | Editorial note (the app reads this, NOT `notes`) |
+| notes          | text        | nullable                 | Legacy field; unused by the app |
 | slug           | text        | NOT NULL, UNIQUE         |                               |
 | created_at     | timestamptz | default now()            |                               |
+
+> There is no `source_url` or `idx` column. The app derives ticket tiers from `ticket_url`/`vip_ticket_url`/`table_url` (+ matching `*_price`) and the palette from a hash of `id`.
 
 ### Slug format
 

@@ -70,7 +70,7 @@ export default async function About() {
           Privacy
         </div>
         <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-mute m-0 mb-4">
-          Last updated: 25 May 2026
+          Last updated: 1 June 2026
         </p>
         <p className="text-base leading-relaxed text-ink-2 m-0 mb-4">
           This notice explains what data nightly.gr collects and how we use it. nightly.gr is the
@@ -92,16 +92,21 @@ export default async function About() {
           send us by email.
         </p>
         <p className="text-base leading-relaxed text-ink-2 m-0 mb-4">
-          <strong>Cookies and local storage. </strong>Right now we do not set analytics or
-          advertising cookies. We use one local storage entry,{" "}
+          <strong>Cookies and local storage. </strong>We do not set analytics or advertising
+          cookies. We use Vercel Web Analytics, a cookieless, privacy-friendly measurement tool
+          that counts aggregate visits without cookies, without storing information on your device,
+          and without tracking you across sites or building profiles. We also use one local storage
+          entry,{" "}
           <code className="font-mono text-[0.9em]">nightly:cookies-ack</code>, for up to six months
-          to remember that you&rsquo;ve dismissed the cookie notice. If we add non-essential
-          analytics, advertising, embeds, social widgets, or measurement tools later, we will ask
-          for consent first where the law requires it and provide a way to change that choice.
+          to remember that you&rsquo;ve dismissed this notice. If we add cookie-based or otherwise
+          non-essential analytics, advertising, embeds, social widgets, or measurement tools later,
+          we will ask for consent first where the law requires it and provide a way to change that
+          choice.
         </p>
         <p className="text-base leading-relaxed text-ink-2 m-0 mb-4">
           <strong>Third parties. </strong>We use service providers for hosting, database, email, and
-          site operations, including Supabase for the database and Google/Gmail for email. The
+          site operations, including Vercel for hosting and cookieless analytics, Supabase for the
+          database, and Google/Gmail for email. The
           production host or CDN may process request logs to serve and secure the site. Some
           providers may process data outside Greece or the European Economic Area under their own
           safeguards and contractual terms. Venue images may be loaded from third-party hosts, and

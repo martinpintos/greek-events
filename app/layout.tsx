@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 import { CookieBanner } from "./components/CookieBanner";
+import { jsonLdScript } from "@/lib/seo";
 
 const instrumentSerif = Instrument_Serif({
   variable: "--font-instrument-serif",
@@ -78,9 +80,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <CookieBanner />
+        <Analytics />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(siteJsonLd) }}
         />
       </body>
     </html>

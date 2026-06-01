@@ -43,6 +43,7 @@ export function TicketBar({
 
   if (ev.tiers.length === 1) {
     const tier = ev.tiers[0];
+    const isTable = tier.kind === "table";
     return (
       <div
         className={
@@ -54,7 +55,7 @@ export function TicketBar({
         <div className="flex items-center justify-between gap-4 px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
           <div className="flex flex-col gap-0.5">
             <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-white/60">
-              {tier.price != null ? tier.label : "Tickets"}
+              {tier.price != null ? tier.label : isTable ? "Reserve" : "Tickets"}
             </span>
             <span className="display-h text-2xl leading-none">
               {tier.price != null ? `€${tier.price}` : tier.label}
@@ -66,8 +67,8 @@ export function TicketBar({
             rel="noopener noreferrer nofollow"
             className="inline-flex items-center gap-2 px-5 py-3 bg-accent text-ink font-mono text-[12px] font-bold uppercase tracking-[0.16em] hover:brightness-110 transition-all"
           >
-            <Icon name="ticket" size={14} />
-            Get tickets
+            <Icon name={isTable ? "calendar" : "ticket"} size={14} />
+            {isTable ? "Reserve table" : "Get tickets"}
           </a>
         </div>
       </div>
@@ -75,6 +76,7 @@ export function TicketBar({
   }
 
   const tier = ev.tiers.find((t) => t.kind === selected) ?? ev.tiers[0];
+  const isTable = tier.kind === "table";
 
   return (
     <div
@@ -115,8 +117,10 @@ export function TicketBar({
         rel="noopener noreferrer nofollow"
         className="flex items-center gap-3 px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] bg-accent text-ink font-mono text-[12px] font-bold uppercase tracking-[0.16em] hover:brightness-110 transition-all"
       >
-        <Icon name="ticket" size={14} />
-        <span className="flex-1">Buy {tier.label} tickets</span>
+        <Icon name={isTable ? "calendar" : "ticket"} size={14} />
+        <span className="flex-1">
+          {isTable ? "Reserve table" : `Buy ${tier.label} tickets`}
+        </span>
         {tier.price != null && (
           <span className="display-h text-lg normal-case tracking-tight">
             €{tier.price}

@@ -1,6 +1,6 @@
 export type IslandId = "mykonos" | "santorini" | "ios" | "paros" | "rhodes";
 
-export type VenueType = "club" | "beach_club" | "bar" | "boat";
+export type VenueType = "club" | "beach_club" | "bar" | "boat" | "festival";
 
 export type VenueRow = {
   id: number;
@@ -20,7 +20,6 @@ export type VenueRow = {
 
 export type EventRow = {
   id: string;
-  idx?: number | null;
   date: string;
   title: string;
   lineup: string | null;
@@ -30,7 +29,6 @@ export type EventRow = {
   ticket_url: string | null;
   vip_ticket_url: string | null;
   table_url: string | null;
-  source_url?: string | null;
   price_from: number | null;
   vip_price: number | null;
   table_price: number | null;
