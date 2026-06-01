@@ -34,7 +34,7 @@ export function Footer() {
                 <Icon name="ig" size={14} /> Instagram
               </a>
               <a
-                href="https://open.spotify.com/search/nightly.gr"
+                href="https://open.spotify.com/playlist/3UW2zSV5caZ2ZdLi3u485K?si=DzhVAgAnR_CqcOwS9SdFcg"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-3 py-2 border border-white/20 rounded-full text-xs font-mono tracking-wider hover:border-accent hover:text-accent transition-colors"
