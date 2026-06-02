@@ -11,20 +11,21 @@ import { CalendarStatic } from "../components/CalendarStatic";
 export const revalidate = 3600;
 
 const description =
-  "Every night on Mykonos. Cavo Paradiso, Scorpios, SantAnna, Alemagou, lineups, tickets, insider tips.";
+  "Explore Mykonos events in 2026, from beach clubs and sunset parties to late-night club events, DJ lineups, tickets and the best venues on the island.";
 
 const ogImage = `/api/og?title=${encodeURIComponent("Mykonos")}&venue=${encodeURIComponent(
   "The island · Cyclades",
 )}&date=${encodeURIComponent("Summer 2026")}&time=`;
 
 export const metadata: Metadata = {
-  title: "Mykonos | Clubs, beach clubs, late nights",
+  title: { absolute: "Mykonos Events 2026: Parties, Clubs, Lineups & Tickets" },
   description,
   alternates: { canonical: "/mykonos" },
   openGraph: {
-    title: "Mykonos",
+    title: "Mykonos Events 2026: Parties, Clubs, Lineups & Tickets",
     description,
     type: "website",
+    siteName: "nightly.gr",
     images: [ogImage],
   },
 };

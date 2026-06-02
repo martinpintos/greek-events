@@ -11,9 +11,9 @@ import { CalendarStatic } from "./components/CalendarStatic";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "nightly.gr | Greek islands, in the know.",
+  title: { absolute: "Mykonos Nightlife 2026: Clubs, Events, Lineups & Tickets" },
   description:
-    "An insider calendar for the Greek islands. Dates, rooms, lineups, and island intel before plans get made.",
+    "Plan your nights in Mykonos with the 2026 nightlife calendar: club events, DJ lineups, set times, tickets and parties at Scorpios, Cavo Paradiso and more.",
   alternates: { canonical: "/" },
 };
 

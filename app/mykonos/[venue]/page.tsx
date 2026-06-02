@@ -27,9 +27,8 @@ export async function generateMetadata({
   const v = await getVenueBySlug(venue);
   if (!v) return { title: "Venue not found" };
   return {
-    title: `${v.name} | ${v.city}`,
-    description:
-      v.description ?? `Upcoming events at ${v.name}, ${v.city}. Lineups, tickets, insider tips.`,
+    title: { absolute: `${v.name} ${v.city} 2026: Events, Lineups & Tickets` },
+    description: `See upcoming ${v.name} ${v.city} events for 2026, including music lineups, dates, set times, tickets and everything you need to plan your night out.`,
     alternates: { canonical: `/mykonos/${v.slug}` },
   };
 }
