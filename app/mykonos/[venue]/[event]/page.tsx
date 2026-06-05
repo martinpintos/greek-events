@@ -92,6 +92,14 @@ export default async function EventPage({
   });
 
   const where = ev.venue.area ?? ev.venue.city;
+  const islandName = islandById(ev.venue.island).name;
+  const eventUrl = `https://nightly.gr/mykonos/${ev.venue.slug}/${ev.slug}`;
+  const venueUrl = `https://nightly.gr/mykonos/${ev.venue.slug}`;
+  const instagramUrl = ev.venue.instagram
+    ? ev.venue.instagram.startsWith("http")
+      ? ev.venue.instagram
+      : `https://instagram.com/${ev.venue.instagram.replace(/^@/, "")}`
+    : null;
   // Real venue photo is the best rich-result image; fall back to the dynamic OG card.
   const eventImage =
     ev.venue.image_url ??
@@ -110,33 +118,55 @@ export default async function EventPage({
   const start = ev.startTime || "23:00";
   const endsNextDay = !!ev.endTime && ev.endTime < start;
   const endDateOnly = endsNextDay ? addDays(ev.date, 1) : ev.date;
+  const startDate = `${ev.date}T${start}:00+03:00`;
+  const validFrom = `${ev.date}T00:00:00+03:00`;
 
-  const tierOffers = ev.tiers.map((t) => ({
-    "@type": "Offer",
-    name: t.label,
-    url: t.url,
-    availability: "https://schema.org/InStock",
-    ...(t.price != null ? { price: t.price, priceCurrency: "EUR" } : {}),
-  }));
-  const offers =
-    ev.priceFrom != null
+  const priced = (price: number | null | undefined) =>
+    price != null ? { price, priceCurrency: "EUR" } : {};
+
+  const tierOffers = ev.tiers.map((t) => {
+    const price = t.price ?? ev.priceFrom;
+    return {
+      "@type": "Offer",
+      name: t.label,
+      url: t.url,
+      availability: "https://schema.org/InStock",
+      validFrom,
+      ...priced(price),
+    };
+  });
+  const doorOffer =
+    ev.tiers.length === 0
       ? {
-          "@type": "AggregateOffer",
-          priceCurrency: "EUR",
-          lowPrice: ev.priceFrom,
-          offerCount: ev.tiers.length || 1,
-          ...(tierOffers.length ? { offers: tierOffers } : {}),
+          "@type": "Offer",
+          name: "Door entry",
+          url: eventUrl,
+          availability: "https://schema.org/InStock",
+          validFrom,
+          ...priced(ev.priceFrom),
         }
-      : tierOffers.length
-        ? tierOffers
-        : undefined;
+      : null;
+  const offers =
+    tierOffers.length === 1 ? tierOffers[0] : tierOffers.length ? tierOffers : doorOffer;
+  const description = [
+    ev.offTheRecord,
+    `${ev.title} at ${ev.venue.name}, ${where}, ${islandName}.`,
+    `${dateText}${ev.startTime ? ` from ${ev.startTime}` : ""}${
+      ev.endTime ? ` to ${ev.endTime}` : ""
+    }.`,
+    ev.lineup.length
+      ? `Lineup: ${ev.lineup.join(", ")}.`
+      : "Ticket details, table bookings, and venue information.",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Event",
     name: ev.title,
     image: [eventImage],
-    startDate: `${ev.date}T${start}:00+03:00`,
+    startDate,
     endDate: ev.endTime ? `${endDateOnly}T${ev.endTime}:00+03:00` : undefined,
     eventStatus: "https://schema.org/EventScheduled",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
@@ -154,8 +184,14 @@ export default async function EventPage({
       "@type": "PerformingGroup",
       name,
     })),
-    offers: offers,
-    description: ev.offTheRecord ?? undefined,
+    organizer: {
+      "@type": "Organization",
+      name: ev.venue.name,
+      url: ev.venue.website ?? venueUrl,
+      sameAs: [instagramUrl].filter(Boolean),
+    },
+    offers,
+    description,
   };
 
   const breadcrumbLd = {
