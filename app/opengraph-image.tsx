@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "nightly.gr. Greek islands, in the know.";
+export const alt = "nightly.gr. Greek islands, what's on.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -50,10 +50,11 @@ export default function OpengraphImage() {
             color: "#ff4d2e",
           }}
         >
-          in the know.
+          what&apos;s on.
         </div>
         <div style={{ marginTop: 28, fontSize: 32, opacity: 0.85, maxWidth: 900 }}>
-          Dates, rooms, lineups, and island intel before plans get made.
+          An insider calendar for the Greek islands. Dates, rooms, lineups, and island intel before
+          plans get made.
         </div>
       </div>
     </div>,

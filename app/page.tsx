@@ -33,7 +33,7 @@ export default async function Home() {
               Across the Greek islands
             </div>
             <h1 className="display-h text-4xl md:text-6xl lg:text-7xl leading-[0.95] m-0 max-w-4xl">
-              Greek islands, <em className="not-italic text-accent">in the know.</em>
+              Greek islands, <em className="not-italic text-accent">what&apos;s on.</em>
             </h1>
             <p className="mt-3 md:mt-4 text-sm md:text-base text-mute max-w-xl leading-relaxed">
               Dates, rooms, lineups, and the island intel worth knowing before the group chat

@@ -17,7 +17,7 @@ export function Footer() {
               nightly.gr · est. 2026 · Athens
             </div>
             <p className="display-h text-2xl md:text-[34px] leading-[1.05] mb-4 max-w-sm">
-              Greek islands, in the know.
+              Greek islands, what&apos;s on.
             </p>
             <p className="text-sm leading-relaxed text-faint max-w-sm">
               Plan your week on the Greek islands. Venues, lineups, opening hours, and the small

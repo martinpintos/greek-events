@@ -25,7 +25,7 @@ export default async function About() {
           About
         </div>
         <h1 className="display-h text-5xl md:text-7xl leading-[0.95] m-0 mb-8">
-          Greek islands, <em className="not-italic text-accent">in the know.</em>
+          Greek islands, <em className="not-italic text-accent">what&apos;s on.</em>
         </h1>
 
         <p className="display-h text-xl md:text-2xl leading-[1.32] m-0 mb-6">

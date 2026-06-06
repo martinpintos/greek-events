@@ -36,7 +36,7 @@ const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "nightly.gr | Greek islands, in the know.",
+    default: "nightly.gr | Greek islands, what's on.",
     template: "%s · nightly.gr",
   },
   description:
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "nightly.gr",
-    title: "nightly.gr | Greek islands, in the know.",
+    title: "nightly.gr | Greek islands, what's on.",
     description: "Dates, rooms, lineups, and island intel before plans get made.",
   },
   twitter: { card: "summary_large_image" },
