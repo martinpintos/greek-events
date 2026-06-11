@@ -27,12 +27,39 @@ export async function generateMetadata({
   params: Promise<{ venue: string }>;
 }): Promise<Metadata> {
   const { venue } = await params;
-  const v = await getVenueBySlug(venue);
+  const [v, allEvents] = await Promise.all([getVenueBySlug(venue), getAllEvents()]);
   if (!v) return { title: "Venue not found" };
+
+  // Lead the description with who's actually playing next: it answers
+  // "<venue> lineup" queries directly in the snippet. Events arrive
+  // date-sorted, so the first lineups are the next ones on the calendar.
+  const today = todayISO();
+  const artists: string[] = [];
+  for (const e of allEvents) {
+    if (e.venue.slug !== v.slug || e.date < today) continue;
+    for (const name of e.lineup) {
+      if (!artists.includes(name)) artists.push(name);
+      if (artists.length === 3) break;
+    }
+    if (artists.length === 3) break;
+  }
+
+  const title = `${v.name} ${v.city} 2026: Events, Lineups & Tickets`;
+  const description = artists.length
+    ? `Coming up at ${v.name}: ${artists.join(", ")}. See the full ${v.name} ${v.city} 2026 calendar with DJ lineups, dates, set times and tickets.`
+    : `See upcoming ${v.name} ${v.city} events for 2026, including music lineups, dates, set times, tickets and everything you need to plan your night out.`;
+
   return {
-    title: { absolute: `${v.name} ${v.city} 2026: Events, Lineups & Tickets` },
-    description: `See upcoming ${v.name} ${v.city} events for 2026, including music lineups, dates, set times, tickets and everything you need to plan your night out.`,
+    title: { absolute: title },
+    description,
     alternates: { canonical: `/mykonos/${v.slug}` },
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      siteName: "nightly.gr",
+      ...(v.image_url ? { images: [v.image_url] } : {}),
+    },
   };
 }
 

@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getAllEvents, getEventBySlug, getVenues } from "@/lib/data";
 import { toOverlayEvents, toOverlayVenues } from "@/lib/derive";
-import { addDays, parseISO } from "@/lib/format";
+import { addDays, parseISO, todayISO } from "@/lib/format";
 import { islandById } from "@/lib/islands";
 import { fetchAllEvents, fetchAllVenues } from "@/lib/supabase";
 import { jsonLdScript } from "@/lib/seo";
@@ -47,7 +47,7 @@ export async function generateMetadata({
   });
   const where = ev.venue.area ?? ev.venue.city;
   const islandName = islandById(ev.venue.island).name;
-  // Day and month for the metadata title, e.g. "5 July" (no weekday, no year, no start time).
+  // Day and month for the metadata title, e.g. "5 July" (no weekday, no start time).
   const titleDate = parseISO(ev.date).toLocaleDateString("en-GB", {
     day: "numeric",
     month: "long",
@@ -56,9 +56,11 @@ export async function generateMetadata({
   const ogImage = `/api/og?title=${encodeURIComponent(ev.title)}&venue=${encodeURIComponent(ogVenue)}&date=${encodeURIComponent(formattedDate)}&time=${encodeURIComponent(ev.startTime)}`;
   const whenText = ev.startTime ? `${formattedDate} from ${ev.startTime}` : formattedDate;
   const description = `${ev.venue.name}, ${where}, ${islandName}. ${whenText}. Who's playing, ticket tiers, table bookings, and insider tips.`;
-  const pageTitle = `${ev.title} | ${ev.venue.name}, ${titleDate}`;
+  // Island + year in the title to match how people actually search
+  // ("adriatique mykonos 2026"), keyword-led with no brand suffix.
+  const pageTitle = `${ev.title} at ${ev.venue.name} ${islandName}, ${titleDate} ${ev.date.slice(0, 4)}: Tickets`;
   return {
-    title: pageTitle,
+    title: { absolute: pageTitle },
     description,
     alternates: { canonical: `/mykonos/${venue}/${event}` },
     openGraph: {
@@ -150,8 +152,16 @@ export default async function EventPage({
           ...priced(ev.priceFrom),
         }
       : null;
-  const offers =
-    tierOffers.length === 1 ? tierOffers[0] : tierOffers.length ? tierOffers : doorOffer;
+  // Past events must not advertise InStock offers (page revalidates daily,
+  // so this flips within a day of the event passing).
+  const isPast = ev.date < todayISO();
+  const offers = isPast
+    ? undefined
+    : tierOffers.length === 1
+      ? tierOffers[0]
+      : tierOffers.length
+        ? tierOffers
+        : doorOffer;
   const description = [
     ev.offTheRecord,
     `${ev.title} at ${ev.venue.name}, ${where}, ${islandName}.`,
@@ -169,6 +179,7 @@ export default async function EventPage({
     "@context": "https://schema.org",
     "@type": "Event",
     name: ev.title,
+    url: eventUrl,
     image: [eventImage],
     startDate,
     endDate: ev.endTime ? `${endDateOnly}T${ev.endTime}:00+03:00` : undefined,
@@ -177,6 +188,8 @@ export default async function EventPage({
     location: {
       "@type": "Place",
       name: ev.venue.name,
+      url: venueUrl,
+      sameAs: [ev.venue.website, instagramUrl].filter(Boolean),
       address: {
         "@type": "PostalAddress",
         addressLocality: ev.venue.city,

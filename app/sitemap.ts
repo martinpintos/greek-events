@@ -13,9 +13,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const venueById = new Map(venues.map((v) => [v.id, v]));
   const today = todayISO();
 
+  // /mykonos is omitted while its canonical points at / (see app/mykonos/page.tsx);
+  // sitemaps should only list canonical URLs. Restore it when other islands launch.
   const staticPaths: MetadataRoute.Sitemap = [
     { url: `${BASE}/`, changeFrequency: "daily", priority: 1.0 },
-    { url: `${BASE}/mykonos`, changeFrequency: "daily", priority: 0.9 },
     { url: `${BASE}/about`, changeFrequency: "monthly", priority: 0.3 },
   ];
 

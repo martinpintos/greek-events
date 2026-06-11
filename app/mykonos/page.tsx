@@ -22,7 +22,10 @@ const ogImage = `/api/og?title=${encodeURIComponent("Mykonos")}&venue=${encodeUR
 export const metadata: Metadata = {
   title: { absolute: "Mykonos Events 2026: Parties, Clubs, Lineups & Tickets" },
   description,
-  alternates: { canonical: "/mykonos" },
+  // While the site is Mykonos-only, / and /mykonos render the same calendar,
+  // so consolidate ranking signals on /. Revert to "/mykonos" once other
+  // islands go live and the two pages genuinely differ.
+  alternates: { canonical: "/" },
   openGraph: {
     title: "Mykonos Events 2026: Parties, Clubs, Lineups & Tickets",
     description,
