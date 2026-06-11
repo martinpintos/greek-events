@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Fuse, { type IFuseOptions } from "fuse.js";
-import type { DerivedEvent } from "@/lib/types";
+import type { OverlayEvent } from "@/lib/types";
 import { parseISO } from "@/lib/format";
 import { Icon } from "./Icon";
 import { useFocusTrap } from "./useFocusTrap";
@@ -68,7 +68,7 @@ function parseSearch(value: string): {
 }
 
 type SearchRecord = {
-  ev: DerivedEvent;
+  ev: OverlayEvent;
   title: string;
   venue: string;
   lineup: string;
@@ -76,7 +76,7 @@ type SearchRecord = {
   tags: string;
 };
 
-function toRecord(ev: DerivedEvent): SearchRecord {
+function toRecord(ev: OverlayEvent): SearchRecord {
   return {
     ev,
     title: normalize(ev.title),
@@ -110,7 +110,7 @@ export function SearchSheet({
   events,
   onClose,
 }: {
-  events: DerivedEvent[];
+  events: OverlayEvent[];
   onClose: () => void;
 }) {
   const router = useRouter();
@@ -140,7 +140,7 @@ export function SearchSheet({
     const parsed = parseSearch(needle);
     const hasStructuredDate = parsed.day !== null || parsed.month !== null;
 
-    const matchesDate = (ev: DerivedEvent) => {
+    const matchesDate = (ev: OverlayEvent) => {
       if (parsed.day !== null && Number(ev.date.slice(8, 10)) !== parsed.day) {
         return false;
       }

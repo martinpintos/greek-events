@@ -1,4 +1,4 @@
-import type { DerivedEvent, IslandId, VenueType } from "./types";
+import type { IslandId, OverlayEvent, VenueType } from "./types";
 
 export type FilterState = {
   islands: IslandId[];
@@ -18,10 +18,10 @@ export function filtersToQuery(f: FilterState): URLSearchParams {
   return p;
 }
 
-export function applyFilters(
-  events: DerivedEvent[],
+export function applyFilters<T extends OverlayEvent>(
+  events: T[],
   f: FilterState
-): DerivedEvent[] {
+): T[] {
   return events.filter((e) => {
     if (f.islands.length && !f.islands.includes(e.venue.island)) return false;
     if (f.venues.length && !f.venues.includes(e.venue.slug)) return false;

@@ -3,6 +3,8 @@ import type {
   EventBucket,
   EventRow,
   EventTag,
+  OverlayEvent,
+  OverlayVenue,
   Tier,
   Venue,
 } from "./types";
@@ -140,6 +142,49 @@ export function deriveEvents(
   return rows
     .filter((r) => byId.has(r.venue_id))
     .map((r) => deriveEvent(r, byId));
+}
+
+// Pages that don't render the calendar pass these slim copies to
+// ChromeOverlays instead of the full derived objects, which keeps the
+// per-page RSC payload (and Vercel ISR write units) small.
+export function toOverlayEvents(events: DerivedEvent[]): OverlayEvent[] {
+  // One shared ref per venue: the RSC serializer dedupes repeated object
+  // references, so each venue is encoded once instead of per event.
+  const venueRefs = new Map<number, OverlayEvent["venue"]>();
+  return events.map((e) => {
+    let venue = venueRefs.get(e.venue.id);
+    if (!venue) {
+      venue = {
+        name: e.venue.name,
+        slug: e.venue.slug,
+        area: e.venue.area,
+        city: e.venue.city,
+        island: e.venue.island,
+        venue_type: e.venue.venue_type,
+      };
+      venueRefs.set(e.venue.id, venue);
+    }
+    return {
+      id: e.id,
+      slug: e.slug,
+      date: e.date,
+      startTime: e.startTime,
+      title: e.title,
+      lineup: e.lineup,
+      lgbtq: e.lgbtq,
+      tags: e.tags,
+      venue,
+    };
+  });
+}
+
+export function toOverlayVenues(venues: Venue[]): OverlayVenue[] {
+  return venues.map((v) => ({
+    name: v.name,
+    slug: v.slug,
+    island: v.island,
+    venue_type: v.venue_type,
+  }));
 }
 
 const HERO_VENUE_PRIORITY = ["scorpios", "alemagou", "santanna"];

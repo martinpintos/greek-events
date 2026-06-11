@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useCallback } from "react";
-import type { DerivedEvent, Venue } from "@/lib/types";
+import type { OverlayEvent, OverlayVenue } from "@/lib/types";
 import { SearchSheet } from "./SearchSheet";
 import { FilterSheet } from "./FilterSheet";
 
@@ -19,8 +19,8 @@ export function ChromeOverlays({
   venues,
   children,
 }: {
-  events: DerivedEvent[];
-  venues: Venue[];
+  events: OverlayEvent[];
+  venues: OverlayVenue[];
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState<OverlayKind>(null);

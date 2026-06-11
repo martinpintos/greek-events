@@ -8,6 +8,8 @@ import { ChromeOverlays } from "./components/ChromeOverlays";
 import { CalendarBody } from "./components/CalendarBody";
 import { CalendarStatic } from "./components/CalendarStatic";
 
+// Stays hourly: todayISO() is baked into the cached page, so a longer window
+// would serve a stale "today" after midnight.
 export const revalidate = 3600;
 
 export const metadata: Metadata = {

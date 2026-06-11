@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useEffect } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import type { DerivedEvent, IslandId, Venue, VenueType } from "@/lib/types";
+import type { IslandId, OverlayEvent, OverlayVenue, VenueType } from "@/lib/types";
 import { applyFilters, filtersToQuery, type FilterState } from "@/lib/filter";
 import { ISLANDS } from "@/lib/islands";
 import { Icon } from "./Icon";
@@ -18,8 +18,8 @@ export function FilterSheet({
   venues,
   onClose,
 }: {
-  events: DerivedEvent[];
-  venues: Venue[];
+  events: OverlayEvent[];
+  venues: OverlayVenue[];
   onClose: () => void;
 }) {
   const router = useRouter();

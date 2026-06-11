@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { getAllEvents, getVenues } from "@/lib/data";
+import { toOverlayEvents, toOverlayVenues } from "@/lib/derive";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { ChromeOverlays } from "../components/ChromeOverlays";
 
-export const revalidate = 3600;
+// Static copy, events are only needed for the search/filter sheets. Daily
+// regeneration keeps Vercel ISR writes low.
+export const revalidate = 86400;
 
 export const metadata: Metadata = {
   title: "About",
@@ -17,7 +20,7 @@ export default async function About() {
   const [events, venues] = await Promise.all([getAllEvents(), getVenues()]);
 
   return (
-    <ChromeOverlays events={events} venues={venues}>
+    <ChromeOverlays events={toOverlayEvents(events)} venues={toOverlayVenues(venues)}>
       <Header />
       <main className="mx-auto max-w-3xl px-5 md:px-8 py-10 md:py-16">
         <div className="eyebrow eyebrow-accent mb-3 inline-flex items-center gap-2">

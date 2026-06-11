@@ -77,6 +77,38 @@ export type DerivedEvent = {
   palette: [string, string];
 };
 
+// Slim shapes for the search/filter overlays. Every page ships these for all
+// events, so they carry only the fields the sheets read. `DerivedEvent` and
+// `Venue` are structurally assignable, so pages that already pass the full
+// objects to other components can reuse the same array.
+export type OverlayVenueRef = {
+  name: string;
+  slug: string;
+  area: string | null;
+  city: string;
+  island: IslandId;
+  venue_type: VenueType | null;
+};
+
+export type OverlayEvent = {
+  id: string;
+  slug: string;
+  date: string;
+  startTime: string;
+  title: string;
+  lineup: string[];
+  lgbtq: boolean;
+  tags: EventTag[];
+  venue: OverlayVenueRef;
+};
+
+export type OverlayVenue = {
+  name: string;
+  slug: string;
+  island: IslandId;
+  venue_type: VenueType | null;
+};
+
 export type IslandMeta = {
   id: IslandId;
   name: string;

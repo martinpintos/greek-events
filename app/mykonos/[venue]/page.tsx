@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { getAllEvents, getVenueBySlug, getVenues } from "@/lib/data";
+import { toOverlayEvents, toOverlayVenues } from "@/lib/derive";
 import { todayISO } from "@/lib/format";
 import { fetchAllVenues } from "@/lib/supabase";
 import { jsonLdScript } from "@/lib/seo";
@@ -11,7 +12,9 @@ import { Footer } from "@/app/components/Footer";
 import { ChromeOverlays } from "@/app/components/ChromeOverlays";
 import { VenueUpcomingList } from "@/app/components/VenueUpcomingList";
 
-export const revalidate = 3600;
+// 6h keeps the baked-in "upcoming from today" list reasonably fresh while
+// cutting ISR writes 6x versus hourly. Only 6 venue pages exist.
+export const revalidate = 21600;
 
 export async function generateStaticParams() {
   const venues = await fetchAllVenues();
@@ -91,7 +94,7 @@ export default async function VenuePage({ params }: { params: Promise<{ venue: s
   };
 
   return (
-    <ChromeOverlays events={allEvents} venues={venues}>
+    <ChromeOverlays events={toOverlayEvents(allEvents)} venues={toOverlayVenues(venues)}>
       <Header />
       <main>
         {/* Hero image / banner */}

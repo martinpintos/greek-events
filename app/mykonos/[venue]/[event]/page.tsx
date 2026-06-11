@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { getAllEvents, getEventBySlug, getVenues } from "@/lib/data";
+import { toOverlayEvents, toOverlayVenues } from "@/lib/derive";
 import { addDays, parseISO } from "@/lib/format";
 import { islandById } from "@/lib/islands";
 import { fetchAllEvents, fetchAllVenues } from "@/lib/supabase";
@@ -14,7 +15,10 @@ import { EventCard } from "@/app/components/EventCard";
 import { Tag } from "@/app/components/Tag";
 import { TicketBar } from "@/app/components/TicketBar";
 
-export const revalidate = 3600;
+// ~341 event pages exist, so this revalidate window dominates Vercel ISR
+// write units. Event details rarely change after publish, daily is enough;
+// a redeploy refreshes everything sooner if needed.
+export const revalidate = 86400;
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return <div className="eyebrow rule-label mb-3">{children}</div>;
@@ -216,7 +220,7 @@ export default async function EventPage({
   };
 
   return (
-    <ChromeOverlays events={allEvents} venues={venues}>
+    <ChromeOverlays events={toOverlayEvents(allEvents)} venues={toOverlayVenues(venues)}>
       <Header />
       <main>
         <section
