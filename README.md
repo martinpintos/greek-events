@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# nightly.gr
+
+Greek islands, what's on.
+
+nightly.gr is a nightlife calendar for the Greek islands. The first version is focused on
+Mykonos, with events, venues, lineups, dates, ticket links, VIP/table links, and simple
+filters to help people plan their nights out.
+
+It is built to feel more editorial than a generic listings site: quick to scan, nice to use
+on mobile, and useful when someone just wants to know what is happening tonight, tomorrow,
+or during their trip.
+
+## Links
+
+- Main domain: [nightly.gr](https://nightly.gr)
+- Current live deployment: [nightly.gr.net](https://nightly.gr.net)
+- Local development: [http://localhost:3000](http://localhost:3000)
+- Product notes: [PRD.md](PRD.md)
+
+## What Is Inside
+
+- Mykonos nightlife calendar
+- Venue pages
+- Event detail pages
+- Date, venue, island, type, queer-friendly, and after-hours filters
+- External links for tickets, VIP, and table reservations
+- SEO pages, sitemap, robots.txt, and event structured data
+
+Current MVP venues:
+
+- Scorpios
+- Cavo Paradiso
+- SantAnna
+- Alemagou
+- XLSIOR Festival
+- Void
+
+## Tech Stack
+
+- Next.js 16 App Router
+- React 19
+- Tailwind CSS v4
+- Supabase Postgres
+- Vercel
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
+
+```bash
+npm install
+```
+
+Create `.env.local` in the project root:
+
+```bash
+SUPABASE_URL=your-supabase-url
+SUPABASE_KEY=your-supabase-key
+NIGHTLY_SHOW_HOME_HERO=false
+```
+
+Start the dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command         | What it does                                |
+| --------------- | ------------------------------------------- |
+| `npm run dev`   | Runs the app locally.                       |
+| `npm run build` | Builds the production app and checks types. |
+| `npm run start` | Starts the production build.                |
+| `npm run lint`  | Runs ESLint.                                |
 
-## Learn More
+There is no separate test command yet. `npm run build` is the main production check.
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```text
+app/      Pages, routes, and UI components
+lib/      Data loading, formatting, filtering, and Supabase helpers
+public/   Static assets
+PRD.md    Product requirements and project notes
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Notes
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- The app needs `SUPABASE_URL` and `SUPABASE_KEY` to run.
+- Event and venue data comes from Supabase.
+- Ticket buttons always link to external sites. nightly.gr does not sell tickets directly.
+- Mykonos is the only active island for the MVP. More islands can come later.
+- This project uses Next.js 16, so check the local Next docs before changing framework-level code.
